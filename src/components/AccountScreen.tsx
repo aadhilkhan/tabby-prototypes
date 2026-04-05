@@ -1,3 +1,4 @@
+import { useState, useRef, useEffect } from "react";
 import { ChevronDownIcon } from "./icons";
 
 function UAEFlag() {
@@ -11,7 +12,22 @@ function UAEFlag() {
   );
 }
 
-export default function AccountScreen() {
+interface AccountScreenProps {
+  initialPhone: string;
+  onContinue: (phone: string) => void;
+}
+
+export default function AccountScreen({ initialPhone, onContinue }: AccountScreenProps) {
+  const [phone, setPhone] = useState(initialPhone);
+  const [focused, setFocused] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    // Auto-focus when the screen appears
+    const timer = setTimeout(() => inputRef.current?.focus(), 400);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="relative h-full bg-white flex flex-col">
       {/* Content */}
@@ -40,15 +56,31 @@ export default function AccountScreen() {
             <ChevronDownIcon size={24} color="#1d2329" />
           </div>
 
-          {/* Phone number field (focused state) */}
-          <div className="flex items-center flex-1 h-[56px] border-[1.5px] border-[#1d2329] rounded-[16px] pl-[16px] pr-[12px]">
-            <div className="flex flex-col gap-[2px] flex-1 justify-center overflow-hidden">
-              <span className="text-[14px] font-medium leading-[18px] tracking-[-0.16px] text-tui-front-secondary">
-                Phone number
-              </span>
-              <div className="flex items-center gap-px">
-                <div className="w-[2px] h-[18px] bg-tui-front-primary" />
-              </div>
+          {/* Phone number field */}
+          <div
+            className={`flex items-center flex-1 h-[56px] rounded-[16px] pl-[16px] pr-[12px] cursor-text ${
+              focused
+                ? "border-[1.5px] border-[#1d2329]"
+                : "border border-[#7f8b99]"
+            }`}
+            onClick={() => inputRef.current?.focus()}
+          >
+            <div className="flex items-center flex-1 overflow-hidden">
+              <input
+                ref={inputRef}
+                type="tel"
+                inputMode="numeric"
+                autoComplete="tel-national"
+                placeholder="Phone number"
+                value={phone}
+                onChange={(e) => {
+                  const digits = e.target.value.replace(/\D/g, "").slice(0, 10);
+                  setPhone(digits);
+                }}
+                onFocus={() => setFocused(true)}
+                onBlur={() => setFocused(false)}
+                className="w-full bg-transparent outline-none text-[16px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-primary caret-tui-front-primary placeholder:text-tui-front-secondary"
+              />
             </div>
           </div>
         </div>
@@ -56,7 +88,10 @@ export default function AccountScreen() {
 
       {/* Continue button pinned to bottom */}
       <div className="absolute bottom-0 left-0 right-0 flex flex-col px-[16px] pt-[16px]">
-        <button className="w-full h-[64px] bg-[#1d2329] rounded-[20px] flex items-center justify-center">
+        <button
+          onClick={() => onContinue(phone)}
+          className="w-full h-[64px] bg-[#1d2329] rounded-[20px] flex items-center justify-center"
+        >
           <span className="text-[16px] font-bold leading-[20px] tracking-[-0.16px] text-white">
             Continue
           </span>

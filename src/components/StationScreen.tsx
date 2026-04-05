@@ -6,10 +6,11 @@ import { getTrackerSteps } from "../constants";
 
 interface StationScreenProps {
   state: StationState;
+  phoneNumber: string;
   onChangeAccount?: () => void;
 }
 
-export default function StationScreen({ state, onChangeAccount }: StationScreenProps) {
+export default function StationScreen({ state, phoneNumber, onChangeAccount }: StationScreenProps) {
   const steps = getTrackerSteps(state);
 
   return (
@@ -32,7 +33,7 @@ export default function StationScreen({ state, onChangeAccount }: StationScreenP
       <Tracker steps={steps} />
 
       {/* Footer */}
-      <Footer onChangeAccount={onChangeAccount} />
+      <Footer phoneNumber={phoneNumber} onChangeAccount={onChangeAccount} />
     </div>
   );
 }
