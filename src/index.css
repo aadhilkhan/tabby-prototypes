@@ -1,0 +1,42 @@
+@import "tailwindcss";
+@import "@fontsource-variable/inter";
+
+@font-face {
+  font-family: "Radial Saudi";
+  src: url("/Radial_Saudi/variable/RadialSaudiGX.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --color-tui-bg: #ffffff;
+  --color-tui-front-primary: #1d2329;
+  --color-tui-front-secondary: #7f8b99;
+  --color-tui-front-tertiary: #b8c3d1;
+  --color-tui-line-disabled: #e9eff5;
+  --color-tui-line-positive: #31cc7e;
+  --color-tui-icon-graphics: #FF0055;
+  --color-spinner-bg: #f2e8ff;
+  --color-notification-bg: rgba(80, 79, 79, 0.7);
+  --color-tabby-green: #3EEDB1;
+  --color-tabby-badge-bg: #292929;
+  --color-browser-header: #F9F9F9;
+}
+
+@keyframes spin-progress {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Inter Variable", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

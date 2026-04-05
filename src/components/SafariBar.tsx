@@ -1,0 +1,16 @@
+import { AAIcon, LockIcon, RefreshIcon } from "./icons";
+
+export default function SafariBar() {
+  return (
+    <div className="flex items-center gap-[8px] px-[16px] h-[44px] w-full bg-browser-header pb-[8px]">
+      <AAIcon className="shrink-0" />
+      <div className="flex items-center justify-center gap-[4px] bg-[#ececec] rounded-[10px] px-[12px] py-[6px] flex-1">
+        <LockIcon />
+        <span className="text-[14px] font-normal text-tui-front-primary tracking-[-0.3px]">
+          tabby.ai
+        </span>
+      </div>
+      <RefreshIcon className="shrink-0" />
+    </div>
+  );
+}
