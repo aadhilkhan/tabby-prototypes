@@ -8,7 +8,7 @@ export default function App() {
   const [state, setState] = useState<StationState>("sending");
 
   return (
-    <div className="min-h-screen bg-[#f0f0f0] flex flex-col items-center justify-center py-[40px]">
+    <div className="min-h-screen bg-[#f0f0f0] flex flex-col items-center justify-center pb-[40px]">
       <PhoneFrame state={state}>
         <StationScreen state={state} />
       </PhoneFrame>

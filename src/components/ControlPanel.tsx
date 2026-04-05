@@ -14,7 +14,7 @@ export default function ControlPanel({
   onRestart,
 }: ControlPanelProps) {
   return (
-    <div className="flex gap-[12px] mt-[24px]">
+    <div className="flex gap-[12px]">
       <button
         onClick={onSendNotification}
         disabled={state !== "sending"}
