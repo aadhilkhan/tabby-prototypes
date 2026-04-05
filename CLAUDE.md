@@ -109,3 +109,12 @@ Opens at http://localhost:5173
 - Removed AED 400.00 trail from step 2 and step 3
 - Added Tabby T badge as favicon
 - Pushed to GitHub (aadhilkhan/station-screen) and deployed to Vercel (skip-otp.vercel.app)
+
+### Session 3 (2026-04-06)
+- Added URL state param support (`?state=sending|sent|complete`) for Figma capture, hides controls when param present
+- Captured all 3 live screen states to Figma via generate_figma_design (nodes 1340-9047, 1341-9047, 1343-9047)
+- Added viewport auto-scaling: phone frame scales to fit any screen size (`useViewportScale` hook)
+- Moved control buttons to left of phone frame, top-aligned with screen area, 32px gap
+- Phone frame stays centered on page, buttons float alongside
+- Capture script (`capture.js`) added to index.html for Figma HTML-to-Design workflow
+- Dev server uses `dev.sh` wrapper script for PATH setup (configured in `.claude/launch.json`)
