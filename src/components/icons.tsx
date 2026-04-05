@@ -77,6 +77,33 @@ export function ChevronRightIcon({ size = 16, className, color = "currentColor" 
   );
 }
 
+export function CheckCircleIcon({ size = 80, className }: IconProps) {
+  return (
+    <div className={`relative ${className || ""}`} style={{ width: size, height: size }}>
+      <div
+        className="absolute inset-0 rounded-full"
+        style={{ background: "radial-gradient(circle, #d4f5e4 0%, #e8faf0 60%, rgba(232,250,240,0) 100%)" }}
+      />
+      <svg
+        width={size}
+        height={size}
+        viewBox="0 0 80 80"
+        fill="none"
+        className="relative z-10"
+      >
+        <circle cx="40" cy="40" r="40" fill="#d4f5e4" />
+        <path
+          d="M26 40L35 49L54 30"
+          stroke="#00865a"
+          strokeWidth={4}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </div>
+  );
+}
+
 export function CheckIcon({ size = 12, className, color = "white" }: IconProps) {
   return (
     <svg width={size} height={size} viewBox="0 0 12 12" fill="none" className={className}>
