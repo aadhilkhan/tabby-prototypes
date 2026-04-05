@@ -1,6 +1,33 @@
+import { useEffect } from "react";
 import { motion } from "motion/react";
 
+function playDing() {
+  const ctx = new AudioContext();
+  const t = ctx.currentTime;
+
+  // iOS tri-tone style: three quick notes
+  const notes = [1046.5, 1318.5, 1568]; // C6, E6, G6
+  notes.forEach((freq, i) => {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.frequency.value = freq;
+    osc.type = "sine";
+    const start = t + i * 0.08;
+    gain.gain.setValueAtTime(0, start);
+    gain.gain.linearRampToValueAtTime(0.2, start + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.001, start + 0.15);
+    osc.start(start);
+    osc.stop(start + 0.15);
+  });
+}
+
 export default function NotificationBanner() {
+  useEffect(() => {
+    playDing();
+  }, []);
+
   return (
     <motion.div
       initial={{ y: -120, opacity: 0 }}

@@ -28,7 +28,7 @@ export default function Footer() {
       </div>
 
       {/* Home indicator */}
-      <div className="w-full flex justify-center pt-[4px] pb-[8px]">
+      <div className="w-full flex justify-center pt-[28px] pb-[8px]">
         <div className="w-[134px] h-[5px] bg-black rounded-[100px]" />
       </div>
     </div>
