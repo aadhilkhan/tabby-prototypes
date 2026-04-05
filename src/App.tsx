@@ -33,6 +33,7 @@ function useViewportScale() {
 export default function App() {
   const [state, setState] = useState<StationState>(getInitialState);
   const [showAccount, setShowAccount] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState("554446868");
   const hideControls = new URLSearchParams(window.location.search).has("state");
   const scale = useViewportScale();
 
@@ -50,6 +51,7 @@ export default function App() {
               >
                 <StationScreen
                   state={state}
+                  phoneNumber={phoneNumber}
                   onChangeAccount={() => setShowAccount(true)}
                 />
               </motion.div>
@@ -64,7 +66,13 @@ export default function App() {
                     transition={{ type: "spring", damping: 30, stiffness: 300 }}
                     style={{ boxShadow: "-4px 0 16px rgba(0,0,0,0.1)" }}
                   >
-                    <AccountScreen />
+                    <AccountScreen
+                      initialPhone={phoneNumber}
+                      onContinue={(newPhone) => {
+                        setPhoneNumber(newPhone);
+                        setShowAccount(false);
+                      }}
+                    />
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -88,7 +96,7 @@ export default function App() {
             state={state}
             onSendNotification={() => setState("sent")}
             onFinishPurchase={() => setState("complete")}
-            onRestart={() => { setState("sending"); setShowAccount(false); }}
+            onRestart={() => { setState("sending"); setShowAccount(false); setPhoneNumber("554446868"); }}
           />
         </div>
       )}
