@@ -34,7 +34,6 @@ export function getTrackerSteps(state: StationState): TrackerStepData[] {
     indicatorColor: "gray",
     title: "Complete purchase in app",
     titleBold: false,
-    trail: "AED 400.00",
     description: "Adidas \u2022 AED 400.00",
     showLine: true,
     lineColor: "gray",
