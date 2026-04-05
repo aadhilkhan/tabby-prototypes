@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
+import { AnimatePresence, motion } from "motion/react";
 import PhoneFrame from "./components/PhoneFrame";
+import NavBar from "./components/NavBar";
 import StationScreen from "./components/StationScreen";
+import AccountScreen from "./components/AccountScreen";
 import ControlPanel from "./components/ControlPanel";
 import type { StationState } from "./types";
 
@@ -29,6 +32,7 @@ function useViewportScale() {
 
 export default function App() {
   const [state, setState] = useState<StationState>(getInitialState);
+  const [showAccount, setShowAccount] = useState(false);
   const hideControls = new URLSearchParams(window.location.search).has("state");
   const scale = useViewportScale();
 
@@ -36,7 +40,40 @@ export default function App() {
     <div className="h-screen bg-[#f0f0f0] flex items-center justify-center overflow-hidden relative">
       <div style={{ transform: `scale(${scale})`, transformOrigin: "center center" }}>
         <PhoneFrame state={state}>
-          <StationScreen state={state} />
+          <div className="relative h-full bg-white flex flex-col">
+            <NavBar />
+            <div className="relative flex-1 overflow-hidden">
+              <motion.div
+                className="absolute inset-0"
+                animate={{ x: showAccount ? "-30%" : "0%" }}
+                transition={{ type: "spring", damping: 30, stiffness: 300 }}
+              >
+                <StationScreen
+                  state={state}
+                  onChangeAccount={() => setShowAccount(true)}
+                />
+              </motion.div>
+              <AnimatePresence>
+                {showAccount && (
+                  <motion.div
+                    key="account"
+                    className="absolute inset-0 z-10"
+                    initial={{ x: "100%" }}
+                    animate={{ x: 0 }}
+                    exit={{ x: "100%" }}
+                    transition={{ type: "spring", damping: 30, stiffness: 300 }}
+                    style={{ boxShadow: "-4px 0 16px rgba(0,0,0,0.1)" }}
+                  >
+                    <AccountScreen />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+            {/* Home indicator */}
+            <div className="w-full flex justify-center pt-[28px] pb-[8px]">
+              <div className="w-[134px] h-[5px] bg-black rounded-[100px]" />
+            </div>
+          </div>
         </PhoneFrame>
       </div>
       {!hideControls && (
@@ -51,7 +88,7 @@ export default function App() {
             state={state}
             onSendNotification={() => setState("sent")}
             onFinishPurchase={() => setState("complete")}
-            onRestart={() => setState("sending")}
+            onRestart={() => { setState("sending"); setShowAccount(false); }}
           />
         </div>
       )}

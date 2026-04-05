@@ -1,18 +1,19 @@
-import NavBar from "./NavBar";
 import SpinnerIcon from "./SpinnerIcon";
 import Tracker from "./Tracker";
 import Footer from "./Footer";
 import type { StationState } from "../types";
 import { getTrackerSteps } from "../constants";
 
-export default function StationScreen({ state }: { state: StationState }) {
+interface StationScreenProps {
+  state: StationState;
+  onChangeAccount?: () => void;
+}
+
+export default function StationScreen({ state, onChangeAccount }: StationScreenProps) {
   const steps = getTrackerSteps(state);
 
   return (
-    <div className="relative h-full bg-white flex flex-col">
-      {/* NavBar */}
-      <NavBar />
-
+    <div className="relative h-full flex flex-col">
       {/* Content area */}
       <div className="flex flex-col gap-[16px] items-start pt-[16px] pb-[32px] px-[16px]">
         {/* Spinner + Heading group */}
@@ -31,7 +32,7 @@ export default function StationScreen({ state }: { state: StationState }) {
       <Tracker steps={steps} />
 
       {/* Footer */}
-      <Footer />
+      <Footer onChangeAccount={onChangeAccount} />
     </div>
   );
 }

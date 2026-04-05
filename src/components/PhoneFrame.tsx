@@ -33,7 +33,7 @@ export default function PhoneFrame({ state, children }: PhoneFrameProps) {
       <img
         src="/iphone-frame.png"
         alt=""
-        className="absolute inset-0 w-full h-full pointer-events-none"
+        className="absolute inset-0 w-full h-full pointer-events-none z-20"
       />
     </div>
   );
