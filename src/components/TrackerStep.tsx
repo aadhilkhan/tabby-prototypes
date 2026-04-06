@@ -103,7 +103,7 @@ export default function TrackerStep({ step, onActionClick }: TrackerStepProps) {
               {step.action && (
                 <button
                   onClick={onActionClick}
-                  className="text-[14px] font-medium leading-[20px] tracking-[-0.16px] text-[#6236FF] text-left"
+                  className="text-[14px] font-medium leading-[20px] tracking-[-0.16px] text-[#6236FF] text-left cursor-pointer"
                 >
                   {step.action}
                 </button>

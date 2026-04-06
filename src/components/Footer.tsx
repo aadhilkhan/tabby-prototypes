@@ -18,7 +18,7 @@ export default function Footer({ phoneNumber, onChangeAccount }: FooterProps) {
     <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center">
       {/* Account switcher line */}
       <button
-        className="flex items-center justify-center h-[40px] w-full gap-[4px] pb-[16px]"
+        className="flex items-center justify-center h-[40px] w-full gap-[4px] pb-[16px] cursor-pointer"
         onClick={onChangeAccount}
       >
         <SmartphoneIcon size={14} color="#7f8b99" />

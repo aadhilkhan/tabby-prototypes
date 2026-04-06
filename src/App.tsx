@@ -59,7 +59,7 @@ export default function App() {
             <div className="relative flex-1 overflow-hidden">
               <motion.div
                 className="absolute inset-0"
-                animate={{ x: showAccount ? "-30%" : "0%" }}
+                animate={{ x: showAccount || showSuccess ? "-30%" : "0%" }}
                 transition={{ type: "spring", damping: 30, stiffness: 300 }}
               >
                 <StationScreen
