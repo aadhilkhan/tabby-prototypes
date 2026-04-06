@@ -405,6 +405,16 @@ Use whatever framework you need to get this done perfectly. Build and run once c
 
 **Response:** Added logic in AccountScreen onContinue handler: if newPhone !== phoneNumber, reset state to "sending" and clear notificationDismissed.
 
+### Prompt 68: Update Docs + Push
+> Update claude.md and prompts.md and push to repo
+
+**Response:** Updated CLAUDE.md with account-change pattern and session 5 additions. Updated prompts.md with full session 7 log (prompts 52–67). Committed and pushed.
+
+### Prompt 69: Cursor on All Buttons
+> All buttons should also have the right cursor, update docs, push to repo
+
+**Response:** Added cursor-pointer to Send notification and Continue buttons in TroubleBottomSheet and AccountScreen. Added cursor-not-allowed to disabled SMS timer button. Updated docs and pushed.
+
 ---
 
 ## Final Architecture

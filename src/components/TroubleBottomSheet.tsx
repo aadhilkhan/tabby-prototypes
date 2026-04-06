@@ -90,7 +90,7 @@ export default function TroubleBottomSheet({ onClose, onSendSMS, onSendNotificat
             {/* Primary: Send notification */}
             <button
               onClick={onSendNotification}
-              className="w-full h-[64px] min-w-[128px] bg-[#1d2329] rounded-[20px] flex items-center justify-center"
+              className="w-full h-[64px] min-w-[128px] bg-[#1d2329] rounded-[20px] flex items-center justify-center cursor-pointer"
             >
               <span className="text-[16px] font-bold leading-[20px] tracking-[-0.16px] text-white">
                 Send notification
@@ -102,8 +102,8 @@ export default function TroubleBottomSheet({ onClose, onSendSMS, onSendNotificat
               disabled={!smsReady}
               className={`w-full h-[64px] min-w-[128px] rounded-[20px] flex items-center justify-center ${
                 smsReady
-                  ? "bg-[#e9eff5]"
-                  : "bg-[#f2f5f7]"
+                  ? "bg-[#e9eff5] cursor-pointer"
+                  : "bg-[#f2f5f7] cursor-not-allowed"
               }`}
             >
               <span

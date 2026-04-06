@@ -90,7 +90,7 @@ export default function AccountScreen({ initialPhone, onContinue }: AccountScree
       <div className="absolute bottom-0 left-0 right-0 flex flex-col px-[16px] pt-[16px]">
         <button
           onClick={() => onContinue(phone)}
-          className="w-full h-[64px] bg-[#1d2329] rounded-[20px] flex items-center justify-center"
+          className="w-full h-[64px] bg-[#1d2329] rounded-[20px] flex items-center justify-center cursor-pointer"
         >
           <span className="text-[16px] font-bold leading-[20px] tracking-[-0.16px] text-white">
             Continue

@@ -116,7 +116,7 @@ Typography: H1 uses Radial Saudi (35px/500), body uses Inter Variable (16px/500 
 - SMS button disabled with 59s countdown timer, enables when complete
 - Notification banner hides on bottom sheet open, restores on "Send notification"
 - Station screen pushes left for both account and success screen transitions
-- Pointer cursors on "Change" and "Having trouble?" interactive links
+- Pointer cursors on all interactive buttons and links
 - Replaced phone icon with user icon in footer
 - Changed "Sending notification..." to "Sending push notification..."
 - Phone number change resets state to "sending" for re-notification
