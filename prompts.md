@@ -415,6 +415,11 @@ Use whatever framework you need to get this done perfectly. Build and run once c
 
 **Response:** Added cursor-pointer to Send notification and Continue buttons in TroubleBottomSheet and AccountScreen. Added cursor-not-allowed to disabled SMS timer button. Updated docs and pushed.
 
+### Prompt 70: Dismiss Notification on Account Screen
+> If notification is on, and I switch to change number screen, dismiss the notification
+
+**Response:** Added showAccount to hideNotification condition in PhoneFrame prop.
+
 ---
 
 ## Final Architecture

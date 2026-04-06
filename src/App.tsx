@@ -53,7 +53,7 @@ export default function App() {
   return (
     <div className="h-screen bg-[#f0f0f0] flex items-center justify-center overflow-hidden relative">
       <div style={{ transform: `scale(${scale})`, transformOrigin: "center center" }}>
-        <PhoneFrame state={state} hideNotification={showTrouble || notificationDismissed}>
+        <PhoneFrame state={state} hideNotification={showTrouble || showAccount || notificationDismissed}>
           <div className="relative h-full bg-white flex flex-col">
             <NavBar />
             <div className="relative flex-1 overflow-hidden">
