@@ -8,6 +8,7 @@ import SuccessScreen from "./components/SuccessScreen";
 import TroubleBottomSheet from "./components/TroubleBottomSheet";
 import ControlPanel from "./components/ControlPanel";
 import type { StationState, PrototypeVersion } from "./types";
+import { playTapSound } from "./sounds";
 
 function getInitialState(): StationState {
   const params = new URLSearchParams(window.location.search);
@@ -158,7 +159,7 @@ export default function App() {
             <div className="flex flex-col gap-[8px]">
               <div className="flex rounded-[12px] overflow-hidden border border-gray-300 bg-white">
                 <button
-                  onClick={() => setVersion("v1")}
+                  onClick={() => { playTapSound(); setVersion("v1"); }}
                   className={`px-[16px] py-[10px] text-[13px] font-semibold transition-all cursor-pointer ${
                     version === "v1"
                       ? "bg-[#1d2329] text-white"
@@ -168,7 +169,7 @@ export default function App() {
                   V1
                 </button>
                 <button
-                  onClick={() => setVersion("v2")}
+                  onClick={() => { playTapSound(); setVersion("v2"); }}
                   className={`px-[16px] py-[10px] text-[13px] font-semibold transition-all cursor-pointer ${
                     version === "v2"
                       ? "bg-[#1d2329] text-white"

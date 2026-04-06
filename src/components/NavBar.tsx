@@ -17,7 +17,7 @@ export default function NavBar() {
           <img src="/wordmark.png" alt="tabby" className="h-[14px] object-contain" />
         </div>
       </div>
-      <button className="w-[40px] h-[40px] flex items-center justify-center">
+      <button className="h-[40px] flex items-center px-[8px]">
         <span className="text-[14px] font-medium text-[#5d21de]">
           العربية
         </span>

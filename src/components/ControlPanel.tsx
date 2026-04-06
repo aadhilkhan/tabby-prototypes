@@ -1,4 +1,5 @@
 import type { StationState } from "../types";
+import { playTapSound } from "../sounds";
 
 interface ControlPanelProps {
   state: StationState;
@@ -15,9 +16,10 @@ export default function ControlPanel({
 }: ControlPanelProps) {
   return (
     <div className="flex flex-col gap-[8px] items-end">
+      <img src="/TBadge.png" alt="" className="h-[48px] object-contain mb-[8px]" />
       <button
         onClick={onSendNotification}
-        disabled={state !== "sending"}
+                disabled={state !== "sending"}
         className="px-[20px] py-[12px] rounded-[12px] text-[14px] font-semibold transition-all
           bg-[#31cc7e] text-white
           disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer
@@ -26,8 +28,8 @@ export default function ControlPanel({
         Send Notification
       </button>
       <button
-        onClick={onFinishPurchase}
-        disabled={state !== "sent"}
+        onClick={() => { playTapSound(); onFinishPurchase(); }}
+                disabled={state !== "sent"}
         className="px-[20px] py-[12px] rounded-[12px] text-[14px] font-semibold transition-all
           bg-[#1d2329] text-white
           disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer
@@ -36,8 +38,8 @@ export default function ControlPanel({
         Finish Purchase
       </button>
       <button
-        onClick={onRestart}
-        className="px-[20px] py-[12px] rounded-[12px] text-[14px] font-semibold transition-all
+        onClick={() => { playTapSound(); onRestart(); }}
+                className="px-[20px] py-[12px] rounded-[12px] text-[14px] font-semibold transition-all
           bg-white text-[#1d2329] border border-gray-300 cursor-pointer
           hover:bg-gray-50 active:scale-95"
       >
