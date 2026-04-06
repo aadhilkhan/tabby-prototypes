@@ -21,13 +21,26 @@ interface AccountScreenProps {
 export default function AccountScreen({ initialPhone, onContinue }: AccountScreenProps) {
   const [phone, setPhone] = useState(initialPhone);
   const [focused, setFocused] = useState(false);
+  const [error, setError] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    // Auto-focus when the screen appears
     const timer = setTimeout(() => inputRef.current?.focus(), 400);
     return () => clearTimeout(timer);
   }, []);
+
+  function handleContinue() {
+    if (!phone) {
+      setError("Please enter a valid phone number");
+      return;
+    }
+    if (phone.length < 9) {
+      setError("Please enter a valid phone number");
+      return;
+    }
+    setError("");
+    onContinue(phone);
+  }
 
   return (
     <div className="relative h-full bg-white flex flex-col">
@@ -59,9 +72,11 @@ export default function AccountScreen({ initialPhone, onContinue }: AccountScree
           {/* Phone number field */}
           <div
             className={`flex items-center flex-1 h-[56px] rounded-[16px] pl-[16px] pr-[12px] cursor-text ${
-              focused
-                ? "border-[1.5px] border-tui-front-primary"
-                : "border border-tui-front-secondary"
+              error
+                ? "border-[1.5px] border-tui-icon-graphics"
+                : focused
+                  ? "border-[1.5px] border-tui-front-primary"
+                  : "border border-tui-front-secondary"
             }`}
             onClick={() => inputRef.current?.focus()}
           >
@@ -76,6 +91,7 @@ export default function AccountScreen({ initialPhone, onContinue }: AccountScree
                 onChange={(e) => {
                   const digits = e.target.value.replace(/\D/g, "").slice(0, 10);
                   setPhone(digits);
+                  if (error) setError("");
                 }}
                 onFocus={() => setFocused(true)}
                 onBlur={() => setFocused(false)}
@@ -84,11 +100,16 @@ export default function AccountScreen({ initialPhone, onContinue }: AccountScree
             </div>
           </div>
         </div>
+        {error && (
+          <p className="text-[14px] font-medium leading-[20px] tracking-[-0.16px] text-tui-icon-graphics mt-[8px]">
+            {error}
+          </p>
+        )}
       </div>
 
       {/* Continue button pinned to bottom */}
       <div className="absolute bottom-0 left-0 right-0 flex flex-col px-[16px] pt-[16px]">
-        <Button onClick={() => onContinue(phone)}>Continue</Button>
+        <Button onClick={handleContinue}>Continue</Button>
       </div>
     </div>
   );
