@@ -67,7 +67,7 @@ export default function App() {
                   state={state}
                   phoneNumber={phoneNumber}
                   version={version}
-                  onChangeAccount={() => setShowAccount(true)}
+                  onChangeAccount={() => { setShowAccount(true); setNotificationDismissed(true); }}
                   onTroubleClick={() => { setShowTrouble(true); setNotificationDismissed(true); }}
                 />
               </motion.div>

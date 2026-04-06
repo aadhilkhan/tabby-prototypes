@@ -144,6 +144,7 @@ Typography: H1 uses Radial Saudi (35px/500), body uses Inter Variable (16px/500 
 ### Session 7 (2026-04-06)
 - Footer fade-in animation: slides up 8px + fades in over 0.4s using motion.div in Footer component
 - Step 1 description expand: height expands 0.2s, then text fades in after 0.4s delay (0.3s duration)
-- V2 mini spinner changed to grey (#e9eff5 track / #b8c3d1 arc)
+- V2 mini spinner darkened (#d5dce5 track / #7f8b99 arc)
 - Main icon enlarged to 48×48 in both V1/V2, V2 circle fills full 88×88
 - Version toggle label shows "Spinner icon" or "Spinner nodes" for active version
+- Account screen opening now dismisses notification; stays hidden when same number is kept

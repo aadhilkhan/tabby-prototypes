@@ -557,6 +557,30 @@ App.tsx (state + viewport scaling + screen management)
 
 ---
 
+## Session 10 — 2026-04-06: Notification & Spinner Polish
+
+### Prompt 92: Always Reset on Number Change
+> When I change number and comes back, it should take the flow back to sending notification step 1, for both v1 and v2
+
+**Response:** Changed onContinue to always reset to "sending". Then reverted — user only wanted it when number changes.
+
+### Prompt 93: Keep Notification Hidden on Same Number
+> When number is not changed, and you click continue, let the notification stay hidden
+
+**Response:** Added `setNotificationDismissed(true)` when opening account screen, so notification stays hidden when returning with same number.
+
+### Prompt 94: Darker Node Spinner
+> In V2, make the node spinner darker
+
+**Response:** Changed mini spinner from #e9eff5/#b8c3d1 to #d5dce5/#7f8b99 (darker grey track and arc).
+
+### Prompt 95: Update Context + Push
+> update context and push to repo
+
+**Response:** Updated CLAUDE.md and prompts.md. Committed and pushed.
+
+---
+
 ## Key Lessons Learned
 1. NavBar, Footer, and home indicator should NOT be part of screen transition animations
 2. `overflow-hidden` on parent container is essential when sliding content
