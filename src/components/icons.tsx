@@ -4,6 +4,16 @@ interface IconProps {
   color?: string;
 }
 
+export function InfoIcon({ size = 24, className, color = "#5d21de" }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+      <circle cx="12" cy="12" r="10" stroke={color} strokeWidth={2} />
+      <line x1="12" y1="11" x2="12" y2="17" stroke={color} strokeWidth={2} strokeLinecap="round" />
+      <circle cx="12" cy="8" r="1.2" fill={color} />
+    </svg>
+  );
+}
+
 export function CloseIcon({ size = 24, className, color = "currentColor" }: IconProps) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>

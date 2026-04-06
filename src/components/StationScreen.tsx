@@ -8,9 +8,10 @@ interface StationScreenProps {
   state: StationState;
   phoneNumber: string;
   onChangeAccount?: () => void;
+  onTroubleClick?: () => void;
 }
 
-export default function StationScreen({ state, phoneNumber, onChangeAccount }: StationScreenProps) {
+export default function StationScreen({ state, phoneNumber, onChangeAccount, onTroubleClick }: StationScreenProps) {
   const steps = getTrackerSteps(state);
 
   return (
@@ -30,7 +31,7 @@ export default function StationScreen({ state, phoneNumber, onChangeAccount }: S
       </div>
 
       {/* Tracker */}
-      <Tracker steps={steps} />
+      <Tracker steps={steps} onTroubleClick={onTroubleClick} />
 
       {/* Footer */}
       <Footer phoneNumber={phoneNumber} onChangeAccount={onChangeAccount} />

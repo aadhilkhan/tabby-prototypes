@@ -6,10 +6,11 @@ import type { StationState } from "../types";
 
 interface PhoneFrameProps {
   state: StationState;
+  hideNotification?: boolean;
   children: React.ReactNode;
 }
 
-export default function PhoneFrame({ state, children }: PhoneFrameProps) {
+export default function PhoneFrame({ state, hideNotification, children }: PhoneFrameProps) {
   return (
     <div className="relative" style={{ width: 497, height: 980 }}>
       {/* Screen content area — positioned inside the bezel */}
@@ -25,7 +26,7 @@ export default function PhoneFrame({ state, children }: PhoneFrameProps) {
 
         {/* Notification banner */}
         <AnimatePresence>
-          {state === "sent" && <NotificationBanner />}
+          {state === "sent" && !hideNotification && <NotificationBanner />}
         </AnimatePresence>
       </div>
 

@@ -5,6 +5,7 @@ import NavBar from "./components/NavBar";
 import StationScreen from "./components/StationScreen";
 import AccountScreen from "./components/AccountScreen";
 import SuccessScreen from "./components/SuccessScreen";
+import TroubleBottomSheet from "./components/TroubleBottomSheet";
 import ControlPanel from "./components/ControlPanel";
 import type { StationState } from "./types";
 
@@ -35,6 +36,8 @@ export default function App() {
   const [state, setState] = useState<StationState>(getInitialState);
   const [showAccount, setShowAccount] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showTrouble, setShowTrouble] = useState(false);
+  const [notificationDismissed, setNotificationDismissed] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("554446868");
   const hideControls = new URLSearchParams(window.location.search).has("state");
   const scale = useViewportScale();
@@ -50,7 +53,7 @@ export default function App() {
   return (
     <div className="h-screen bg-[#f0f0f0] flex items-center justify-center overflow-hidden relative">
       <div style={{ transform: `scale(${scale})`, transformOrigin: "center center" }}>
-        <PhoneFrame state={state}>
+        <PhoneFrame state={state} hideNotification={showTrouble || notificationDismissed}>
           <div className="relative h-full bg-white flex flex-col">
             <NavBar />
             <div className="relative flex-1 overflow-hidden">
@@ -63,6 +66,7 @@ export default function App() {
                   state={state}
                   phoneNumber={phoneNumber}
                   onChangeAccount={() => setShowAccount(true)}
+                  onTroubleClick={() => { setShowTrouble(true); setNotificationDismissed(true); }}
                 />
               </motion.div>
               <AnimatePresence>
@@ -106,6 +110,17 @@ export default function App() {
             <div className="w-full flex justify-center pt-[28px] pb-[8px]">
               <div className="w-[134px] h-[5px] bg-black rounded-[100px]" />
             </div>
+            {/* Trouble bottom sheet — outside overflow-hidden so it covers the full frame */}
+            <AnimatePresence>
+              {showTrouble && (
+                <TroubleBottomSheet
+                  key="trouble"
+                  onClose={() => setShowTrouble(false)}
+                  onSendSMS={() => setShowTrouble(false)}
+                  onSendNotification={() => { setShowTrouble(false); setNotificationDismissed(false); }}
+                />
+              )}
+            </AnimatePresence>
           </div>
         </PhoneFrame>
       </div>
@@ -121,7 +136,7 @@ export default function App() {
             state={state}
             onSendNotification={() => setState("sent")}
             onFinishPurchase={() => setState("complete")}
-            onRestart={() => { setState("sending"); setShowAccount(false); setShowSuccess(false); setPhoneNumber("554446868"); }}
+            onRestart={() => { setState("sending"); setShowAccount(false); setShowSuccess(false); setShowTrouble(false); setNotificationDismissed(false); setPhoneNumber("554446868"); }}
           />
         </div>
       )}

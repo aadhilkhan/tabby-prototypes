@@ -13,7 +13,12 @@ const lineColorMap = {
   green: "#31cc7e",
 };
 
-export default function TrackerStep({ step }: { step: TrackerStepData }) {
+interface TrackerStepProps {
+  step: TrackerStepData;
+  onActionClick?: () => void;
+}
+
+export default function TrackerStep({ step, onActionClick }: TrackerStepProps) {
   const bgColor = indicatorColorMap[step.indicatorColor];
   const lineColor = lineColorMap[step.lineColor];
 
@@ -96,7 +101,10 @@ export default function TrackerStep({ step }: { step: TrackerStepData }) {
                 {step.description}
               </p>
               {step.action && (
-                <button className="text-[14px] font-medium leading-[20px] tracking-[-0.16px] text-[#6236FF] text-left">
+                <button
+                  onClick={onActionClick}
+                  className="text-[14px] font-medium leading-[20px] tracking-[-0.16px] text-[#6236FF] text-left"
+                >
                   {step.action}
                 </button>
               )}
