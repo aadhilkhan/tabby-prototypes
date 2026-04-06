@@ -16,7 +16,7 @@ export default function ControlPanel({
 }: ControlPanelProps) {
   return (
     <div className="flex flex-col gap-[8px] items-end">
-      <img src="/TBadge.png" alt="" className="h-[48px] object-contain mb-[8px]" />
+      <img src="/TBadge.png" alt="" className="h-[48px] object-contain mb-[24px]" />
       <button
         onClick={onSendNotification}
                 disabled={state !== "sending"}
