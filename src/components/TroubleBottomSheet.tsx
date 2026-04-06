@@ -55,7 +55,7 @@ export default function TroubleBottomSheet({ onClose, onSendSMS, onSendNotificat
         </div>
 
         {/* Content */}
-        <div className="flex flex-col gap-[16px] items-center py-[48px] px-[16px]">
+        <div className="flex flex-col gap-[16px] items-center pt-[48px] pb-[24px] px-[16px]">
           {/* Icon */}
           <div className="w-[56px] h-[56px] rounded-full bg-[#f2e8ff] flex items-center justify-center">
             <InfoIcon size={24} color="#5d21de" />
@@ -66,7 +66,7 @@ export default function TroubleBottomSheet({ onClose, onSendSMS, onSendNotificat
             <div className="flex flex-col gap-[12px] items-center w-full">
               <h2
                 className="text-[22px] leading-[24px] tracking-[-0.22px] text-tui-front-primary w-full"
-                style={{ fontFamily: '"Radial Saudi", "Inter Variable", sans-serif', fontWeight: 600 }}
+                style={{ fontFamily: '"Radial Saudi", "Inter Variable", sans-serif', fontWeight: 500 }}
               >
                 Having trouble?
               </h2>
