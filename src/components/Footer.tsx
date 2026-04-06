@@ -1,4 +1,4 @@
-import { SmartphoneIcon, ChevronRightIcon } from "./icons";
+import { UserIcon, ChevronRightIcon } from "./icons";
 
 function formatPhone(digits: string): string {
   // Format as "+971 XX XXX XXXX"
@@ -21,7 +21,7 @@ export default function Footer({ phoneNumber, onChangeAccount }: FooterProps) {
         className="flex items-center justify-center h-[40px] w-full gap-[4px] pb-[16px] cursor-pointer"
         onClick={onChangeAccount}
       >
-        <SmartphoneIcon size={14} color="#7f8b99" />
+        <UserIcon size={14} color="#7f8b99" />
         <span className="text-[12px] font-medium leading-[16px] tracking-[-0.13px] text-tui-front-secondary">
           {formatPhone(phoneNumber)}
         </span>

@@ -5,7 +5,7 @@ export function getTrackerSteps(state: StationState): TrackerStepData[] {
     id: 1,
     indicatorType: "icon",
     indicatorColor: "tertiary",
-    title: "Sending notification...",
+    title: "Sending push notification...",
     titleBold: true,
     showLine: true,
     lineColor: "gray",
