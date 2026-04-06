@@ -323,6 +323,90 @@ Use whatever framework you need to get this done perfectly. Build and run once c
 
 ---
 
+## Session 7 — 2026-04-06: Bottom Sheet + Polish
+
+### Prompt 52: Build Trouble Bottom Sheet
+> Now let's make the bottom sheet that opens when "Having trouble..." link is clicked. Use figma design - [Figma node 1317-7888]
+
+**Response:** Fetched Figma design via MCP. Created TroubleBottomSheet.tsx with info icon, heading, body text, two buttons. Added InfoIcon to icons.tsx. Wired onActionClick callback through TrackerStep → Tracker → StationScreen → App.tsx. Bottom sheet slides up with spring animation + dark backdrop, dismissible via tap/drag.
+
+### Prompt 53: Fix Bottom Sheet Issues
+> 1. Bottom sheet clips over phone frame 2. Remove home indicator from sheet 3. Use stacked button layout from Figma [node 1363-18662] 4. SMS button should be a timer
+
+**Response:** Moved AnimatePresence outside overflow-hidden container. Removed duplicate home indicator. Changed to stacked vertical layout: Send notification (primary) on top, Resend SMS with 59s countdown timer below. SMS button disabled with #f2f5f7 bg and #b8c3d1 text until timer completes.
+
+### Prompt 54: Equal Padding
+> Equal top and bottom padding on content area
+
+**Response:** Changed pb-[32px] to py-[48px] for equal padding.
+
+### Prompt 55: Close Notification on Sheet Open
+> Let's close notification when bottom sheet opens
+
+**Response:** Added hideNotification prop to PhoneFrame. Notification hides when showTrouble is true.
+
+### Prompt 56: Notification Persistence
+> Notification shouldn't reappear when closing bottom sheet. Should reappear on Send notification button.
+
+**Response:** Added notificationDismissed state. Bottom sheet open sets it true (notification stays hidden on close). "Send notification" button resets it to false (notification reappears).
+
+### Prompt 57: Push
+> push to repo
+
+**Response:** Committed and pushed to origin/main.
+
+### Prompt 58: Bottom Padding
+> Let bottom padding be 24px
+
+**Response:** Changed content area pb to 24px.
+
+### Prompt 59: Heading Weight
+> Let bottom sheet heading be 500
+
+**Response:** Changed fontWeight from 600 to 500.
+
+### Prompt 60: Push
+> push to repo
+
+**Response:** Committed and pushed.
+
+### Prompt 61: Success Screen Push
+> When the success screen happens, let it also push station screen to left
+
+**Response:** Added showSuccess to the station screen x animation condition alongside showAccount.
+
+### Prompt 62: Pointer Cursors
+> The pointer must change for links "Change" and "Trouble..."
+
+**Response:** Added cursor-pointer to Change button in Footer and "Having trouble?" button in TrackerStep.
+
+### Prompt 63: Push + Run Dev
+> push to repo / run dev
+
+**Response:** Committed and pushed. Started dev server.
+
+### Prompt 64: User Icon
+> Let's change the phone icon in the footer to a user icon
+
+**Response:** Created UserIcon SVG component. Replaced SmartphoneIcon import in Footer.
+
+### Prompt 65: Sending Text
+> Let's change "Sending notification..." to "Sending push notification..."
+
+**Response:** Updated title in constants.ts step1Sending config.
+
+### Prompt 66: Push
+> push to repo
+
+**Response:** Committed and pushed.
+
+### Prompt 67: Number Change Resets State
+> If number is changed to a new number, then we go back to step 1 in station screen again, because we need to send notification again
+
+**Response:** Added logic in AccountScreen onContinue handler: if newPhone !== phoneNumber, reset state to "sending" and clear notificationDismissed.
+
+---
+
 ## Final Architecture
 
 ```

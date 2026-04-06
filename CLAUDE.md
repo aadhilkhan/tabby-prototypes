@@ -50,6 +50,7 @@ App.tsx (state + viewport scaling via useViewportScale hook)
 - **Animations** use Motion library (`motion/react`, NOT `framer-motion`) for notification slide, indicator color transitions, and content expand (AnimatePresence). Spinner rotation uses CSS keyframes.
 - **Screen transitions**: Account and Success screens slide in from right with spring animation; station screen pushes left 30% simultaneously. Bottom sheets slide up with backdrop.
 - **Notification management**: `hideNotification` prop on PhoneFrame + `notificationDismissed` state in App.tsx. Bottom sheet dismisses notification on open; "Send notification" button restores it.
+- **Account number change**: When phone number is changed via AccountScreen, state resets to "sending" to re-send notification to the new number. Same number keeps current state.
 - **Viewport scaling**: `useViewportScale` hook in App.tsx scales the phone frame to fit any screen size
 - **Static assets**: Vite `publicDir` is set to `assets/` — reference files as `/filename.png` (not `/assets/filename.png`)
 
@@ -116,3 +117,6 @@ Typography: H1 uses Radial Saudi (35px/500), body uses Inter Variable (16px/500 
 - Notification banner hides on bottom sheet open, restores on "Send notification"
 - Station screen pushes left for both account and success screen transitions
 - Pointer cursors on "Change" and "Having trouble?" interactive links
+- Replaced phone icon with user icon in footer
+- Changed "Sending notification..." to "Sending push notification..."
+- Phone number change resets state to "sending" for re-notification

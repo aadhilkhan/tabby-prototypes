@@ -83,8 +83,13 @@ export default function App() {
                     <AccountScreen
                       initialPhone={phoneNumber}
                       onContinue={(newPhone) => {
+                        const numberChanged = newPhone !== phoneNumber;
                         setPhoneNumber(newPhone);
                         setShowAccount(false);
+                        if (numberChanged) {
+                          setState("sending");
+                          setNotificationDismissed(false);
+                        }
                       }}
                     />
                   </motion.div>
