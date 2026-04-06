@@ -21,9 +21,9 @@ export default function ControlPanel({
         onClick={onSendNotification}
                 disabled={state !== "sending"}
         className="px-[20px] py-[12px] rounded-[12px] text-[14px] font-semibold transition-all
-          bg-[#31cc7e] text-white
+          bg-tui-line-positive text-white
           disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer
-          hover:not-disabled:bg-[#28b06c] active:not-disabled:scale-95"
+          hover:not-disabled:brightness-90 active:not-disabled:scale-95"
       >
         Send Notification
       </button>
@@ -31,16 +31,16 @@ export default function ControlPanel({
         onClick={() => { playTapSound(); onFinishPurchase(); }}
                 disabled={state !== "sent"}
         className="px-[20px] py-[12px] rounded-[12px] text-[14px] font-semibold transition-all
-          bg-[#1d2329] text-white
+          bg-tui-front-primary text-white
           disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer
-          hover:not-disabled:bg-[#2d3640] active:not-disabled:scale-95"
+          hover:not-disabled:brightness-125 active:not-disabled:scale-95"
       >
         Finish Purchase
       </button>
       <button
         onClick={() => { playTapSound(); onRestart(); }}
                 className="px-[20px] py-[12px] rounded-[12px] text-[14px] font-semibold transition-all
-          bg-white text-[#1d2329] border border-gray-300 cursor-pointer
+          bg-white text-tui-front-primary border border-gray-300 cursor-pointer
           hover:bg-gray-50 active:scale-95"
       >
         Restart

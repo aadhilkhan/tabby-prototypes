@@ -27,7 +27,7 @@ export default function Footer({ phoneNumber, onChangeAccount }: FooterProps) {
         className="flex items-center justify-center h-[40px] w-full gap-[4px] pb-[16px] cursor-pointer"
         onClick={onChangeAccount}
       >
-        <UserIcon size={14} color="#7f8b99" />
+        <UserIcon size={14} color="var(--color-tui-front-secondary)" />
         <span className="text-[12px] font-medium leading-[16px] tracking-[-0.13px] text-tui-front-secondary">
           {formatPhone(phoneNumber)}
         </span>
@@ -37,7 +37,7 @@ export default function Footer({ phoneNumber, onChangeAccount }: FooterProps) {
         <span className="text-[12px] font-medium leading-[16px] tracking-[-0.13px] text-tui-front-secondary">
           Change
         </span>
-        <ChevronRightIcon size={12} color="#7f8b99" />
+        <ChevronRightIcon size={12} color="var(--color-tui-front-secondary)" />
       </button>
 
       {/* Consent text */}

@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { ChevronDownIcon } from "./icons";
+import Button from "./Button";
 
 function UAEFlag() {
   return (
@@ -35,8 +36,7 @@ export default function AccountScreen({ initialPhone, onContinue }: AccountScree
         {/* Heading + description */}
         <div className="flex flex-col gap-[8px] pb-[24px]">
           <h1
-            className="text-[35px] leading-[36px] tracking-[-0.7px] text-tui-front-primary"
-            style={{ fontFamily: '"Radial Saudi", "Inter Variable", sans-serif', fontWeight: 500 }}
+            className="font-heading text-[35px] leading-[36px] tracking-[-0.7px] text-tui-front-primary"
           >
             Log in or sign up for Tabby
           </h1>
@@ -48,20 +48,20 @@ export default function AccountScreen({ initialPhone, onContinue }: AccountScree
         {/* Phone input row */}
         <div className="flex gap-[8px] items-center">
           {/* Country code selector */}
-          <div className="flex items-center gap-[8px] h-[56px] w-[132px] border border-[#7f8b99] rounded-[16px] pl-[16px] pr-[12px] shrink-0">
+          <div className="flex items-center gap-[8px] h-[56px] w-[132px] border border-tui-front-secondary rounded-[16px] pl-[16px] pr-[12px] shrink-0">
             <UAEFlag />
             <span className="text-[16px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-primary flex-1">
               +971
             </span>
-            <ChevronDownIcon size={24} color="#1d2329" />
+            <ChevronDownIcon size={24} color="var(--color-tui-front-primary)" />
           </div>
 
           {/* Phone number field */}
           <div
             className={`flex items-center flex-1 h-[56px] rounded-[16px] pl-[16px] pr-[12px] cursor-text ${
               focused
-                ? "border-[1.5px] border-[#1d2329]"
-                : "border border-[#7f8b99]"
+                ? "border-[1.5px] border-tui-front-primary"
+                : "border border-tui-front-secondary"
             }`}
             onClick={() => inputRef.current?.focus()}
           >
@@ -88,14 +88,7 @@ export default function AccountScreen({ initialPhone, onContinue }: AccountScree
 
       {/* Continue button pinned to bottom */}
       <div className="absolute bottom-0 left-0 right-0 flex flex-col px-[16px] pt-[16px]">
-        <button
-          onClick={() => onContinue(phone)}
-          className="w-full h-[64px] bg-[#1d2329] rounded-[20px] flex items-center justify-center cursor-pointer"
-        >
-          <span className="text-[16px] font-bold leading-[20px] tracking-[-0.16px] text-white">
-            Continue
-          </span>
-        </button>
+        <Button onClick={() => onContinue(phone)}>Continue</Button>
       </div>
     </div>
   );

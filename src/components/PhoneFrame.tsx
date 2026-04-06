@@ -3,6 +3,7 @@ import StatusBar from "./StatusBar";
 import SafariBar from "./SafariBar";
 import NotificationBanner from "./NotificationBanner";
 import type { StationState } from "../types";
+import { PHONE } from "../constants";
 
 interface PhoneFrameProps {
   state: StationState;
@@ -12,11 +13,11 @@ interface PhoneFrameProps {
 
 export default function PhoneFrame({ state, hideNotification, children }: PhoneFrameProps) {
   return (
-    <div className="relative" style={{ width: 497, height: 980 }}>
+    <div className="relative" style={{ width: PHONE.width, height: PHONE.height }}>
       {/* Screen content area — positioned inside the bezel */}
       <div
         className="absolute bg-white overflow-hidden rounded-[50px]"
-        style={{ top: 42, left: 42, width: 413, height: 896 }}
+        style={{ top: PHONE.bezel, left: PHONE.bezel, width: PHONE.screenWidth, height: PHONE.screenHeight }}
       >
         <StatusBar />
         <SafariBar />

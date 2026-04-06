@@ -8,6 +8,7 @@ import SuccessScreen from "./components/SuccessScreen";
 import TroubleBottomSheet from "./components/TroubleBottomSheet";
 import ControlPanel from "./components/ControlPanel";
 import type { StationState, PrototypeVersion } from "./types";
+import { SPRING, PHONE } from "./constants";
 import { playTapSound } from "./sounds";
 
 function getInitialState(): StationState {
@@ -21,9 +22,8 @@ function useViewportScale() {
   const [scale, setScale] = useState(1);
   useEffect(() => {
     function calc() {
-      const phoneH = 980;
       const pad = 4;
-      const s = Math.min(1, (window.innerHeight - pad) / phoneH, (window.innerWidth - pad) / 497);
+      const s = Math.min(1, (window.innerHeight - pad) / PHONE.height, (window.innerWidth - pad) / PHONE.width);
       setScale(Math.round(s * 100) / 100);
     }
     calc();
@@ -62,7 +62,7 @@ export default function App() {
               <motion.div
                 className="absolute inset-0"
                 animate={{ x: showAccount || showSuccess ? "-30%" : "0%" }}
-                transition={{ type: "spring", damping: 30, stiffness: 300 }}
+                transition={SPRING}
               >
                 <StationScreen
                   state={state}
@@ -80,7 +80,7 @@ export default function App() {
                     initial={{ x: "100%" }}
                     animate={{ x: 0 }}
                     exit={{ x: "100%" }}
-                    transition={{ type: "spring", damping: 30, stiffness: 300 }}
+                    transition={SPRING}
                     style={{ boxShadow: "-4px 0 16px rgba(0,0,0,0.1)" }}
                   >
                     <AccountScreen
@@ -106,7 +106,7 @@ export default function App() {
                     initial={{ x: "100%" }}
                     animate={{ x: 0 }}
                     exit={{ x: "100%" }}
-                    transition={{ type: "spring", damping: 30, stiffness: 300 }}
+                    transition={SPRING}
                     style={{ boxShadow: "-4px 0 16px rgba(0,0,0,0.1)" }}
                   >
                     <SuccessScreen />
@@ -137,8 +137,8 @@ export default function App() {
           <div
             className="absolute flex flex-col gap-[8px] items-end pt-[42px]"
             style={{
-              right: `calc(50% + ${(497 / 2) * scale + 32}px)`,
-              top: `calc(50% - ${(980 / 2) * scale}px)`,
+              right: `calc(50% + ${(PHONE.width / 2) * scale + 32}px)`,
+              top: `calc(50% - ${(PHONE.height / 2) * scale}px)`,
             }}
           >
             <ControlPanel
@@ -152,8 +152,8 @@ export default function App() {
           <div
             className="absolute flex items-start pt-[42px]"
             style={{
-              left: `calc(50% + ${(497 / 2) * scale + 32}px)`,
-              top: `calc(50% - ${(980 / 2) * scale}px)`,
+              left: `calc(50% + ${(PHONE.width / 2) * scale + 32}px)`,
+              top: `calc(50% - ${(PHONE.height / 2) * scale}px)`,
             }}
           >
             <div className="flex flex-col gap-[8px]">
@@ -162,8 +162,8 @@ export default function App() {
                   onClick={() => { playTapSound(); setVersion("v1"); }}
                   className={`px-[16px] py-[10px] text-[13px] font-semibold transition-all cursor-pointer ${
                     version === "v1"
-                      ? "bg-[#1d2329] text-white"
-                      : "bg-white text-[#7f8b99] hover:bg-gray-50"
+                      ? "bg-tui-front-primary text-white"
+                      : "bg-white text-tui-front-secondary hover:bg-gray-50"
                   }`}
                 >
                   V1
@@ -172,14 +172,14 @@ export default function App() {
                   onClick={() => { playTapSound(); setVersion("v2"); }}
                   className={`px-[16px] py-[10px] text-[13px] font-semibold transition-all cursor-pointer ${
                     version === "v2"
-                      ? "bg-[#1d2329] text-white"
-                      : "bg-white text-[#7f8b99] hover:bg-gray-50"
+                      ? "bg-tui-front-primary text-white"
+                      : "bg-white text-tui-front-secondary hover:bg-gray-50"
                   }`}
                 >
                   V2
                 </button>
               </div>
-              <p className="text-[12px] text-[#7f8b99] leading-[16px]">
+              <p className="text-[12px] text-tui-front-secondary leading-[16px]">
                 {version === "v1" ? "Spinner icon" : "Spinner nodes"}
               </p>
             </div>

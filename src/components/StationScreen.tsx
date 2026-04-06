@@ -23,8 +23,7 @@ export default function StationScreen({ state, phoneNumber, version = "v1", onCh
         <div className="flex flex-col gap-[22px] items-start w-full">
           <SpinnerIcon spinning={version === "v1"} />
           <h1
-            className="text-[35px] font-semibold leading-[36px] tracking-[-0.7px] text-tui-front-primary"
-            style={{ fontFamily: '"Radial Saudi", "Inter Variable", sans-serif', fontWeight: 500 }}
+            className="font-heading text-[35px] leading-[36px] tracking-[-0.7px] text-tui-front-primary"
           >
             Complete purchase in{"\u00A0"} the Tabby app
           </h1>

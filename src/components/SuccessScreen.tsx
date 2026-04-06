@@ -13,11 +13,7 @@ export default function SuccessScreen() {
           <CheckCircleIcon size={80} />
           <div className="flex flex-col items-center gap-[8px] text-center">
             <h1
-              className="text-[30px] leading-[32px] tracking-[-0.3px] text-tui-front-primary"
-              style={{
-                fontFamily: '"Radial Saudi", "Inter Variable", sans-serif',
-                fontWeight: 500,
-              }}
+              className="font-heading text-[30px] leading-[32px] tracking-[-0.3px] text-tui-front-primary"
             >
               Payment successful
             </h1>
@@ -29,10 +25,10 @@ export default function SuccessScreen() {
 
         {/* Merchant card */}
         <div className="w-full px-0">
-          <div className="bg-[#f2f5f7] rounded-[24px] py-[4px]">
+          <div className="bg-surface-muted rounded-[24px] py-[4px]">
             <div className="flex items-center gap-[16px] px-[16px] min-h-[64px]">
               {/* Merchant logo */}
-              <div className="w-[40px] h-[40px] rounded-full overflow-hidden shrink-0 bg-[#f2f5f7]">
+              <div className="w-[40px] h-[40px] rounded-full overflow-hidden shrink-0 bg-surface-muted">
                 <img
                   src="/adidas-logo.png"
                   alt="Adidas"

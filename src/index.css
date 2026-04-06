@@ -16,12 +16,16 @@
   --color-tui-front-tertiary: #b8c3d1;
   --color-tui-line-disabled: #e9eff5;
   --color-tui-line-positive: #31cc7e;
+  --color-tui-front-accent: #5d21de;
+  --color-tui-front-accent-bright: #6236FF;
   --color-tui-icon-graphics: #FF0055;
   --color-spinner-bg: #f2e8ff;
+  --color-tui-line-accent: #ccb1fa;
   --color-notification-bg: rgba(80, 79, 79, 0.7);
   --color-tabby-green: #3EEDB1;
   --color-tabby-badge-bg: #292929;
   --color-browser-header: #F9F9F9;
+  --color-surface-muted: #f2f5f7;
 }
 
 @keyframes spin-progress {
@@ -39,4 +43,9 @@ body {
   font-family: "Inter Variable", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.font-heading {
+  font-family: "Radial Saudi", "Inter Variable", sans-serif;
+  font-weight: 500;
 }

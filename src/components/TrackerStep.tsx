@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { SmartphoneIcon } from "./icons";
 import type { TrackerStepData } from "../types";
 
+// Motion needs concrete hex values to interpolate — can't animate var() strings
 const indicatorColorMap = {
   gray: "#e9eff5",
   green: "#31cc7e",
@@ -31,14 +32,14 @@ export default function TrackerStep({ step, onActionClick }: TrackerStepProps) {
           <div className="relative w-[20px] h-[20px] flex items-center justify-center shrink-0">
             {/* Mini spinner background ring */}
             <svg className="absolute inset-0" width="20" height="20" viewBox="0 0 20 20">
-              <circle cx="10" cy="10" r="8" fill="none" stroke="#d5dce5" strokeWidth="2.5" strokeLinecap="round" />
+              <circle cx="10" cy="10" r="8" fill="none" stroke="var(--color-tui-front-tertiary)" strokeWidth="2.5" strokeLinecap="round" opacity="0.6" />
             </svg>
             {/* Mini spinning arc */}
             <div className="absolute inset-0" style={{ animation: "spin-progress 1.5s linear infinite" }}>
               <svg width="20" height="20" viewBox="0 0 20 20">
                 <circle
                   cx="10" cy="10" r="8" fill="none"
-                  stroke="#7f8b99" strokeWidth="2.5" strokeLinecap="round"
+                  stroke="var(--color-tui-front-secondary)" strokeWidth="2.5" strokeLinecap="round"
                   strokeDasharray={`${2 * Math.PI * 8 * 0.25} ${2 * Math.PI * 8 * 0.75}`}
                   strokeDashoffset="0"
                   transform="rotate(-90 10 10)"
@@ -126,7 +127,7 @@ export default function TrackerStep({ step, onActionClick }: TrackerStepProps) {
                 {step.action && (
                   <button
                     onClick={onActionClick}
-                    className="text-[14px] font-medium leading-[20px] tracking-[-0.16px] text-[#6236FF] text-left cursor-pointer"
+                    className="text-[14px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-accent-bright text-left cursor-pointer"
                   >
                     {step.action}
                   </button>

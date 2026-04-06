@@ -17,7 +17,7 @@ export default function SpinnerIcon({ spinning = true }: SpinnerIconProps) {
         <>
           {/* Background ring track */}
           <svg className="absolute inset-0" width="88" height="88" viewBox="0 0 88 88">
-            <circle cx="44" cy="44" r="40" fill="none" stroke="#f2e8ff" strokeWidth="4" strokeLinecap="round" />
+            <circle cx="44" cy="44" r="40" fill="none" stroke="var(--color-spinner-bg)" strokeWidth="4" strokeLinecap="round" />
           </svg>
 
           {/* Spinning progress arc */}
@@ -25,7 +25,7 @@ export default function SpinnerIcon({ spinning = true }: SpinnerIconProps) {
             <svg width="88" height="88" viewBox="0 0 88 88">
               <circle
                 cx="44" cy="44" r="40" fill="none"
-                stroke="#ccb1fa" strokeWidth="4" strokeLinecap="round"
+                stroke="var(--color-tui-line-accent)" strokeWidth="4" strokeLinecap="round"
                 strokeDasharray={`${arcLength} ${circumference - arcLength}`}
                 strokeDashoffset="0"
                 transform="rotate(-90 44 44)"
