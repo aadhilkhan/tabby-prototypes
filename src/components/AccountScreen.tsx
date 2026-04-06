@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { motion, useAnimationControls } from "motion/react";
 import { ChevronDownIcon } from "./icons";
 import Button from "./Button";
 
@@ -23,6 +24,7 @@ export default function AccountScreen({ initialPhone, onContinue }: AccountScree
   const [focused, setFocused] = useState(false);
   const [error, setError] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
+  const shakeControls = useAnimationControls();
 
   useEffect(() => {
     const timer = setTimeout(() => inputRef.current?.focus(), 400);
@@ -30,12 +32,9 @@ export default function AccountScreen({ initialPhone, onContinue }: AccountScree
   }, []);
 
   function handleContinue() {
-    if (!phone) {
+    if (!phone || phone.length < 9) {
       setError("Please enter a valid phone number");
-      return;
-    }
-    if (phone.length < 9) {
-      setError("Please enter a valid phone number");
+      shakeControls.start({ x: [0, -8, 8, -6, 6, -3, 3, 0], transition: { duration: 0.4 } });
       return;
     }
     setError("");
@@ -108,9 +107,9 @@ export default function AccountScreen({ initialPhone, onContinue }: AccountScree
       </div>
 
       {/* Continue button pinned to bottom */}
-      <div className="absolute bottom-0 left-0 right-0 flex flex-col px-[16px] pt-[16px]">
+      <motion.div className="absolute bottom-0 left-0 right-0 flex flex-col px-[16px] pt-[16px]" animate={shakeControls}>
         <Button onClick={handleContinue}>Continue</Button>
-      </div>
+      </motion.div>
     </div>
   );
 }
