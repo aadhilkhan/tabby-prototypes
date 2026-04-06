@@ -503,6 +503,60 @@ App.tsx (state + viewport scaling + screen management)
 
 ---
 
+## Session 9 — 2026-04-06: Animation Polish
+
+### Prompt 82: Footer Fade-In
+> When the footer appear, let it appear gracefully, with nice transition, simple
+
+**Response:** Added motion.div inside Footer component with opacity 0→1 and y 8→0 over 0.4s easeOut.
+
+### Prompt 83: Smooth Step 1 Expand
+> Let's also try smoothening the transition from sending notification to notification sent in the first node of tracker, it currently move down with some abruptness
+
+**Response:** Split step 1 description animation into two phases: height expands first, then text fades in after a delay.
+
+### Prompt 84: Expand First, Then Fade
+> Let's expand the div first and then fade in the extra two sub lines
+
+**Response:** Separated into outer motion.div (height: 0→auto) and inner motion.div (opacity: 0→1 with delay). Height opens first, then content fades in.
+
+### Prompt 85: Delay Fade Further
+> delay the fade in further
+
+**Response:** Changed fade delay from 0.3s to 0.5s.
+
+### Prompt 86: Half Height Expand Time
+> Let's quick in the height expand time to half time
+
+**Response:** Changed height expand from 0.4s to 0.2s.
+
+### Prompt 87: Fade In Duration
+> Let the fade in be 0.4 seconds → No I meant the delay should be 0.4 seconds
+
+**Response:** Set to 0.3s fade duration with 0.4s delay.
+
+### Prompt 88: Smooth Restart Transition
+> When I go back by restarting, the transition back to step one seems to have two abrupt steps, smoothen it
+
+**Response:** Tried layout animations on TrackerStep containers to unify height changes into one motion.
+
+### Prompt 89: Undo Layout Squeeze
+> This now vertically squeezes the text - dont like that
+
+**Response:** Changed to layout="position" only on outer row, removed layout from inner containers.
+
+### Prompt 90: Revert Layout Changes
+> Let's undo changes made to the node when it restarts
+
+**Response:** Reverted all layout animation changes on TrackerStep back to simple expand/fade.
+
+### Prompt 91: Update Docs + Push
+> update context docs, commit and push
+
+**Response:** Updated CLAUDE.md session 7, prompts.md session 9. Committed and pushed.
+
+---
+
 ## Key Lessons Learned
 1. NavBar, Footer, and home indicator should NOT be part of screen transition animations
 2. `overflow-hidden` on parent container is essential when sliding content

@@ -1,3 +1,4 @@
+import { motion } from "motion/react";
 import { UserIcon, ChevronRightIcon } from "./icons";
 
 function formatPhone(digits: string): string {
@@ -15,7 +16,12 @@ interface FooterProps {
 
 export default function Footer({ phoneNumber, onChangeAccount }: FooterProps) {
   return (
-    <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center">
+    <motion.div
+      className="absolute bottom-0 left-0 right-0 flex flex-col items-center"
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+    >
       {/* Account switcher line */}
       <button
         className="flex items-center justify-center h-[40px] w-full gap-[4px] pb-[16px] cursor-pointer"
@@ -43,6 +49,6 @@ export default function Footer({ phoneNumber, onChangeAccount }: FooterProps) {
         </p>
       </div>
 
-    </div>
+    </motion.div>
   );
 }

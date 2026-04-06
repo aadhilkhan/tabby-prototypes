@@ -110,23 +110,28 @@ export default function TrackerStep({ step, onActionClick }: TrackerStepProps) {
           {step.id === 1 && step.description && (
             <motion.div
               key="step1-extra"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
-              className="overflow-hidden w-full flex flex-col gap-[8px]"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{
+                height: { duration: 0.2, ease: "easeOut" },
+                opacity: { duration: 0.3, delay: 0.4 },
+              }}
+              className="overflow-hidden w-full"
             >
-              <p className="text-[14px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-secondary">
-                {step.description}
-              </p>
-              {step.action && (
-                <button
-                  onClick={onActionClick}
-                  className="text-[14px] font-medium leading-[20px] tracking-[-0.16px] text-[#6236FF] text-left cursor-pointer"
-                >
-                  {step.action}
-                </button>
-              )}
+              <div className="flex flex-col gap-[8px]">
+                <p className="text-[14px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-secondary">
+                  {step.description}
+                </p>
+                {step.action && (
+                  <button
+                    onClick={onActionClick}
+                    className="text-[14px] font-medium leading-[20px] tracking-[-0.16px] text-[#6236FF] text-left cursor-pointer"
+                  >
+                    {step.action}
+                  </button>
+                )}
+              </div>
             </motion.div>
           )}
         </AnimatePresence>

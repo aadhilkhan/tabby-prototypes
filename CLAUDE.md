@@ -137,6 +137,13 @@ Typography: H1 uses Radial Saudi (35px/500), body uses Inter Variable (16px/500 
 - SpinnerIcon accepts `spinning` prop — V2 shows static 88×88 circle with 48×48 arrow icon
 - TrackerStep supports `indicatorSpinning` — renders grey mini spinner (20px) on active step
 - `getTrackerStepsV2()` in constants.ts for V2 step configs
-- Footer hidden during "sending" state, appears only after notification
+- Footer hidden during "sending" state, appears only after notification with fade-in animation
 - Version toggle positioned right of phone frame, aligned to top with control buttons
 - Cursor-pointer added to control panel buttons
+
+### Session 7 (2026-04-06)
+- Footer fade-in animation: slides up 8px + fades in over 0.4s using motion.div in Footer component
+- Step 1 description expand: height expands 0.2s, then text fades in after 0.4s delay (0.3s duration)
+- V2 mini spinner changed to grey (#e9eff5 track / #b8c3d1 arc)
+- Main icon enlarged to 48×48 in both V1/V2, V2 circle fills full 88×88
+- Version toggle label shows "Spinner icon" or "Spinner nodes" for active version
