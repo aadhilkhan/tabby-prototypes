@@ -442,6 +442,67 @@ App.tsx (state + viewport scaling + screen management)
 └── ControlPanel (3 buttons, hidden with ?state param)
 ```
 
+---
+
+## Session 8 — 2026-04-06: V1/V2 Version Toggle
+
+### Prompt 71: Cursor on Control Panel Buttons
+> Show cursors for the buttons outside the mobile frame
+
+**Response:** Added cursor-pointer to all 3 ControlPanel buttons (Send Notification, Finish Purchase, Restart). Disabled buttons keep cursor-not-allowed.
+
+### Prompt 72: Build V2 with Spinner Nodes
+> Let's now build an exact copy of this flow, where I can choose between version one and 2 using a toggle bar at the left of the phone screen (to the bottom) - But this time the loading indicators are shown on the tracker nodes instead of main icon. Main icon should have no spinner, just the arrow icon in circle container
+
+**Response:** Added PrototypeVersion type ("v1" | "v2"). SpinnerIcon accepts `spinning` prop (false = static circle, no rings). TrackerStep renders grey mini spinner (20px) when `indicatorSpinning` is true. Added `getTrackerStepsV2()` to constants.ts. Version toggle segmented control positioned at bottom-left of phone frame.
+
+### Prompt 73: Footer Hidden Until Notification
+> Make change button footer appear only after notification appears for V1 and V2
+
+**Response:** Wrapped Footer in `state !== "sending"` conditional in StationScreen. Footer only renders after notification is sent.
+
+### Prompt 74: Grey Node Spinner
+> In V2, let the node spinner be grey in color
+
+**Response:** Changed mini spinner colors from purple (#f2e8ff/#ccb1fa) to grey (#e9eff5/#b8c3d1) matching existing tertiary tokens.
+
+### Prompt 75: Main Icon Background 80px
+> In V2, let the top main icon background take full space so it takes 80x80
+
+**Response:** Changed V2 icon circle from 74px to 80px. V1 stays at 74px for spinner ring clearance.
+
+### Prompt 76: Main Icon Background 88px
+> Let it fill 88x88
+
+**Response:** Changed V2 icon circle to 88×88, filling the full container.
+
+### Prompt 77: Icon Size 48px
+> Let icon be 48x48 in both v1 and v2
+
+**Response:** Changed icon.png from 36×36 to 48×48 in SpinnerIcon for both versions.
+
+### Prompt 78: Move Version Toggle to Right
+> Let the version toggle be placed on right side of phone frame, but aligned to top same line as the left buttons
+
+**Response:** Moved toggle from bottom-left to top-right of phone frame, using `left: calc(50% + ...)` positioning, same top alignment as ControlPanel.
+
+### Prompt 79: Add Description Below Toggle
+> Let's add a text below the toggle describing both flows - V1 is Spinner icon, V2 is Spinner nodes
+
+**Response:** Added two labels below toggle: "V1 Spinner icon" and "V2 Spinner nodes" with active version bolded.
+
+### Prompt 80: Single Description Text
+> Only show the text for current version, no need to show v1 and v2 as text
+
+**Response:** Changed to single line showing "Spinner icon" or "Spinner nodes" based on active version.
+
+### Prompt 81: Update Docs + Push
+> Update claude.md and prompts.md and any other relevant docs, and then push to repo
+
+**Response:** Updated CLAUDE.md with V1/V2 architecture, component hierarchy, session 6 log. Updated prompts.md with session 8 prompts 71–81. Committed and pushed.
+
+---
+
 ## Key Lessons Learned
 1. NavBar, Footer, and home indicator should NOT be part of screen transition animations
 2. `overflow-hidden` on parent container is essential when sliding content

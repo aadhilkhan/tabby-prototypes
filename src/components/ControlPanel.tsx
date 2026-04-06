@@ -20,7 +20,7 @@ export default function ControlPanel({
         disabled={state !== "sending"}
         className="px-[20px] py-[12px] rounded-[12px] text-[14px] font-semibold transition-all
           bg-[#31cc7e] text-white
-          disabled:opacity-40 disabled:cursor-not-allowed
+          disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer
           hover:not-disabled:bg-[#28b06c] active:not-disabled:scale-95"
       >
         Send Notification
@@ -30,7 +30,7 @@ export default function ControlPanel({
         disabled={state !== "sent"}
         className="px-[20px] py-[12px] rounded-[12px] text-[14px] font-semibold transition-all
           bg-[#1d2329] text-white
-          disabled:opacity-40 disabled:cursor-not-allowed
+          disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer
           hover:not-disabled:bg-[#2d3640] active:not-disabled:scale-95"
       >
         Finish Purchase
@@ -38,7 +38,7 @@ export default function ControlPanel({
       <button
         onClick={onRestart}
         className="px-[20px] py-[12px] rounded-[12px] text-[14px] font-semibold transition-all
-          bg-white text-[#1d2329] border border-gray-300
+          bg-white text-[#1d2329] border border-gray-300 cursor-pointer
           hover:bg-gray-50 active:scale-95"
       >
         Restart

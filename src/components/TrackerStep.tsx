@@ -27,7 +27,26 @@ export default function TrackerStep({ step, onActionClick }: TrackerStepProps) {
       {/* Indicator column */}
       <div className="flex flex-col items-center gap-[4px] w-[32px] pr-[12px] pb-[2px] self-stretch shrink-0">
         {/* Indicator */}
-        {step.indicatorType === "icon" ? (
+        {step.indicatorSpinning ? (
+          <div className="relative w-[20px] h-[20px] flex items-center justify-center shrink-0">
+            {/* Mini spinner background ring */}
+            <svg className="absolute inset-0" width="20" height="20" viewBox="0 0 20 20">
+              <circle cx="10" cy="10" r="8" fill="none" stroke="#e9eff5" strokeWidth="2.5" strokeLinecap="round" />
+            </svg>
+            {/* Mini spinning arc */}
+            <div className="absolute inset-0" style={{ animation: "spin-progress 1.5s linear infinite" }}>
+              <svg width="20" height="20" viewBox="0 0 20 20">
+                <circle
+                  cx="10" cy="10" r="8" fill="none"
+                  stroke="#b8c3d1" strokeWidth="2.5" strokeLinecap="round"
+                  strokeDasharray={`${2 * Math.PI * 8 * 0.25} ${2 * Math.PI * 8 * 0.75}`}
+                  strokeDashoffset="0"
+                  transform="rotate(-90 10 10)"
+                />
+              </svg>
+            </div>
+          </div>
+        ) : step.indicatorType === "icon" ? (
           <motion.div
             className="w-[20px] h-[20px] rounded-full flex items-center justify-center overflow-hidden shrink-0"
             animate={{ backgroundColor: bgColor }}

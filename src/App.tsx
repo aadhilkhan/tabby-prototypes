@@ -7,7 +7,7 @@ import AccountScreen from "./components/AccountScreen";
 import SuccessScreen from "./components/SuccessScreen";
 import TroubleBottomSheet from "./components/TroubleBottomSheet";
 import ControlPanel from "./components/ControlPanel";
-import type { StationState } from "./types";
+import type { StationState, PrototypeVersion } from "./types";
 
 function getInitialState(): StationState {
   const params = new URLSearchParams(window.location.search);
@@ -39,6 +39,7 @@ export default function App() {
   const [showTrouble, setShowTrouble] = useState(false);
   const [notificationDismissed, setNotificationDismissed] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("554446868");
+  const [version, setVersion] = useState<PrototypeVersion>("v1");
   const hideControls = new URLSearchParams(window.location.search).has("state");
   const scale = useViewportScale();
 
@@ -65,6 +66,7 @@ export default function App() {
                 <StationScreen
                   state={state}
                   phoneNumber={phoneNumber}
+                  version={version}
                   onChangeAccount={() => setShowAccount(true)}
                   onTroubleClick={() => { setShowTrouble(true); setNotificationDismissed(true); }}
                 />
@@ -130,20 +132,58 @@ export default function App() {
         </PhoneFrame>
       </div>
       {!hideControls && (
-        <div
-          className="absolute flex flex-col gap-[8px] items-end pt-[42px]"
-          style={{
-            right: `calc(50% + ${(497 / 2) * scale + 32}px)`,
-            top: `calc(50% - ${(980 / 2) * scale}px)`,
-          }}
-        >
-          <ControlPanel
-            state={state}
-            onSendNotification={() => setState("sent")}
-            onFinishPurchase={() => setState("complete")}
-            onRestart={() => { setState("sending"); setShowAccount(false); setShowSuccess(false); setShowTrouble(false); setNotificationDismissed(false); setPhoneNumber("554446868"); }}
-          />
-        </div>
+        <>
+          <div
+            className="absolute flex flex-col gap-[8px] items-end pt-[42px]"
+            style={{
+              right: `calc(50% + ${(497 / 2) * scale + 32}px)`,
+              top: `calc(50% - ${(980 / 2) * scale}px)`,
+            }}
+          >
+            <ControlPanel
+              state={state}
+              onSendNotification={() => setState("sent")}
+              onFinishPurchase={() => setState("complete")}
+              onRestart={() => { setState("sending"); setShowAccount(false); setShowSuccess(false); setShowTrouble(false); setNotificationDismissed(false); setPhoneNumber("554446868"); }}
+            />
+          </div>
+          {/* Version toggle */}
+          <div
+            className="absolute flex items-start pt-[42px]"
+            style={{
+              left: `calc(50% + ${(497 / 2) * scale + 32}px)`,
+              top: `calc(50% - ${(980 / 2) * scale}px)`,
+            }}
+          >
+            <div className="flex flex-col gap-[8px]">
+              <div className="flex rounded-[12px] overflow-hidden border border-gray-300 bg-white">
+                <button
+                  onClick={() => setVersion("v1")}
+                  className={`px-[16px] py-[10px] text-[13px] font-semibold transition-all cursor-pointer ${
+                    version === "v1"
+                      ? "bg-[#1d2329] text-white"
+                      : "bg-white text-[#7f8b99] hover:bg-gray-50"
+                  }`}
+                >
+                  V1
+                </button>
+                <button
+                  onClick={() => setVersion("v2")}
+                  className={`px-[16px] py-[10px] text-[13px] font-semibold transition-all cursor-pointer ${
+                    version === "v2"
+                      ? "bg-[#1d2329] text-white"
+                      : "bg-white text-[#7f8b99] hover:bg-gray-50"
+                  }`}
+                >
+                  V2
+                </button>
+              </div>
+              <p className="text-[12px] text-[#7f8b99] leading-[16px]">
+                {version === "v1" ? "Spinner icon" : "Spinner nodes"}
+              </p>
+            </div>
+          </div>
+        </>
       )}
     </div>
   );
