@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Analytics } from "@vercel/analytics/react";
 import { AnimatePresence, motion } from "motion/react";
 import PhoneFrame from "./components/PhoneFrame";
 import NavBar from "./components/NavBar";
@@ -204,6 +205,7 @@ export default function App() {
           </div>
         </>
       )}
+      <Analytics />
     </div>
   );
 }
