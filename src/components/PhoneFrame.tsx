@@ -13,7 +13,7 @@ interface PhoneFrameProps {
 
 export default function PhoneFrame({ state, hideNotification, children }: PhoneFrameProps) {
   return (
-    <div className="relative" style={{ width: PHONE.width, height: PHONE.height }}>
+    <div className="relative" style={{ width: PHONE.width, height: PHONE.height, filter: "drop-shadow(0 8px 32px rgba(0,0,0,0.12))" }}>
       {/* Screen content area — positioned inside the bezel */}
       <div
         className="absolute bg-white overflow-hidden rounded-[50px]"
