@@ -96,6 +96,14 @@ export function ChevronRightIcon({ size = 16, className, color = "currentColor" 
   );
 }
 
+export function ChevronLeftIcon({ size = 16, className, color = "currentColor" }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 16 16" fill="none" className={className}>
+      <path d="M10 3l-5 5 5 5" stroke={color} strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 export function CheckCircleIcon({ size = 80, className }: IconProps) {
   return (
     <div className={`relative ${className || ""}`} style={{ width: size, height: size }}>

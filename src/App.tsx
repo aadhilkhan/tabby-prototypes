@@ -8,7 +8,7 @@ import AccountScreen from "./components/AccountScreen";
 import SuccessScreen from "./components/SuccessScreen";
 import TroubleBottomSheet from "./components/TroubleBottomSheet";
 import ControlPanel from "./components/ControlPanel";
-import type { StationState, PrototypeVersion } from "./types";
+import type { StationState, PrototypeVersion, Language } from "./types";
 import { SPRING, PHONE } from "./constants";
 import { playTapSound } from "./sounds";
 
@@ -52,25 +52,32 @@ export default function App() {
   const [notificationDismissed, setNotificationDismissed] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("554446868");
   const [version, setVersion] = useState<PrototypeVersion>("v1");
+  const [lang, setLang] = useState<Language>("en");
   const hideControls = new URLSearchParams(window.location.search).has("state");
   const { scale, isMobile } = useViewportLayout(hideControls);
+
+  const isRTL = lang === "ar";
+  // Slide direction flips for RTL
+  const slideIn = isRTL ? "-100%" : "100%";
+  const pushAway = isRTL ? "30%" : "-30%";
 
   return (
     <div className={`h-screen bg-[#f0f0f0] flex items-center justify-center overflow-hidden relative ${isMobile && !hideControls ? "pb-[100px]" : ""}`}>
       <div style={{ transform: `scale(${scale})`, transformOrigin: "center center" }}>
-        <PhoneFrame state={state} hideNotification={showTrouble || showAccount || notificationDismissed}>
-          <div className="relative h-full bg-white flex flex-col">
-            <NavBar />
+        <PhoneFrame state={state} hideNotification={showTrouble || showAccount || notificationDismissed} lang={lang}>
+          <div className="relative h-full bg-white flex flex-col" dir={isRTL ? "rtl" : "ltr"}>
+            <NavBar lang={lang} />
             <div className="relative flex-1 overflow-hidden">
               <motion.div
                 className="absolute inset-0"
-                animate={{ x: showAccount || showSuccess ? "-30%" : "0%" }}
+                animate={{ x: showAccount || showSuccess ? pushAway : "0%" }}
                 transition={SPRING}
               >
                 <StationScreen
                   state={state}
                   phoneNumber={phoneNumber}
                   version={version}
+                  lang={lang}
                   onChangeAccount={() => { setShowAccount(true); setNotificationDismissed(true); }}
                   onTroubleClick={() => { setShowTrouble(true); setNotificationDismissed(true); }}
                 />
@@ -80,13 +87,14 @@ export default function App() {
                   <motion.div
                     key="account"
                     className="absolute inset-0 z-10"
-                    initial={{ x: "100%" }}
+                    initial={{ x: slideIn }}
                     animate={{ x: 0 }}
-                    exit={{ x: "100%" }}
+                    exit={{ x: slideIn }}
                     transition={SPRING}
-                    style={{ boxShadow: "-4px 0 16px rgba(0,0,0,0.1)" }}
+                    style={{ boxShadow: isRTL ? "4px 0 16px rgba(0,0,0,0.1)" : "-4px 0 16px rgba(0,0,0,0.1)" }}
                   >
                     <AccountScreen
+                      lang={lang}
                       initialPhone={phoneNumber}
                       onContinue={(newPhone) => {
                         const numberChanged = newPhone !== phoneNumber;
@@ -106,13 +114,13 @@ export default function App() {
                   <motion.div
                     key="success"
                     className="absolute inset-0 z-20"
-                    initial={{ x: "100%" }}
+                    initial={{ x: slideIn }}
                     animate={{ x: 0 }}
-                    exit={{ x: "100%" }}
+                    exit={{ x: slideIn }}
                     transition={SPRING}
-                    style={{ boxShadow: "-4px 0 16px rgba(0,0,0,0.1)" }}
+                    style={{ boxShadow: isRTL ? "4px 0 16px rgba(0,0,0,0.1)" : "-4px 0 16px rgba(0,0,0,0.1)" }}
                   >
-                    <SuccessScreen />
+                    <SuccessScreen lang={lang} />
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -126,6 +134,7 @@ export default function App() {
               {showTrouble && (
                 <TroubleBottomSheet
                   key="trouble"
+                  lang={lang}
                   onClose={() => setShowTrouble(false)}
                   onSendSMS={() => setShowTrouble(false)}
                   onSendNotification={() => { setShowTrouble(false); setNotificationDismissed(false); }}
@@ -170,7 +179,7 @@ export default function App() {
               onRestart={() => { setState("sending"); setShowAccount(false); setShowSuccess(false); setShowTrouble(false); setNotificationDismissed(false); setPhoneNumber("554446868"); }}
             />
           </div>
-          {/* Version toggle */}
+          {/* Version toggle + Language toggle */}
           <div
             className="absolute flex items-start pt-[42px]"
             style={{
@@ -204,6 +213,32 @@ export default function App() {
               <p className="text-[12px] text-tui-front-secondary leading-[16px]">
                 {version === "v1" ? "Spinner icon" : "Spinner nodes"}
               </p>
+              {/* Language toggle */}
+              <div className="flex rounded-[12px] overflow-hidden border border-gray-300 bg-white mt-[8px]">
+                <button
+                  onClick={() => { playTapSound(); setLang("en"); }}
+                  className={`px-[16px] py-[10px] text-[13px] font-semibold transition-all cursor-pointer ${
+                    lang === "en"
+                      ? "bg-tui-front-primary text-white"
+                      : "bg-white text-tui-front-secondary hover:bg-gray-50"
+                  }`}
+                >
+                  EN
+                </button>
+                <button
+                  onClick={() => { playTapSound(); setLang("ar"); }}
+                  className={`px-[16px] py-[10px] text-[13px] font-semibold transition-all cursor-pointer ${
+                    lang === "ar"
+                      ? "bg-tui-front-primary text-white"
+                      : "bg-white text-tui-front-secondary hover:bg-gray-50"
+                  }`}
+                >
+                  AR
+                </button>
+              </div>
+              <p className="text-[12px] text-tui-front-secondary leading-[16px]">
+                {lang === "en" ? "English" : "Arabic (RTL)"}
+              </p>
             </div>
           </div>
         </>
@@ -235,6 +270,29 @@ export default function App() {
                 }`}
               >
                 V2
+              </button>
+            </div>
+            {/* Language toggle */}
+            <div className="flex rounded-[8px] overflow-hidden border border-gray-300 shrink-0">
+              <button
+                onClick={() => { playTapSound(); setLang("en"); }}
+                className={`px-[10px] py-[7px] text-[11px] font-semibold transition-all cursor-pointer ${
+                  lang === "en"
+                    ? "bg-tui-front-primary text-white"
+                    : "bg-white text-tui-front-secondary"
+                }`}
+              >
+                EN
+              </button>
+              <button
+                onClick={() => { playTapSound(); setLang("ar"); }}
+                className={`px-[10px] py-[7px] text-[11px] font-semibold transition-all cursor-pointer ${
+                  lang === "ar"
+                    ? "bg-tui-front-primary text-white"
+                    : "bg-white text-tui-front-secondary"
+                }`}
+              >
+                AR
               </button>
             </div>
             <div className="w-px h-5 bg-gray-300 shrink-0" />

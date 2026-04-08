@@ -49,3 +49,7 @@ body {
   font-family: "Radial Saudi", "Inter Variable", sans-serif;
   font-weight: 500;
 }
+
+.font-arabic-body {
+  font-family: "SF Pro Arabic", "Geeza Pro", -apple-system, sans-serif;
+}

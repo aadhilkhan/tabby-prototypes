@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "motion/react";
 import { SmartphoneIcon } from "./icons";
-import type { TrackerStepData } from "../types";
+import type { TrackerStepData, Language } from "../types";
 
 // Motion needs concrete hex values to interpolate — can't animate var() strings
 const indicatorColorMap = {
@@ -16,17 +16,19 @@ const lineColorMap = {
 
 interface TrackerStepProps {
   step: TrackerStepData;
+  lang?: Language;
   onActionClick?: () => void;
 }
 
-export default function TrackerStep({ step, onActionClick }: TrackerStepProps) {
+export default function TrackerStep({ step, lang = "en", onActionClick }: TrackerStepProps) {
   const bgColor = indicatorColorMap[step.indicatorColor];
   const lineColor = lineColorMap[step.lineColor];
+  const isRTL = lang === "ar";
 
   return (
-    <div className="flex items-start w-full">
+    <div className={`flex items-start w-full ${isRTL ? "flex-row-reverse" : ""}`}>
       {/* Indicator column */}
-      <div className="flex flex-col items-center gap-[4px] w-[32px] pr-[12px] pb-[2px] self-stretch shrink-0">
+      <div className={`flex flex-col items-center gap-[4px] w-[32px] pb-[2px] self-stretch shrink-0 ${isRTL ? "pl-[12px]" : "pr-[12px]"}`}>
         {/* Indicator */}
         {step.indicatorSpinning ? (
           <div className="relative w-[20px] h-[20px] flex items-center justify-center shrink-0">
@@ -80,14 +82,14 @@ export default function TrackerStep({ step, onActionClick }: TrackerStepProps) {
       </div>
 
       {/* Content */}
-      <div className={`flex flex-col gap-[8px] items-start flex-1 min-w-0 ${step.showLine ? "pb-[24px]" : ""}`}>
+      <div className={`flex flex-col gap-[8px] flex-1 min-w-0 ${step.showLine ? "pb-[24px]" : ""} ${isRTL ? "items-end" : "items-start"}`}>
         {/* Title row */}
-        <div className="flex items-start justify-between gap-[6px] w-full">
+        <div className={`flex items-start justify-between gap-[6px] w-full ${isRTL ? "flex-row-reverse" : ""}`}>
           <div className="flex-1 min-w-0">
             <p
               className={`text-[16px] leading-[20px] tracking-[-0.16px] text-tui-front-primary ${
                 step.titleBold ? "font-bold" : "font-medium"
-              }`}
+              } ${isRTL ? "text-right" : ""}`}
             >
               {step.title}
             </p>
@@ -101,7 +103,7 @@ export default function TrackerStep({ step, onActionClick }: TrackerStepProps) {
 
         {/* Description — for step 2/3 (always visible) */}
         {step.description && step.id !== 1 && (
-          <p className="text-[14px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-secondary">
+          <p className={`text-[14px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-secondary ${isRTL ? "text-right" : ""}`}>
             {step.description}
           </p>
         )}
@@ -120,14 +122,14 @@ export default function TrackerStep({ step, onActionClick }: TrackerStepProps) {
               }}
               className="overflow-hidden w-full"
             >
-              <div className="flex flex-col gap-[8px]">
-                <p className="text-[14px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-secondary">
+              <div className={`flex flex-col gap-[8px] ${isRTL ? "items-end" : ""}`}>
+                <p className={`text-[14px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-secondary ${isRTL ? "text-right" : ""}`}>
                   {step.description}
                 </p>
                 {step.action && (
                   <button
                     onClick={onActionClick}
-                    className="text-[14px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-accent-bright text-left cursor-pointer"
+                    className={`text-[14px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-accent-bright cursor-pointer ${isRTL ? "text-right" : "text-left"}`}
                   >
                     {step.action}
                   </button>

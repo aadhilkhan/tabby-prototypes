@@ -1,8 +1,16 @@
 import { CheckCircleIcon } from "./icons";
+import type { Language } from "../types";
+import { t } from "../translations";
 
-export default function SuccessScreen() {
+interface SuccessScreenProps {
+  lang?: Language;
+}
+
+export default function SuccessScreen({ lang = "en" }: SuccessScreenProps) {
+  const isRTL = lang === "ar";
+
   return (
-    <div className="relative h-full bg-white flex flex-col">
+    <div className={`relative h-full bg-white flex flex-col ${isRTL ? "font-arabic-body" : ""}`} dir={isRTL ? "rtl" : "ltr"}>
       {/* Spacer matching nav bar height */}
       <div className="h-[64px] w-full" />
 
@@ -15,10 +23,10 @@ export default function SuccessScreen() {
             <h1
               className="font-heading text-[30px] leading-[32px] tracking-[-0.3px] text-tui-front-primary"
             >
-              Payment successful
+              {t("success.heading", lang)}
             </h1>
             <p className="text-[16px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-primary">
-              You're now being redirected to Adidas page
+              {t("success.subtext", lang)}
             </p>
           </div>
         </div>
@@ -26,7 +34,7 @@ export default function SuccessScreen() {
         {/* Merchant card */}
         <div className="w-full px-0">
           <div className="bg-surface-muted rounded-[24px] py-[4px]">
-            <div className="flex items-center gap-[16px] px-[16px] min-h-[64px]">
+            <div className={`flex items-center gap-[16px] px-[16px] min-h-[64px] ${isRTL ? "flex-row-reverse" : ""}`}>
               {/* Merchant logo */}
               <div className="w-[40px] h-[40px] rounded-full overflow-hidden shrink-0 bg-surface-muted">
                 <img
@@ -36,17 +44,17 @@ export default function SuccessScreen() {
                 />
               </div>
               {/* Merchant info */}
-              <div className="flex-1 flex items-center justify-between min-w-0 py-[12px]">
-                <div className="flex flex-col gap-[2px]">
+              <div className={`flex-1 flex items-center justify-between min-w-0 py-[12px] ${isRTL ? "flex-row-reverse" : ""}`}>
+                <div className={`flex flex-col gap-[2px] ${isRTL ? "items-end" : ""}`}>
                   <span className="text-[16px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-primary">
-                    Adidas
+                    {t("success.merchant", lang)}
                   </span>
                   <span className="text-[14px] font-medium leading-[18px] tracking-[-0.16px] text-tui-front-secondary">
-                    Pay in 4
+                    {t("success.plan", lang)}
                   </span>
                 </div>
                 <span className="text-[16px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-primary whitespace-nowrap">
-                  AED 100.00/mo
+                  {t("success.amount", lang)}
                 </span>
               </div>
             </div>

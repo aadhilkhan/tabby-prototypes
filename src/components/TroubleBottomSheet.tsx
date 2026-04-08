@@ -3,26 +3,30 @@ import { motion } from "motion/react";
 import { InfoIcon } from "./icons";
 import Button from "./Button";
 import { SPRING } from "../constants";
+import type { Language } from "../types";
+import { t } from "../translations";
 
 interface TroubleBottomSheetProps {
+  lang?: Language;
   onClose: () => void;
   onSendSMS: () => void;
   onSendNotification: () => void;
 }
 
-export default function TroubleBottomSheet({ onClose, onSendSMS, onSendNotification }: TroubleBottomSheetProps) {
+export default function TroubleBottomSheet({ lang = "en", onClose, onSendSMS, onSendNotification }: TroubleBottomSheetProps) {
   const [smsTimer, setSmsTimer] = useState(59);
+  const isRTL = lang === "ar";
 
   useEffect(() => {
     if (smsTimer <= 0) return;
-    const id = setInterval(() => setSmsTimer((t) => t - 1), 1000);
+    const id = setInterval(() => setSmsTimer((tt) => tt - 1), 1000);
     return () => clearInterval(id);
   }, [smsTimer]);
 
   const smsReady = smsTimer <= 0;
   const minutes = Math.floor(smsTimer / 60);
   const seconds = smsTimer % 60;
-  const timerText = `Resend SMS in ${minutes}:${String(seconds).padStart(2, "0")}`;
+  const timerText = `${t("trouble.resendSMSTimer", lang)} ${minutes}:${String(seconds).padStart(2, "0")}`;
 
   return (
     <>
@@ -37,7 +41,8 @@ export default function TroubleBottomSheet({ onClose, onSendSMS, onSendNotificat
 
       {/* Sheet */}
       <motion.div
-        className="absolute bottom-0 left-0 right-0 z-40 bg-white rounded-t-[32px] flex flex-col"
+        className={`absolute bottom-0 left-0 right-0 z-40 bg-white rounded-t-[32px] flex flex-col ${isRTL ? "font-arabic-body" : ""}`}
+        dir={isRTL ? "rtl" : "ltr"}
         initial={{ y: "100%" }}
         animate={{ y: 0 }}
         exit={{ y: "100%" }}
@@ -69,16 +74,16 @@ export default function TroubleBottomSheet({ onClose, onSendSMS, onSendNotificat
               <h2
                 className="font-heading text-[22px] leading-[24px] tracking-[-0.22px] text-tui-front-primary w-full"
               >
-                Having trouble?
+                {t("trouble.heading", lang)}
               </h2>
               <div className="text-[16px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-secondary w-full">
                 <p className="mb-[12px]">
-                  Open the Tabby app, make sure you're logged in with the same phone number you used at checkout, and enable push notifications.
+                  {t("trouble.body1", lang)}
                 </p>
                 <p>
-                  Once that's done, tap{" "}
-                  <span className="text-tui-front-primary">Send notification</span>
-                  {" "}to continue your purchase in the app.
+                  {t("trouble.body2prefix", lang)}
+                  <span className="text-tui-front-primary">{t("trouble.body2bold", lang)}</span>
+                  {t("trouble.body2suffix", lang)}
                 </p>
               </div>
             </div>
@@ -88,9 +93,9 @@ export default function TroubleBottomSheet({ onClose, onSendSMS, onSendNotificat
         {/* Footer */}
         <div className="flex flex-col items-center pt-[16px] pb-[32px]" style={{ background: "linear-gradient(to top, white 6.6%, rgba(255,255,255,0))" }}>
           <div className="flex flex-col gap-[8px] w-full px-[16px]">
-            <Button onClick={onSendNotification}>Send notification</Button>
+            <Button onClick={onSendNotification}>{t("trouble.sendNotification", lang)}</Button>
             <Button variant="secondary" disabled={!smsReady} onClick={smsReady ? onSendSMS : undefined}>
-              {smsReady ? "Resend SMS" : timerText}
+              {smsReady ? t("trouble.resendSMS", lang) : timerText}
             </Button>
           </div>
         </div>
