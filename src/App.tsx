@@ -179,7 +179,7 @@ export default function App() {
                       : "bg-white text-tui-front-secondary hover:bg-gray-50"
                   }`}
                 >
-                  V1
+                  V1 ✓
                 </button>
                 <button
                   onClick={() => { playTapSound(); setVersion("v2"); }}
