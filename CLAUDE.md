@@ -196,3 +196,8 @@ Typography: H1 uses Radial Saudi (35px/500), body uses Inter Variable (16px/500 
 - NotificationBanner inherits RTL — icon on right, text right-aligned in Arabic
 - All components (NavBar, Footer, StationScreen, AccountScreen, SuccessScreen, TroubleBottomSheet, NotificationBanner) accept `lang` prop and use translated strings
 - Tracker step config functions (`getTrackerSteps`, `getTrackerStepsV2`) accept `lang` parameter
+
+### Session 11 (2026-04-08)
+- Security audit: full codebase analysis — no XSS, no injection vectors, no secrets, no unsafe DOM patterns
+- Patched Vite 6.4.1 → 6.4.2 (fixed 2 high-severity CVEs: path traversal in `.map` handling + arbitrary file read via dev server WebSocket)
+- Identified: external Figma capture.js has no SRI hash, no CSP/security headers on Vercel deployment (no vercel.json yet)
