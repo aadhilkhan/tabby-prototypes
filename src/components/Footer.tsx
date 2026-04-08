@@ -29,7 +29,7 @@ export default function Footer({ phoneNumber, lang = "en", onChangeAccount }: Fo
     >
       {/* Account switcher line */}
       <button
-        className={`flex items-center justify-center h-[40px] w-full gap-[4px] pb-[16px] cursor-pointer ${isRTL ? "flex-row-reverse" : ""}`}
+        className="flex items-center justify-center h-[40px] w-full gap-[4px] pb-[16px] cursor-pointer"
         onClick={onChangeAccount}
       >
         <UserIcon size={14} color="var(--color-tui-front-secondary)" />

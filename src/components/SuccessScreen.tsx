@@ -34,7 +34,7 @@ export default function SuccessScreen({ lang = "en" }: SuccessScreenProps) {
         {/* Merchant card */}
         <div className="w-full px-0">
           <div className="bg-surface-muted rounded-[24px] py-[4px]">
-            <div className={`flex items-center gap-[16px] px-[16px] min-h-[64px] ${isRTL ? "flex-row-reverse" : ""}`}>
+            <div className="flex items-center gap-[16px] px-[16px] min-h-[64px]">
               {/* Merchant logo */}
               <div className="w-[40px] h-[40px] rounded-full overflow-hidden shrink-0 bg-surface-muted">
                 <img
@@ -44,8 +44,8 @@ export default function SuccessScreen({ lang = "en" }: SuccessScreenProps) {
                 />
               </div>
               {/* Merchant info */}
-              <div className={`flex-1 flex items-center justify-between min-w-0 py-[12px] ${isRTL ? "flex-row-reverse" : ""}`}>
-                <div className={`flex flex-col gap-[2px] ${isRTL ? "items-end" : ""}`}>
+              <div className="flex-1 flex items-center justify-between min-w-0 py-[12px]">
+                <div className="flex flex-col gap-[2px]">
                   <span className="text-[16px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-primary">
                     {t("success.merchant", lang)}
                   </span>

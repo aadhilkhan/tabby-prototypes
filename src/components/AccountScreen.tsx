@@ -52,19 +52,19 @@ export default function AccountScreen({ initialPhone, lang = "en", onContinue }:
         {/* Heading + description */}
         <div className="flex flex-col gap-[8px] pb-[24px]">
           <h1
-            className={`font-heading text-[35px] leading-[36px] tracking-[-0.7px] text-tui-front-primary ${isRTL ? "text-right" : ""}`}
+            className="font-heading text-[35px] leading-[36px] tracking-[-0.7px] text-tui-front-primary"
           >
             {t("account.heading", lang)}
           </h1>
-          <p className={`text-[16px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-secondary ${isRTL ? "text-right" : ""}`}>
+          <p className="text-[16px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-secondary">
             {t("account.description", lang)}
           </p>
         </div>
 
         {/* Phone input row */}
-        <div className={`flex gap-[8px] items-center ${isRTL ? "flex-row-reverse" : ""}`}>
+        <div className="flex gap-[8px] items-center">
           {/* Country code selector */}
-          <div className={`flex items-center gap-[8px] h-[56px] w-[132px] border border-tui-front-secondary rounded-[16px] pl-[16px] pr-[12px] shrink-0 ${isRTL ? "flex-row-reverse" : ""}`}>
+          <div className="flex items-center gap-[8px] h-[56px] w-[132px] border border-tui-front-secondary rounded-[16px] ps-[16px] pe-[12px] shrink-0">
             <UAEFlag />
             <span className="text-[16px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-primary flex-1" dir="ltr">
               +971
@@ -74,7 +74,7 @@ export default function AccountScreen({ initialPhone, lang = "en", onContinue }:
 
           {/* Phone number field */}
           <div
-            className={`flex items-center flex-1 h-[56px] rounded-[16px] pl-[16px] pr-[12px] cursor-text ${
+            className={`flex items-center flex-1 h-[56px] rounded-[16px] ps-[16px] pe-[12px] cursor-text ${
               error
                 ? "border-[1.5px] border-tui-icon-graphics"
                 : focused
@@ -99,13 +99,13 @@ export default function AccountScreen({ initialPhone, lang = "en", onContinue }:
                 }}
                 onFocus={() => setFocused(true)}
                 onBlur={() => setFocused(false)}
-                className={`w-full bg-transparent outline-none text-[16px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-primary caret-tui-front-primary placeholder:text-tui-front-secondary ${isRTL ? "text-right" : ""}`}
+                className="w-full bg-transparent outline-none text-[16px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-primary caret-tui-front-primary placeholder:text-tui-front-secondary"
               />
             </div>
           </div>
         </div>
         {error && (
-          <p className={`text-[14px] font-medium leading-[20px] tracking-[-0.16px] text-tui-icon-graphics mt-[8px] ${isRTL ? "text-right" : ""}`}>
+          <p className="text-[14px] font-medium leading-[20px] tracking-[-0.16px] text-tui-icon-graphics mt-[8px]">
             {error}
           </p>
         )}

@@ -26,9 +26,9 @@ export default function TrackerStep({ step, lang = "en", onActionClick }: Tracke
   const isRTL = lang === "ar";
 
   return (
-    <div className={`flex items-start w-full ${isRTL ? "flex-row-reverse" : ""}`}>
+    <div className="flex items-start w-full">
       {/* Indicator column */}
-      <div className={`flex flex-col items-center gap-[4px] w-[32px] pb-[2px] self-stretch shrink-0 ${isRTL ? "pl-[12px]" : "pr-[12px]"}`}>
+      <div className="flex flex-col items-center gap-[4px] w-[32px] pb-[2px] self-stretch shrink-0 pe-[12px]">
         {/* Indicator */}
         {step.indicatorSpinning ? (
           <div className="relative w-[20px] h-[20px] flex items-center justify-center shrink-0">
@@ -82,14 +82,14 @@ export default function TrackerStep({ step, lang = "en", onActionClick }: Tracke
       </div>
 
       {/* Content */}
-      <div className={`flex flex-col gap-[8px] flex-1 min-w-0 ${step.showLine ? "pb-[24px]" : ""} ${isRTL ? "items-end" : "items-start"}`}>
+      <div className={`flex flex-col gap-[8px] flex-1 min-w-0 items-start ${step.showLine ? "pb-[24px]" : ""}`}>
         {/* Title row */}
-        <div className={`flex items-start justify-between gap-[6px] w-full ${isRTL ? "flex-row-reverse" : ""}`}>
+        <div className="flex items-start justify-between gap-[6px] w-full">
           <div className="flex-1 min-w-0">
             <p
               className={`text-[16px] leading-[20px] tracking-[-0.16px] text-tui-front-primary ${
                 step.titleBold ? "font-bold" : "font-medium"
-              } ${isRTL ? "text-right" : ""}`}
+              }`}
             >
               {step.title}
             </p>
@@ -103,7 +103,7 @@ export default function TrackerStep({ step, lang = "en", onActionClick }: Tracke
 
         {/* Description — for step 2/3 (always visible) */}
         {step.description && step.id !== 1 && (
-          <p className={`text-[14px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-secondary ${isRTL ? "text-right" : ""}`}>
+          <p className="text-[14px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-secondary">
             {step.description}
           </p>
         )}
@@ -122,14 +122,14 @@ export default function TrackerStep({ step, lang = "en", onActionClick }: Tracke
               }}
               className="overflow-hidden w-full"
             >
-              <div className={`flex flex-col gap-[8px] ${isRTL ? "items-end" : ""}`}>
-                <p className={`text-[14px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-secondary ${isRTL ? "text-right" : ""}`}>
+              <div className="flex flex-col gap-[8px] items-start">
+                <p className="text-[14px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-secondary">
                   {step.description}
                 </p>
                 {step.action && (
                   <button
                     onClick={onActionClick}
-                    className={`text-[14px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-accent-bright cursor-pointer ${isRTL ? "text-right" : "text-left"}`}
+                    className="text-[14px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-accent-bright cursor-pointer text-start"
                   >
                     {step.action}
                   </button>

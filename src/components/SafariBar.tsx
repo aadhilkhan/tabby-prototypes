@@ -9,7 +9,10 @@ export default function SafariBar({ lang = "en" }: SafariBarProps) {
   const isRTL = lang === "ar";
 
   return (
-    <div className={`flex items-center gap-[8px] px-[16px] h-[44px] w-full bg-browser-header pb-[8px] ${isRTL ? "flex-row-reverse" : ""}`}>
+    <div
+      dir={isRTL ? "rtl" : "ltr"}
+      className="flex items-center gap-[8px] px-[16px] h-[44px] w-full bg-browser-header pb-[8px]"
+    >
       <AAIcon className="shrink-0" />
       <div className="flex items-center justify-center gap-[4px] bg-[#ececec] rounded-[10px] px-[12px] py-[6px] flex-1">
         <LockIcon />

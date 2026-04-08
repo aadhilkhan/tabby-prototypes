@@ -10,7 +10,7 @@ export default function NavBar({ lang = "en" }: NavBarProps) {
   const isRTL = lang === "ar";
 
   return (
-    <div className={`flex items-center justify-between px-[16px] py-[10px] w-full ${isRTL ? "flex-row-reverse" : ""}`}>
+    <div className="flex items-center justify-between px-[16px] py-[10px] w-full">
       <button className="w-[40px] h-[40px] flex items-center justify-center">
         <CloseIcon size={24} color="var(--color-tui-front-primary)" />
       </button>
@@ -18,7 +18,7 @@ export default function NavBar({ lang = "en" }: NavBarProps) {
         <span className="text-[16px] font-semibold text-tui-front-primary tracking-[-0.16px] leading-[20px]">
           {t("nav.merchant", lang)}
         </span>
-        <div className={`flex items-center gap-[4px] ${isRTL ? "flex-row-reverse" : ""}`}>
+        <div className="flex items-center gap-[4px]">
           <span className="text-[13px] font-medium text-tui-front-secondary tracking-[-0.13px] leading-[16px]">
             {t("nav.payWith", lang)}
           </span>

@@ -10,17 +10,20 @@ interface NotificationBannerProps {
 }
 
 export default function NotificationBanner({ lang = "en" }: NotificationBannerProps) {
+  const isRTL = lang === "ar";
+
   useEffect(() => {
     playDing();
   }, []);
 
   return (
     <motion.div
+      dir={isRTL ? "rtl" : "ltr"}
       initial={{ y: -120, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: -120, opacity: 0 }}
       transition={SPRING_SOFT}
-      className="absolute left-1/2 -translate-x-1/2 top-[60px] w-[382px] rounded-[23px] px-[14px] py-[14px] pr-[18px] z-50"
+      className={`absolute left-1/2 -translate-x-1/2 top-[60px] w-[382px] rounded-[23px] px-[14px] py-[14px] z-50 ${isRTL ? "font-arabic-body" : ""}`}
       style={{ backgroundColor: "rgba(80, 79, 79, 0.7)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)" }}
     >
       <div className="flex items-center gap-[10px] w-full">
@@ -30,7 +33,7 @@ export default function NotificationBanner({ lang = "en" }: NotificationBannerPr
             <p className="text-[16px] font-semibold leading-[20px] text-white">
               {t("notification.title", lang)}
             </p>
-            <span className="text-[13px] font-normal leading-[18px] tracking-[-0.078px] text-white/50 whitespace-nowrap ml-[4px]">
+            <span className="text-[13px] font-normal leading-[18px] tracking-[-0.078px] text-white/50 whitespace-nowrap ms-[4px]">
               2m ago
             </span>
           </div>
