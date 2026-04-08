@@ -26,7 +26,7 @@ export default function TrackerStep({ step, onActionClick }: TrackerStepProps) {
   return (
     <div className="flex items-start w-full">
       {/* Indicator column */}
-      <div className="flex flex-col items-center gap-[4px] w-[32px] pr-[12px] pb-[2px] self-stretch shrink-0">
+      <div className="flex flex-col items-center gap-[4px] w-[32px] pe-[12px] pb-[2px] self-stretch shrink-0">
         {/* Indicator */}
         {step.indicatorSpinning ? (
           <div className="relative w-[20px] h-[20px] flex items-center justify-center shrink-0">
@@ -127,7 +127,7 @@ export default function TrackerStep({ step, onActionClick }: TrackerStepProps) {
                 {step.action && (
                   <button
                     onClick={onActionClick}
-                    className="text-[14px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-accent-bright text-left cursor-pointer"
+                    className="text-[14px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-accent-bright text-start cursor-pointer"
                   >
                     {step.action}
                   </button>

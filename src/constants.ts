@@ -1,4 +1,5 @@
-import type { StationState, TrackerStepData } from "./types";
+import type { StationState, TrackerStepData, Language } from "./types";
+import { t } from "./translations";
 
 /** Shared spring transition for slide animations */
 export const SPRING = { type: "spring" as const, damping: 30, stiffness: 300 };
@@ -11,85 +12,73 @@ export const PHONE = { width: 497, height: 980, bezel: 42, screenWidth: 413, scr
 
 /* ── Tracker step configs ─────────────────────────────────────────── */
 
-const step1Sending: TrackerStepData = {
-  id: 1,
-  indicatorType: "icon",
-  indicatorColor: "tertiary",
-  title: "Sending push notification...",
-  titleBold: true,
-  showLine: true,
-  lineColor: "gray",
+/* Structural bases — text is applied per-language at build time */
+
+const s1Sending = {
+  id: 1, indicatorType: "icon" as const, indicatorColor: "tertiary" as const,
+  titleBold: true, showLine: true, lineColor: "gray" as const,
 };
 
-const step1Sent: TrackerStepData = {
-  id: 1,
-  indicatorType: "icon",
-  indicatorColor: "green",
-  title: "Tap the notification sent to your Tabby app",
-  titleBold: true,
-  description: "Or download app using the link sent via SMS",
-  action: "Having trouble with the notification?",
-  showLine: true,
-  lineColor: "green",
+const s1Sent = {
+  id: 1, indicatorType: "icon" as const, indicatorColor: "green" as const,
+  titleBold: true, showLine: true, lineColor: "green" as const,
 };
 
-const step1Complete: TrackerStepData = { ...step1Sent, lineColor: "green" };
-
-const step2Base: TrackerStepData = {
-  id: 2,
-  indicatorType: "dot",
-  indicatorColor: "gray",
-  title: "Complete purchase in app",
-  titleBold: false,
-  description: "Adidas \u2022 AED 400.00",
-  showLine: true,
-  lineColor: "gray",
+const s2Base = {
+  id: 2, indicatorType: "dot" as const, indicatorColor: "gray" as const,
+  titleBold: false, showLine: true, lineColor: "gray" as const,
 };
 
-const step2Complete: TrackerStepData = { ...step2Base, indicatorColor: "green", lineColor: "green" };
-
-const step3Base: TrackerStepData = {
-  id: 3,
-  indicatorType: "dot",
-  indicatorColor: "gray",
-  title: "Return back here once payment is complete",
-  titleBold: false,
-  showLine: false,
-  lineColor: "gray",
+const s3Base = {
+  id: 3, indicatorType: "dot" as const, indicatorColor: "gray" as const,
+  titleBold: false, showLine: false, lineColor: "gray" as const,
 };
 
-const step3Complete: TrackerStepData = { ...step3Base, indicatorColor: "green" };
+function buildSteps(state: StationState, lang: Language): TrackerStepData[] {
+  const step1Sending: TrackerStepData = {
+    ...s1Sending, title: t("tracker.step1.sending.title", lang),
+  };
+  const step1Sent: TrackerStepData = {
+    ...s1Sent,
+    title: t("tracker.step1.sent.title", lang),
+    description: t("tracker.step1.sent.description", lang),
+    action: t("tracker.step1.sent.action", lang),
+  };
+  const step2: TrackerStepData = {
+    ...s2Base,
+    title: t("tracker.step2.title", lang),
+    description: t("tracker.step2.description", lang),
+  };
+  const step3: TrackerStepData = {
+    ...s3Base, title: t("tracker.step3.title", lang),
+  };
 
-export function getTrackerSteps(state: StationState): TrackerStepData[] {
   switch (state) {
     case "sending":
-      return [step1Sending, step2Base, step3Base];
+      return [step1Sending, step2, step3];
     case "sent":
-      return [step1Sent, step2Base, step3Base];
+      return [step1Sent, step2, step3];
     case "complete":
-      return [step1Complete, step2Complete, step3Complete];
+      return [
+        { ...step1Sent, lineColor: "green" },
+        { ...step2, indicatorColor: "green", lineColor: "green" },
+        { ...step3, indicatorColor: "green" },
+      ];
   }
 }
 
-export function getTrackerStepsV2(state: StationState): TrackerStepData[] {
-  // V2 overrides: step 1 sending uses dot+spinner instead of icon; step 2 sent has spinner
-  const step1SendingV2: TrackerStepData = {
-    ...step1Sending,
-    indicatorType: "dot",
-    indicatorSpinning: true,
-  };
-  const step2Sent: TrackerStepData = {
-    ...step2Base,
-    indicatorSpinning: true,
-    indicatorColor: "tertiary",
-  };
+export function getTrackerSteps(state: StationState, lang: Language = "en"): TrackerStepData[] {
+  return buildSteps(state, lang);
+}
 
-  switch (state) {
-    case "sending":
-      return [step1SendingV2, step2Base, step3Base];
-    case "sent":
-      return [step1Sent, step2Sent, step3Base];
-    case "complete":
-      return [step1Complete, step2Complete, step3Complete];
+export function getTrackerStepsV2(state: StationState, lang: Language = "en"): TrackerStepData[] {
+  const steps = buildSteps(state, lang);
+
+  if (state === "sending") {
+    steps[0] = { ...steps[0], indicatorType: "dot", indicatorSpinning: true };
+  } else if (state === "sent") {
+    steps[1] = { ...steps[1], indicatorSpinning: true, indicatorColor: "tertiary" };
   }
+
+  return steps;
 }

@@ -1,19 +1,21 @@
 import SpinnerIcon from "./SpinnerIcon";
 import Tracker from "./Tracker";
 import Footer from "./Footer";
-import type { StationState, PrototypeVersion } from "../types";
+import type { StationState, PrototypeVersion, Language } from "../types";
 import { getTrackerSteps, getTrackerStepsV2 } from "../constants";
+import { t } from "../translations";
 
 interface StationScreenProps {
   state: StationState;
   phoneNumber: string;
   version?: PrototypeVersion;
+  lang?: Language;
   onChangeAccount?: () => void;
   onTroubleClick?: () => void;
 }
 
-export default function StationScreen({ state, phoneNumber, version = "v1", onChangeAccount, onTroubleClick }: StationScreenProps) {
-  const steps = version === "v2" ? getTrackerStepsV2(state) : getTrackerSteps(state);
+export default function StationScreen({ state, phoneNumber, version = "v1", lang = "en", onChangeAccount, onTroubleClick }: StationScreenProps) {
+  const steps = version === "v2" ? getTrackerStepsV2(state, lang) : getTrackerSteps(state, lang);
 
   return (
     <div className="relative h-full flex flex-col">
@@ -25,7 +27,7 @@ export default function StationScreen({ state, phoneNumber, version = "v1", onCh
           <h1
             className="font-heading text-[35px] leading-[36px] tracking-[-0.7px] text-tui-front-primary"
           >
-            Complete purchase in{"\u00A0"} the Tabby app
+            {t("station.heading", lang)}
           </h1>
         </div>
       </div>
@@ -35,7 +37,7 @@ export default function StationScreen({ state, phoneNumber, version = "v1", onCh
 
       {/* Footer — only after notification is sent */}
       {state !== "sending" && (
-        <Footer phoneNumber={phoneNumber} onChangeAccount={onChangeAccount} />
+        <Footer phoneNumber={phoneNumber} lang={lang} onChangeAccount={onChangeAccount} />
       )}
     </div>
   );

@@ -2,6 +2,8 @@ import { useState, useRef, useEffect } from "react";
 import { motion, useAnimationControls } from "motion/react";
 import { ChevronDownIcon } from "./icons";
 import Button from "./Button";
+import type { Language } from "../types";
+import { t } from "../translations";
 
 function UAEFlag() {
   return (
@@ -16,10 +18,11 @@ function UAEFlag() {
 
 interface AccountScreenProps {
   initialPhone: string;
+  lang?: Language;
   onContinue: (phone: string) => void;
 }
 
-export default function AccountScreen({ initialPhone, onContinue }: AccountScreenProps) {
+export default function AccountScreen({ initialPhone, lang = "en", onContinue }: AccountScreenProps) {
   const [phone, setPhone] = useState(initialPhone);
   const [focused, setFocused] = useState(false);
   const [error, setError] = useState("");
@@ -33,7 +36,7 @@ export default function AccountScreen({ initialPhone, onContinue }: AccountScree
 
   function handleContinue() {
     if (!phone || phone.length < 9) {
-      setError("Please enter a valid phone number");
+      setError(t("account.error", lang));
       shakeControls.start({ x: [0, -8, 8, -6, 6, -3, 3, 0], transition: { duration: 0.4 } });
       return;
     }
@@ -50,17 +53,17 @@ export default function AccountScreen({ initialPhone, onContinue }: AccountScree
           <h1
             className="font-heading text-[35px] leading-[36px] tracking-[-0.7px] text-tui-front-primary"
           >
-            Log in or sign up for Tabby
+            {t("account.heading", lang)}
           </h1>
           <p className="text-[16px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-secondary">
-            Enter your phone number to get the verification code
+            {t("account.description", lang)}
           </p>
         </div>
 
         {/* Phone input row */}
         <div className="flex gap-[8px] items-center">
           {/* Country code selector */}
-          <div className="flex items-center gap-[8px] h-[56px] w-[132px] border border-tui-front-secondary rounded-[16px] pl-[16px] pr-[12px] shrink-0">
+          <div dir="ltr" className="flex items-center gap-[8px] h-[56px] w-[132px] border border-tui-front-secondary rounded-[16px] ps-[16px] pe-[12px] shrink-0">
             <UAEFlag />
             <span className="text-[16px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-primary flex-1">
               +971
@@ -70,7 +73,8 @@ export default function AccountScreen({ initialPhone, onContinue }: AccountScree
 
           {/* Phone number field */}
           <div
-            className={`flex items-center flex-1 h-[56px] rounded-[16px] pl-[16px] pr-[12px] cursor-text ${
+            dir="ltr"
+            className={`flex items-center flex-1 h-[56px] rounded-[16px] ps-[16px] pe-[12px] cursor-text ${
               error
                 ? "border-[1.5px] border-tui-icon-graphics"
                 : focused
@@ -85,7 +89,7 @@ export default function AccountScreen({ initialPhone, onContinue }: AccountScree
                 type="tel"
                 inputMode="numeric"
                 autoComplete="tel-national"
-                placeholder="Phone number"
+                placeholder={t("account.phonePlaceholder", lang)}
                 value={phone}
                 onChange={(e) => {
                   const digits = e.target.value.replace(/\D/g, "").slice(0, 10);
@@ -108,7 +112,7 @@ export default function AccountScreen({ initialPhone, onContinue }: AccountScree
 
       {/* Continue button pinned to bottom */}
       <motion.div className="absolute bottom-0 left-0 right-0 flex flex-col px-[16px] pt-[16px]" animate={shakeControls}>
-        <Button onClick={handleContinue}>Continue</Button>
+        <Button onClick={handleContinue}>{t("account.continue", lang)}</Button>
       </motion.div>
     </div>
   );

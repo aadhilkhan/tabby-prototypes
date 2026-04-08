@@ -1,6 +1,12 @@
 import { CheckCircleIcon } from "./icons";
+import type { Language } from "../types";
+import { t } from "../translations";
 
-export default function SuccessScreen() {
+interface SuccessScreenProps {
+  lang?: Language;
+}
+
+export default function SuccessScreen({ lang = "en" }: SuccessScreenProps) {
   return (
     <div className="relative h-full bg-white flex flex-col">
       {/* Spacer matching nav bar height */}
@@ -15,10 +21,10 @@ export default function SuccessScreen() {
             <h1
               className="font-heading text-[30px] leading-[32px] tracking-[-0.3px] text-tui-front-primary"
             >
-              Payment successful
+              {t("success.heading", lang)}
             </h1>
             <p className="text-[16px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-primary">
-              You're now being redirected to Adidas page
+              {t("success.subtext", lang)}
             </p>
           </div>
         </div>
@@ -42,11 +48,11 @@ export default function SuccessScreen() {
                     Adidas
                   </span>
                   <span className="text-[14px] font-medium leading-[18px] tracking-[-0.16px] text-tui-front-secondary">
-                    Pay in 4
+                    {t("success.plan", lang)}
                   </span>
                 </div>
                 <span className="text-[16px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-primary whitespace-nowrap">
-                  AED 100.00/mo
+                  {t("success.amount", lang)}
                 </span>
               </div>
             </div>

@@ -8,7 +8,7 @@ import AccountScreen from "./components/AccountScreen";
 import SuccessScreen from "./components/SuccessScreen";
 import TroubleBottomSheet from "./components/TroubleBottomSheet";
 import ControlPanel from "./components/ControlPanel";
-import type { StationState, PrototypeVersion } from "./types";
+import type { StationState, PrototypeVersion, Language } from "./types";
 import { SPRING, PHONE } from "./constants";
 import { playTapSound } from "./sounds";
 
@@ -52,25 +52,28 @@ export default function App() {
   const [notificationDismissed, setNotificationDismissed] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("554446868");
   const [version, setVersion] = useState<PrototypeVersion>("v1");
+  const [lang, setLang] = useState<Language>("en");
   const hideControls = new URLSearchParams(window.location.search).has("state");
+  const isRtl = lang === "ar";
   const { scale, isMobile } = useViewportLayout(hideControls);
 
   return (
     <div className={`h-screen bg-[#f0f0f0] flex items-center justify-center overflow-hidden relative ${isMobile && !hideControls ? "pb-[100px]" : ""}`}>
       <div style={{ transform: `scale(${scale})`, transformOrigin: "center center" }}>
-        <PhoneFrame state={state} hideNotification={showTrouble || showAccount || notificationDismissed}>
+        <PhoneFrame state={state} lang={lang} hideNotification={showTrouble || showAccount || notificationDismissed}>
           <div className="relative h-full bg-white flex flex-col">
-            <NavBar />
+            <NavBar lang={lang} onToggleLang={() => setLang(lang === "en" ? "ar" : "en")} />
             <div className="relative flex-1 overflow-hidden">
               <motion.div
                 className="absolute inset-0"
-                animate={{ x: showAccount || showSuccess ? "-30%" : "0%" }}
+                animate={{ x: showAccount || showSuccess ? (isRtl ? "30%" : "-30%") : "0%" }}
                 transition={SPRING}
               >
                 <StationScreen
                   state={state}
                   phoneNumber={phoneNumber}
                   version={version}
+                  lang={lang}
                   onChangeAccount={() => { setShowAccount(true); setNotificationDismissed(true); }}
                   onTroubleClick={() => { setShowTrouble(true); setNotificationDismissed(true); }}
                 />
@@ -80,14 +83,15 @@ export default function App() {
                   <motion.div
                     key="account"
                     className="absolute inset-0 z-10"
-                    initial={{ x: "100%" }}
+                    initial={{ x: isRtl ? "-100%" : "100%" }}
                     animate={{ x: 0 }}
-                    exit={{ x: "100%" }}
+                    exit={{ x: isRtl ? "-100%" : "100%" }}
                     transition={SPRING}
-                    style={{ boxShadow: "-4px 0 16px rgba(0,0,0,0.1)" }}
+                    style={{ boxShadow: isRtl ? "4px 0 16px rgba(0,0,0,0.1)" : "-4px 0 16px rgba(0,0,0,0.1)" }}
                   >
                     <AccountScreen
                       initialPhone={phoneNumber}
+                      lang={lang}
                       onContinue={(newPhone) => {
                         const numberChanged = newPhone !== phoneNumber;
                         setPhoneNumber(newPhone);
@@ -106,13 +110,13 @@ export default function App() {
                   <motion.div
                     key="success"
                     className="absolute inset-0 z-20"
-                    initial={{ x: "100%" }}
+                    initial={{ x: isRtl ? "-100%" : "100%" }}
                     animate={{ x: 0 }}
-                    exit={{ x: "100%" }}
+                    exit={{ x: isRtl ? "-100%" : "100%" }}
                     transition={SPRING}
-                    style={{ boxShadow: "-4px 0 16px rgba(0,0,0,0.1)" }}
+                    style={{ boxShadow: isRtl ? "4px 0 16px rgba(0,0,0,0.1)" : "-4px 0 16px rgba(0,0,0,0.1)" }}
                   >
-                    <SuccessScreen />
+                    <SuccessScreen lang={lang} />
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -126,6 +130,7 @@ export default function App() {
               {showTrouble && (
                 <TroubleBottomSheet
                   key="trouble"
+                  lang={lang}
                   onClose={() => setShowTrouble(false)}
                   onSendSMS={() => setShowTrouble(false)}
                   onSendNotification={() => { setShowTrouble(false); setNotificationDismissed(false); }}

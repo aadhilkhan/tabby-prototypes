@@ -1,6 +1,13 @@
 import { CloseIcon } from "./icons";
+import type { Language } from "../types";
+import { t } from "../translations";
 
-export default function NavBar() {
+interface NavBarProps {
+  lang?: Language;
+  onToggleLang?: () => void;
+}
+
+export default function NavBar({ lang = "en", onToggleLang }: NavBarProps) {
   return (
     <div className="flex items-center justify-between px-[16px] py-[10px] w-full">
       <button className="w-[40px] h-[40px] flex items-center justify-center">
@@ -12,14 +19,14 @@ export default function NavBar() {
         </span>
         <div className="flex items-center gap-[4px]">
           <span className="text-[13px] font-medium text-tui-front-secondary tracking-[-0.13px] leading-[16px]">
-            Pay with
+            {t("nav.payWith", lang)}
           </span>
           <img src="/wordmark.png" alt="tabby" className="h-[14px] object-contain" />
         </div>
       </div>
-      <button className="h-[40px] flex items-center px-[8px]">
+      <button className="h-[40px] flex items-center px-[8px] cursor-pointer" onClick={onToggleLang}>
         <span className="text-[14px] font-medium text-tui-front-accent">
-          العربية
+          {t("nav.langSwitch", lang)}
         </span>
       </button>
     </div>
