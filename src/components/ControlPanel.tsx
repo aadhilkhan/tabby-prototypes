@@ -5,6 +5,8 @@ interface ControlPanelProps {
   state: StationState;
   onSendNotification: () => void;
   onFinishPurchase: () => void;
+  onShowSuccess: () => void;
+  showSuccess: boolean;
   onRestart: () => void;
 }
 
@@ -12,6 +14,8 @@ export default function ControlPanel({
   state,
   onSendNotification,
   onFinishPurchase,
+  onShowSuccess,
+  showSuccess,
   onRestart,
 }: ControlPanelProps) {
   return (
@@ -36,6 +40,16 @@ export default function ControlPanel({
           hover:not-disabled:brightness-125 active:not-disabled:scale-95"
       >
         Finish Purchase
+      </button>
+      <button
+        onClick={() => { playTapSound(); onShowSuccess(); }}
+                disabled={state !== "complete" || showSuccess}
+        className="px-[20px] py-[12px] rounded-[12px] text-[14px] font-semibold transition-all
+          bg-tui-front-accent text-white
+          disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer
+          hover:not-disabled:brightness-125 active:not-disabled:scale-95"
+      >
+        Success Screen
       </button>
       <button
         onClick={() => { playTapSound(); onRestart(); }}

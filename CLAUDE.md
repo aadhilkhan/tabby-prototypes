@@ -50,7 +50,7 @@ App.tsx (state + version + viewport scaling via useViewportScale hook)
 │   ├── SuccessScreen (purchase complete, slides in from right)
 │   ├── TroubleBottomSheet (slides up, backdrop + drag-to-dismiss)
 │   └── NotificationBanner (iOS notification, spring animation)
-├── ControlPanel (3 buttons, left of phone frame, hidden when ?state param set)
+├── ControlPanel (4 buttons, left of phone frame, hidden when ?state param set)
 └── VersionToggle (V1/V2 segmented control, right of phone frame)
 ```
 
@@ -63,7 +63,7 @@ App.tsx (state + version + viewport scaling via useViewportScale hook)
 - **Button component**: `<Button variant="primary|secondary">` in `src/components/Button.tsx` for in-app full-width action buttons.
 - **Animations** use Motion library (`motion/react`, NOT `framer-motion`) for notification slide, indicator color transitions, and content expand (AnimatePresence). Spinner rotation uses CSS keyframes. **Important**: Motion `animate` props need concrete hex values for color interpolation — `var()` CSS references won't animate smoothly.
 - **Audio**: All sounds use a shared `AudioContext` singleton in `src/sounds.ts` (`playDing`, `playTapSound`, `playHoverSound`). Never create `new AudioContext()` elsewhere.
-- **Screen transitions**: Account and Success screens slide in from right with spring animation; station screen pushes left 30% simultaneously. Bottom sheets slide up with backdrop.
+- **Screen transitions**: Account and Success screens slide in from right with spring animation; station screen pushes left 30% simultaneously. Success screen is triggered manually via "Success Screen" control panel button (not auto-shown). Bottom sheets slide up with backdrop.
 - **Notification management**: `hideNotification` prop on PhoneFrame + `notificationDismissed` state in App.tsx. Bottom sheet and account screen dismiss notification on open; "Send notification" button restores it.
 - **Account number change**: When phone number is changed via AccountScreen, state resets to "sending" to re-send notification to the new number. Same number keeps current state.
 - **Viewport scaling**: `useViewportScale` hook in App.tsx scales the phone frame to fit any screen size
@@ -162,3 +162,8 @@ Typography: H1 uses Radial Saudi (35px/500), body uses Inter Variable (16px/500 
 - Fixed AudioContext memory leak in NotificationBanner — moved playDing to shared sounds.ts singleton
 - Extracted reusable `<Button>` component for primary/secondary in-app buttons
 - Phone number validation on AccountScreen: error message + red border + horizontal shake animation on Continue button
+
+### Session 9 (2026-04-08)
+- Added Vercel Analytics (`@vercel/analytics/react`) in App.tsx
+- Changed "Send Notification" button copy to "Send Notification (2s)"
+- Decoupled success screen from auto-transition: removed 2s timer after "complete" state, added separate "Success Screen" button to ControlPanel (purple, enabled only when state is "complete" and success screen not yet shown)

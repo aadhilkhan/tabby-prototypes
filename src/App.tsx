@@ -46,14 +46,6 @@ export default function App() {
   const hideControls = new URLSearchParams(window.location.search).has("state");
   const scale = useViewportScale();
 
-  // Show success screen 2 seconds after payment completes
-  useEffect(() => {
-    if (state === "complete" && !showSuccess) {
-      const timer = setTimeout(() => setShowSuccess(true), 2000);
-      return () => clearTimeout(timer);
-    }
-  }, [state, showSuccess]);
-
   return (
     <div className="h-screen bg-[#f0f0f0] flex items-center justify-center overflow-hidden relative">
       <div style={{ transform: `scale(${scale})`, transformOrigin: "center center" }}>
@@ -164,6 +156,8 @@ export default function App() {
               state={state}
               onSendNotification={() => setState("sent")}
               onFinishPurchase={() => setState("complete")}
+              onShowSuccess={() => setShowSuccess(true)}
+              showSuccess={showSuccess}
               onRestart={() => { setState("sending"); setShowAccount(false); setShowSuccess(false); setShowTrouble(false); setNotificationDismissed(false); setPhoneNumber("554446868"); }}
             />
           </div>
