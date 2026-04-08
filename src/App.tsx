@@ -245,7 +245,7 @@ export default function App() {
                 bg-tui-line-positive text-white
                 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
             >
-              Send Notification
+              Notify
             </button>
             <button
               onClick={() => { playTapSound(); setState("complete"); }}
@@ -254,7 +254,7 @@ export default function App() {
                 bg-tui-front-primary text-white
                 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
             >
-              Finish Purchase
+              Complete
             </button>
             <button
               onClick={() => { playTapSound(); setShowSuccess(true); }}
@@ -270,7 +270,7 @@ export default function App() {
               className="px-[10px] py-[7px] rounded-[8px] text-[11px] font-semibold transition-all shrink-0
                 bg-white text-tui-front-primary border border-gray-300 cursor-pointer"
             >
-              Restart
+              Reset
             </button>
           </div>
         </div>
