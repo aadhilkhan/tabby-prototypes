@@ -25,7 +25,7 @@ export default function ControlPanel({
           disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer
           hover:not-disabled:brightness-90 active:not-disabled:scale-95"
       >
-        Send Notification
+        Send Notification (2s)
       </button>
       <button
         onClick={() => { playTapSound(); onFinishPurchase(); }}
