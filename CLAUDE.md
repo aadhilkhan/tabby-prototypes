@@ -9,6 +9,7 @@ Interactive prototype of Tabby's in-app checkout "station screen" — the screen
 ## Commands
 
 ```bash
+npm install      # Install dependencies (first time setup)
 npm run dev      # Start dev server at http://localhost:5173
 npm run build    # TypeScript check + Vite build (tsc -b && vite build)
 npm run preview  # Preview production build
@@ -93,6 +94,10 @@ Colors and typography tokens are defined in `src/index.css` under `@theme`. Key 
 | `--spinner-bg` | `#f2e8ff` | Spinner background |
 | `--tui-line-accent` | `#ccb1fa` | Spinner arc |
 | `--surface-muted` | `#f2f5f7` | Muted surface backgrounds |
+| `--tabby-green` | `#3EEDB1` | Tabby brand green |
+| `--notification-bg` | `rgba(80,79,79,0.7)` | Notification backdrop |
+| `--browser-header` | `#F9F9F9` | Safari/nav bar background |
+| `--tabby-badge-bg` | `#292929` | Notification badge bg |
 
 Typography: H1 uses Radial Saudi (35px/500), body uses Inter Variable (16px/500 or 700, 14px, 12px).
 
@@ -103,10 +108,6 @@ Typography: H1 uses Radial Saudi (35px/500), body uses Inter Variable (16px/500 
 - Screen 2 (Notification Sent): `node-id=1331-9292`
 - Screen 3 (Purchase Complete): `node-id=1331-9500`
 - Having Trouble Bottom Sheet: `node-id=1363-18662`
-
-## What's NOT Built Yet
-
-- None currently — all screens and bottom sheets are implemented
 
 ## Session Log
 

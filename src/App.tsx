@@ -19,20 +19,29 @@ function getInitialState(): StationState {
   return "sending";
 }
 
-function useViewportScale() {
+function useViewportLayout(hideControls: boolean) {
   const [scale, setScale] = useState(1);
+  const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
     function calc() {
+      const mobile = window.innerWidth < 960;
+      setIsMobile(mobile);
       const pad = 4;
-      const linkHeight = 32; // figma link below phone: 12px gap + 20px text
-      const s = Math.min(1, (window.innerHeight - pad) / (PHONE.height + linkHeight), (window.innerWidth - pad) / PHONE.width);
-      setScale(Math.round(s * 100) / 100);
+      if (mobile) {
+        const toolbarH = !hideControls ? 100 : 0;
+        const s = Math.min(1, (window.innerHeight - pad - toolbarH) / PHONE.height, (window.innerWidth - pad) / PHONE.width);
+        setScale(Math.round(s * 100) / 100);
+      } else {
+        const linkHeight = 32;
+        const s = Math.min(1, (window.innerHeight - pad) / (PHONE.height + linkHeight), (window.innerWidth - pad) / PHONE.width);
+        setScale(Math.round(s * 100) / 100);
+      }
     }
     calc();
     window.addEventListener("resize", calc);
     return () => window.removeEventListener("resize", calc);
-  }, []);
-  return scale;
+  }, [hideControls]);
+  return { scale, isMobile };
 }
 
 export default function App() {
@@ -44,10 +53,10 @@ export default function App() {
   const [phoneNumber, setPhoneNumber] = useState("554446868");
   const [version, setVersion] = useState<PrototypeVersion>("v1");
   const hideControls = new URLSearchParams(window.location.search).has("state");
-  const scale = useViewportScale();
+  const { scale, isMobile } = useViewportLayout(hideControls);
 
   return (
-    <div className="h-screen bg-[#f0f0f0] flex items-center justify-center overflow-hidden relative">
+    <div className={`h-screen bg-[#f0f0f0] flex items-center justify-center overflow-hidden relative ${isMobile && !hideControls ? "pb-[100px]" : ""}`}>
       <div style={{ transform: `scale(${scale})`, transformOrigin: "center center" }}>
         <PhoneFrame state={state} hideNotification={showTrouble || showAccount || notificationDismissed}>
           <div className="relative h-full bg-white flex flex-col">
@@ -125,7 +134,7 @@ export default function App() {
             </AnimatePresence>
           </div>
         </PhoneFrame>
-        {!hideControls && (
+        {!hideControls && !isMobile && (
           <a
             href="https://www.figma.com/design/ekQkGLPpsC1RqPEO9mScsv/In-app-Checkout-Flow--Skip-OTP-?node-id=1399-12084&t=wlKdybrQ801DYFqp-11"
             target="_blank"
@@ -143,7 +152,7 @@ export default function App() {
           </a>
         )}
       </div>
-      {!hideControls && (
+      {!hideControls && !isMobile && (
         <>
           <div
             className="absolute flex flex-col gap-[8px] items-end pt-[42px]"
@@ -198,6 +207,73 @@ export default function App() {
             </div>
           </div>
         </>
+      )}
+      {/* Mobile toolbar */}
+      {isMobile && !hideControls && (
+        <div
+          className="fixed bottom-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-t border-gray-200"
+          style={{ paddingBottom: "max(12px, env(safe-area-inset-bottom, 12px))" }}
+        >
+          <div className="flex items-center justify-center gap-[6px] flex-wrap px-3 pt-3">
+            <div className="flex rounded-[8px] overflow-hidden border border-gray-300 shrink-0">
+              <button
+                onClick={() => { playTapSound(); setVersion("v1"); }}
+                className={`px-[10px] py-[7px] text-[11px] font-semibold transition-all cursor-pointer ${
+                  version === "v1"
+                    ? "bg-tui-front-primary text-white"
+                    : "bg-white text-tui-front-secondary"
+                }`}
+              >
+                V1
+              </button>
+              <button
+                onClick={() => { playTapSound(); setVersion("v2"); }}
+                className={`px-[10px] py-[7px] text-[11px] font-semibold transition-all cursor-pointer ${
+                  version === "v2"
+                    ? "bg-tui-front-primary text-white"
+                    : "bg-white text-tui-front-secondary"
+                }`}
+              >
+                V2
+              </button>
+            </div>
+            <div className="w-px h-5 bg-gray-300 shrink-0" />
+            <button
+              onClick={() => setState("sent")}
+              disabled={state !== "sending"}
+              className="px-[10px] py-[7px] rounded-[8px] text-[11px] font-semibold transition-all shrink-0
+                bg-tui-line-positive text-white
+                disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+            >
+              Notify
+            </button>
+            <button
+              onClick={() => { playTapSound(); setState("complete"); }}
+              disabled={state !== "sent"}
+              className="px-[10px] py-[7px] rounded-[8px] text-[11px] font-semibold transition-all shrink-0
+                bg-tui-front-primary text-white
+                disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+            >
+              Complete
+            </button>
+            <button
+              onClick={() => { playTapSound(); setShowSuccess(true); }}
+              disabled={state !== "complete" || showSuccess}
+              className="px-[10px] py-[7px] rounded-[8px] text-[11px] font-semibold transition-all shrink-0
+                bg-tui-front-accent text-white
+                disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+            >
+              Success
+            </button>
+            <button
+              onClick={() => { playTapSound(); setState("sending"); setShowAccount(false); setShowSuccess(false); setShowTrouble(false); setNotificationDismissed(false); setPhoneNumber("554446868"); }}
+              className="px-[10px] py-[7px] rounded-[8px] text-[11px] font-semibold transition-all shrink-0
+                bg-white text-tui-front-primary border border-gray-300 cursor-pointer"
+            >
+              Reset
+            </button>
+          </div>
+        </div>
       )}
       <Analytics />
     </div>
