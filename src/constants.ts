@@ -55,7 +55,6 @@ function buildSteps(state: StationState, lang: Language, phoneNumber: string): T
     ...s2Base,
     title: t("tracker.step2.title", lang),
     description: t("tracker.step2.description", lang),
-    trail: t("tracker.step2.trail", lang),
   };
   const step3: TrackerStepData = {
     ...s3Base,

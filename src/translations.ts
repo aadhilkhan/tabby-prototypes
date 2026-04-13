@@ -36,10 +36,6 @@ const translations = {
     en: "Adidas \u2022 AED 400.00",
     ar: "Adidas \u2022 400.00 د.إ",
   },
-  "tracker.step2.trail": {
-    en: "AED 400.00",
-    ar: "400.00 د.إ",
-  },
   "tracker.step3.title": {
     en: "Return here once your payment is complete",
     ar: "عُد إلى هنا بعد اكتمال الدفع",
