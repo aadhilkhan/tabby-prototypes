@@ -40,10 +40,6 @@ const translations = {
     en: "Return here once your payment is complete",
     ar: "عُد إلى هنا بعد اكتمال الدفع",
   },
-  "tracker.step3.trail": {
-    en: "AED 400.00",
-    ar: "400.00 د.إ",
-  },
 
   // Footer
   "footer.change": { en: "Change", ar: "تغيير" },
