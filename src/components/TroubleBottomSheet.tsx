@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "motion/react";
-import { SmartphoneIcon, ChevronRightIcon } from "./icons";
+import { ChevronRightIcon } from "./icons";
 import Button from "./Button";
 import { SPRING } from "../constants";
 import type { Language } from "../types";
@@ -102,14 +102,14 @@ export default function TroubleBottomSheet({
         {/* Body content */}
         <div className="flex flex-col items-start px-[16px]">
           <div className="flex flex-col items-start w-full">
-            <div className="pb-[16px] w-full text-[16px] font-medium leading-[24px] tracking-[-0.16px]">
-              <p className="mb-[14px] text-tui-front-secondary">
+            <div className="pb-[16px] w-full text-[16px] font-medium leading-[24px] tracking-[-0.16px] text-tui-front-secondary">
+              <p className="mb-[14px]">
                 {t("trouble.body1", lang)}
               </p>
               <p>
-                <span className="text-tui-front-secondary">{t("trouble.body2prefix", lang)} </span>
-                <span className="text-tui-front-primary">{t("trouble.body2bold", lang)}</span>
-                <span className="text-tui-front-secondary"> {t("trouble.body2suffix", lang)}</span>
+                <span>{t("trouble.body2prefix", lang)} </span>
+                <span className="font-bold">{t("trouble.body2bold", lang)}</span>
+                <span> {t("trouble.body2suffix", lang)}</span>
               </p>
             </div>
           </div>
@@ -117,20 +117,19 @@ export default function TroubleBottomSheet({
           {/* Phone row */}
           <button
             onClick={onChangeAccount}
-            className="flex items-center justify-center gap-[4px] py-[8px] cursor-pointer"
+            className="flex items-center gap-[6px] py-[8px] cursor-pointer"
           >
-            <SmartphoneIcon size={14} color="var(--color-tui-front-secondary)" />
-            <span dir="ltr" className="text-[12px] font-medium leading-[16px] tracking-[-0.13px] text-tui-front-secondary">
+            <span dir="ltr" className="text-[16px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-primary">
               {formatPhone(phoneNumber)}
             </span>
-            <span className="text-[12px] font-medium text-tui-front-secondary mx-[1px]">
+            <span className="text-[16px] font-medium leading-[20px] text-tui-front-primary">
               &bull;
             </span>
-            <span className="text-[12px] font-medium leading-[16px] tracking-[-0.13px] text-tui-front-secondary">
+            <span className="text-[16px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-primary">
               {t("footer.change", lang)}
             </span>
             <span className={lang === "ar" ? "rotate-180" : ""}>
-              <ChevronRightIcon size={12} color="var(--color-tui-front-secondary)" />
+              <ChevronRightIcon size={16} color="var(--color-tui-front-primary)" />
             </span>
           </button>
         </div>
