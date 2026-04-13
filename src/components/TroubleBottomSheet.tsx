@@ -119,17 +119,17 @@ export default function TroubleBottomSheet({
             onClick={onChangeAccount}
             className="flex items-center gap-[6px] py-[8px] cursor-pointer"
           >
-            <span dir="ltr" className="text-[16px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-primary">
+            <span dir="ltr" className="text-[16px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-secondary">
               {formatPhone(phoneNumber)}
             </span>
-            <span className="text-[16px] font-medium leading-[20px] text-tui-front-primary">
+            <span className="text-[16px] font-medium leading-[20px] text-tui-front-secondary">
               &bull;
             </span>
-            <span className="text-[16px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-primary">
+            <span className="text-[16px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-secondary">
               {t("footer.change", lang)}
             </span>
             <span className={lang === "ar" ? "rotate-180" : ""}>
-              <ChevronRightIcon size={16} color="var(--color-tui-front-primary)" />
+              <ChevronRightIcon size={16} color="var(--color-tui-front-secondary)" />
             </span>
           </button>
         </div>
