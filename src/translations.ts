@@ -51,9 +51,6 @@ const translations = {
 
   // Footer
   "footer.change": { en: "Change", ar: "تغيير" },
-  "footer.consent": { en: "By continuing, you", ar: "بالمتابعة، أنت" },
-  "footer.consentBold": { en: "consent to sharing", ar: "توافق على مشاركة" },
-  "footer.consentEnd": { en: "your data with AECB", ar: "بياناتك مع الاتحاد" },
 
   // AccountScreen
   "account.heading": {
