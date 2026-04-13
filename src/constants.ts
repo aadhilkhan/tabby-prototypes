@@ -34,14 +34,21 @@ const s3Base = {
   titleBold: false, showLine: false, lineColor: "gray" as const,
 };
 
-function buildSteps(state: StationState, lang: Language): TrackerStepData[] {
+function formatPhoneForStep1(digits: string): string {
+  const d = digits.replace(/\D/g, "");
+  if (d.length <= 2) return `+971 ${d}`;
+  if (d.length <= 5) return `+971 ${d.slice(0, 2)} ${d.slice(2)}`;
+  return `+971 ${d.slice(0, 2)} ${d.slice(2, 5)} ${d.slice(5)}`;
+}
+
+function buildSteps(state: StationState, lang: Language, phoneNumber: string): TrackerStepData[] {
   const step1Sending: TrackerStepData = {
     ...s1Sending, title: t("tracker.step1.sending.title", lang),
   };
   const step1Sent: TrackerStepData = {
     ...s1Sent,
     title: t("tracker.step1.sent.title", lang),
-    description: t("tracker.step1.sent.description", lang),
+    description: `${t("tracker.step1.sent.description", lang)} ${formatPhoneForStep1(phoneNumber)}`,
     action: t("tracker.step1.sent.action", lang),
   };
   const step2: TrackerStepData = {
@@ -50,7 +57,9 @@ function buildSteps(state: StationState, lang: Language): TrackerStepData[] {
     description: t("tracker.step2.description", lang),
   };
   const step3: TrackerStepData = {
-    ...s3Base, title: t("tracker.step3.title", lang),
+    ...s3Base,
+    title: t("tracker.step3.title", lang),
+    trail: t("tracker.step3.trail", lang),
   };
 
   switch (state) {
@@ -67,12 +76,12 @@ function buildSteps(state: StationState, lang: Language): TrackerStepData[] {
   }
 }
 
-export function getTrackerSteps(state: StationState, lang: Language = "en"): TrackerStepData[] {
-  return buildSteps(state, lang);
+export function getTrackerSteps(state: StationState, lang: Language = "en", phoneNumber: string = "554446868"): TrackerStepData[] {
+  return buildSteps(state, lang, phoneNumber);
 }
 
-export function getTrackerStepsV2(state: StationState, lang: Language = "en"): TrackerStepData[] {
-  const steps = buildSteps(state, lang);
+export function getTrackerStepsV2(state: StationState, lang: Language = "en", phoneNumber: string = "554446868"): TrackerStepData[] {
+  const steps = buildSteps(state, lang, phoneNumber);
 
   if (state === "sending") {
     steps[0] = { ...steps[0], indicatorType: "dot", indicatorSpinning: true };

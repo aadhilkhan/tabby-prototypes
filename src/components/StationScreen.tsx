@@ -15,7 +15,7 @@ interface StationScreenProps {
 }
 
 export default function StationScreen({ state, phoneNumber, version = "v1", lang = "en", onChangeAccount, onTroubleClick }: StationScreenProps) {
-  const steps = version === "v2" ? getTrackerStepsV2(state, lang) : getTrackerSteps(state, lang);
+  const steps = version === "v2" ? getTrackerStepsV2(state, lang, phoneNumber) : getTrackerSteps(state, lang, phoneNumber);
 
   return (
     <div className="relative h-full flex flex-col">

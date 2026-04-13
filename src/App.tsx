@@ -131,9 +131,11 @@ export default function App() {
                 <TroubleBottomSheet
                   key="trouble"
                   lang={lang}
+                  phoneNumber={phoneNumber}
                   onClose={() => setShowTrouble(false)}
-                  onSendSMS={() => setShowTrouble(false)}
+                  onSendSMS={() => {}}
                   onSendNotification={() => { setShowTrouble(false); setNotificationDismissed(false); }}
+                  onChangeAccount={() => { setShowTrouble(false); setShowAccount(true); }}
                 />
               )}
             </AnimatePresence>

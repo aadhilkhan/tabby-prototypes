@@ -44,16 +44,6 @@ export default function Footer({ phoneNumber, lang = "en", onChangeAccount }: Fo
           <ChevronRightIcon size={12} color="var(--color-tui-front-secondary)" />
         </span>
       </button>
-
-      {/* Consent text */}
-      <div className="flex items-center justify-center h-[40px] w-full px-[20px] pb-[16px]">
-        <p className="text-[12px] font-medium leading-[16px] tracking-[-0.13px] text-tui-front-secondary text-center whitespace-nowrap">
-          {t("footer.consent", lang)}{" "}
-          <span className="text-tui-front-primary font-medium">{t("footer.consentBold", lang)}</span>
-          {" "}{t("footer.consentEnd", lang)}
-        </p>
-      </div>
-
     </motion.div>
   );
 }

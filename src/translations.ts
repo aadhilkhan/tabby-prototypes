@@ -17,19 +17,19 @@ const translations = {
     ar: "جارٍ إرسال الإشعار...",
   },
   "tracker.step1.sent.title": {
-    en: "Tap the notification sent to your Tabby app",
-    ar: "اضغط على الإشعار المرسل إلى تطبيق تابي",
+    en: "Tap the Tabby push notification or SMS link",
+    ar: "اضغط على إشعار تابي أو رابط الرسالة النصية",
   },
   "tracker.step1.sent.description": {
-    en: "Or download app using the link sent via SMS",
-    ar: "أو حمّل التطبيق عبر الرابط المرسل في الرسالة النصية",
+    en: "You can download the app via the link in the SMS sent to",
+    ar: "يمكنك تحميل التطبيق عبر الرابط في الرسالة النصية المرسلة إلى",
   },
   "tracker.step1.sent.action": {
-    en: "Having trouble with the notification?",
-    ar: "هل تواجه مشكلة مع الإشعار؟",
+    en: "Having trouble?",
+    ar: "هل تواجه مشكلة؟",
   },
   "tracker.step2.title": {
-    en: "Complete purchase in app",
+    en: "Complete your purchase in the app",
     ar: "أكمل عملية الشراء في التطبيق",
   },
   "tracker.step2.description": {
@@ -37,15 +37,16 @@ const translations = {
     ar: "Adidas \u2022 400.00 د.إ",
   },
   "tracker.step3.title": {
-    en: "Return back here once payment is complete",
+    en: "Return here once your payment is complete",
     ar: "عُد إلى هنا بعد اكتمال الدفع",
+  },
+  "tracker.step3.trail": {
+    en: "AED 400.00",
+    ar: "400.00 د.إ",
   },
 
   // Footer
   "footer.change": { en: "Change", ar: "تغيير" },
-  "footer.consent": { en: "By continuing, you", ar: "بالمتابعة، أنت" },
-  "footer.consentBold": { en: "consent to sharing", ar: "توافق على مشاركة" },
-  "footer.consentEnd": { en: "your data with AECB", ar: "بياناتك مع الاتحاد" },
 
   // AccountScreen
   "account.heading": {
@@ -75,20 +76,24 @@ const translations = {
   // TroubleBottomSheet
   "trouble.heading": { en: "Having trouble?", ar: "هل تواجه مشكلة؟" },
   "trouble.body1": {
-    en: "Open the Tabby app, make sure you're logged in with the same phone number you used at checkout, and enable push notifications.",
-    ar: "افتح تطبيق تابي، وتأكد من تسجيل الدخول بنفس رقم الهاتف المستخدم عند الدفع، وفعّل الإشعارات.",
+    en: "Enable push notifications in the Tabby app. Be sure you\u2019re logged in with the same phone number you used at checkout.",
+    ar: "فعّل الإشعارات في تطبيق تابي. وتأكد من تسجيل الدخول بنفس رقم الهاتف المستخدم عند الدفع.",
   },
-  "trouble.body2prefix": { en: "Once that's done, tap", ar: "بعد ذلك، اضغط على" },
+  "trouble.body2prefix": { en: "Then return here and tap", ar: "ثم عُد إلى هنا واضغط على" },
   "trouble.body2bold": { en: "Send notification", ar: "إرسال إشعار" },
   "trouble.body2suffix": {
     en: "to continue your purchase in the app.",
     ar: "لمتابعة عملية الشراء في التطبيق.",
   },
   "trouble.sendNotification": { en: "Send notification", ar: "إرسال إشعار" },
-  "trouble.resendSms": { en: "Resend SMS", ar: "إعادة إرسال رسالة نصية" },
+  "trouble.resendSms": { en: "Resend SMS", ar: "إعادة إرسال الرسالة" },
   "trouble.resendSmsIn": {
     en: "Resend SMS in",
     ar: "إعادة إرسال خلال",
+  },
+  "trouble.attemptsRemaining": {
+    en: "of 3 attempts remaining",
+    ar: "من 3 محاولات متبقية",
   },
 
   // NotificationBanner

@@ -1,20 +1,40 @@
 import { useState, useEffect } from "react";
 import { motion } from "motion/react";
-import { InfoIcon } from "./icons";
+import { SmartphoneIcon, ChevronRightIcon } from "./icons";
 import Button from "./Button";
 import { SPRING } from "../constants";
 import type { Language } from "../types";
 import { t } from "../translations";
 
+const MAX_ATTEMPTS = 3;
+const RESEND_TIMER_SECONDS = 59;
+
+function formatPhone(digits: string): string {
+  const d = digits.replace(/\D/g, "");
+  if (d.length <= 2) return `+971 ${d}`;
+  if (d.length <= 5) return `+971 ${d.slice(0, 2)} ${d.slice(2)}`;
+  return `+971 ${d.slice(0, 2)} ${d.slice(2, 5)} ${d.slice(5)}`;
+}
+
 interface TroubleBottomSheetProps {
   lang?: Language;
+  phoneNumber: string;
   onClose: () => void;
   onSendSMS: () => void;
   onSendNotification: () => void;
+  onChangeAccount: () => void;
 }
 
-export default function TroubleBottomSheet({ lang = "en", onClose, onSendSMS, onSendNotification }: TroubleBottomSheetProps) {
-  const [smsTimer, setSmsTimer] = useState(59);
+export default function TroubleBottomSheet({
+  lang = "en",
+  phoneNumber,
+  onClose,
+  onSendSMS,
+  onSendNotification,
+  onChangeAccount,
+}: TroubleBottomSheetProps) {
+  const [smsTimer, setSmsTimer] = useState(RESEND_TIMER_SECONDS);
+  const [attemptsLeft, setAttemptsLeft] = useState(MAX_ATTEMPTS);
 
   useEffect(() => {
     if (smsTimer <= 0) return;
@@ -22,10 +42,23 @@ export default function TroubleBottomSheet({ lang = "en", onClose, onSendSMS, on
     return () => clearInterval(id);
   }, [smsTimer]);
 
-  const smsReady = smsTimer <= 0;
+  const noAttemptsLeft = attemptsLeft <= 0;
+  const smsReady = smsTimer <= 0 && !noAttemptsLeft;
+
   const minutes = Math.floor(smsTimer / 60);
   const seconds = smsTimer % 60;
   const timerText = `${t("trouble.resendSmsIn", lang)} ${minutes}:${String(seconds).padStart(2, "0")}`;
+
+  const handleResendSms = () => {
+    if (!smsReady) return;
+    const next = attemptsLeft - 1;
+    setAttemptsLeft(next);
+    if (next > 0) setSmsTimer(RESEND_TIMER_SECONDS);
+    onSendSMS();
+  };
+
+  // Secondary button label: timer while counting, otherwise "Resend SMS"
+  const secondaryLabel = !noAttemptsLeft && smsTimer > 0 ? timerText : t("trouble.resendSms", lang);
 
   return (
     <>
@@ -59,42 +92,65 @@ export default function TroubleBottomSheet({ lang = "en", onClose, onSendSMS, on
           <div className="w-[40px] h-[5px] rounded-[128px] bg-[rgba(24,36,48,0.15)]" />
         </div>
 
-        {/* Content */}
-        <div className="flex flex-col gap-[16px] items-center pt-[48px] pb-[24px] px-[16px]">
-          {/* Icon */}
-          <div className="w-[56px] h-[56px] rounded-full bg-spinner-bg flex items-center justify-center">
-            <InfoIcon size={24} color="var(--color-tui-front-accent)" />
+        {/* Header */}
+        <div className="flex items-start gap-[8px] pb-[16px] pt-[8px] px-[16px]">
+          <h2 className="font-heading text-[30px] leading-[32px] tracking-[-0.3px] text-tui-front-primary w-full">
+            {t("trouble.heading", lang)}
+          </h2>
+        </div>
+
+        {/* Body content */}
+        <div className="flex flex-col items-start px-[16px]">
+          <div className="flex flex-col items-start w-full">
+            <div className="pb-[16px] w-full text-[16px] font-medium leading-[24px] tracking-[-0.16px]">
+              <p className="mb-[14px] text-tui-front-secondary">
+                {t("trouble.body1", lang)}
+              </p>
+              <p>
+                <span className="text-tui-front-secondary">{t("trouble.body2prefix", lang)} </span>
+                <span className="text-tui-front-primary">{t("trouble.body2bold", lang)}</span>
+                <span className="text-tui-front-secondary"> {t("trouble.body2suffix", lang)}</span>
+              </p>
+            </div>
           </div>
 
-          {/* Body */}
-          <div className="flex flex-col items-center w-full text-center">
-            <div className="flex flex-col gap-[12px] items-center w-full">
-              <h2
-                className="font-heading text-[22px] leading-[24px] tracking-[-0.22px] text-tui-front-primary w-full"
-              >
-                {t("trouble.heading", lang)}
-              </h2>
-              <div className="text-[16px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-secondary w-full">
-                <p className="mb-[12px]">
-                  {t("trouble.body1", lang)}
-                </p>
-                <p>
-                  {t("trouble.body2prefix", lang)}{" "}
-                  <span className="text-tui-front-primary">{t("trouble.body2bold", lang)}</span>
-                  {" "}{t("trouble.body2suffix", lang)}
-                </p>
-              </div>
-            </div>
+          {/* Phone row */}
+          <button
+            onClick={onChangeAccount}
+            className="flex items-center justify-center gap-[4px] py-[8px] cursor-pointer"
+          >
+            <SmartphoneIcon size={14} color="var(--color-tui-front-secondary)" />
+            <span dir="ltr" className="text-[12px] font-medium leading-[16px] tracking-[-0.13px] text-tui-front-secondary">
+              {formatPhone(phoneNumber)}
+            </span>
+            <span className="text-[12px] font-medium text-tui-front-secondary mx-[1px]">
+              &bull;
+            </span>
+            <span className="text-[12px] font-medium leading-[16px] tracking-[-0.13px] text-tui-front-secondary">
+              {t("footer.change", lang)}
+            </span>
+            <span className={lang === "ar" ? "rotate-180" : ""}>
+              <ChevronRightIcon size={12} color="var(--color-tui-front-secondary)" />
+            </span>
+          </button>
+        </div>
+
+        {/* Buttons */}
+        <div className="flex flex-col items-start pt-[16px] px-[16px]">
+          <div className="flex flex-col gap-[8px] items-end w-full">
+            <Button onClick={onSendNotification}>{t("trouble.sendNotification", lang)}</Button>
+            <Button variant="secondary" disabled={!smsReady} onClick={handleResendSms}>
+              {secondaryLabel}
+            </Button>
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="flex flex-col items-center pt-[16px] pb-[32px]" style={{ background: "linear-gradient(to top, white 6.6%, rgba(255,255,255,0))" }}>
-          <div className="flex flex-col gap-[8px] w-full px-[16px]">
-            <Button onClick={onSendNotification}>{t("trouble.sendNotification", lang)}</Button>
-            <Button variant="secondary" disabled={!smsReady} onClick={smsReady ? onSendSMS : undefined}>
-              {smsReady ? t("trouble.resendSms", lang) : timerText}
-            </Button>
+        {/* Attempts counter */}
+        <div className="flex flex-col items-start pb-[24px] px-[16px]">
+          <div className="flex items-center justify-center pt-[16px] w-full">
+            <p className="text-[12px] font-medium leading-[16px] tracking-[-0.13px] text-tui-front-tertiary text-center w-full">
+              {attemptsLeft} {t("trouble.attemptsRemaining", lang)}
+            </p>
           </div>
         </div>
       </motion.div>
