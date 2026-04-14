@@ -135,14 +135,14 @@ export default function IVRVerification() {
                 </div>
               </motion.div>
 
-              {/* Calling overlay - slides in from right (or left in RTL) over the base */}
+              {/* Calling overlay - slides in from right over base, then pushes 30% back when success opens */}
               <AnimatePresence>
-                {isCalling && (
+                {(isCalling || showSuccess) && (
                   <motion.div
                     key="ivr-calling"
                     className="absolute inset-0 z-10"
                     initial={{ x: isRtl ? "-100%" : "100%" }}
-                    animate={{ x: 0 }}
+                    animate={{ x: showSuccess ? (isRtl ? "30%" : "-30%") : 0 }}
                     exit={{ x: isRtl ? "-100%" : "100%" }}
                     transition={SPRING}
                     style={{ boxShadow: isRtl ? "4px 0 16px rgba(0,0,0,0.1)" : "-4px 0 16px rgba(0,0,0,0.1)" }}
