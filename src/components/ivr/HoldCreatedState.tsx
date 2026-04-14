@@ -1,7 +1,7 @@
 import Button from "../Button";
 import IVRStatusPill from "./IVRStatusPill";
 import IVRInfoRow from "./IVRInfoRow";
-import { ShieldCheckedIcon, LockClosed24, HandsetStart24, CheckCircle24 } from "./icons";
+import { ShieldCheckedIcon, LockBadge40, HandsetBadge40, CheckCircleBadge40 } from "./icons";
 
 interface Props {
   amount: string;
@@ -50,9 +50,9 @@ export default function HoldCreatedState({ amount, onVerify }: Props) {
 
           {/* Info rows — icons match Figma Tabby core icon set */}
           <div className="w-full flex flex-col gap-[16px]">
-            <IVRInfoRow icon={<LockClosed24 />} text="This is a temporary hold, not a charge" />
-            <IVRInfoRow icon={<HandsetStart24 />} text="A short call will confirm your order" />
-            <IVRInfoRow icon={<CheckCircle24 />} text="If verification fails, this hold is released automatically" />
+            <IVRInfoRow icon={<LockBadge40 />} text="This is a temporary hold, not a charge" />
+            <IVRInfoRow icon={<HandsetBadge40 />} text="A short call will confirm your order" />
+            <IVRInfoRow icon={<CheckCircleBadge40 />} text="If verification fails, this hold is released automatically" />
           </div>
         </div>
       </div>

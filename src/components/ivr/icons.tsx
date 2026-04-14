@@ -28,43 +28,42 @@ export function PhoneCallIcon({ size = 48, color = "#1D2329" }: IconProps) {
   );
 }
 
-/** Tabby LockClosed24 — filled lock with shackle and keyhole slot. */
-export function LockClosed24({ size = 24, color = "#1D2329" }: IconProps) {
+/** 40×40 Tabby supercell badge — lock with shackle and keyhole slot. */
+export function LockBadge40({ size = 40 }: IconProps) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width={size} height={size} viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="20" cy="20" r="20" fill="#F2F5F7" />
       <path
         fillRule="evenodd"
         clipRule="evenodd"
-        d="M7 8V6.5C7 3.73858 9.23858 1.5 12 1.5C14.7614 1.5 17 3.73858 17 6.5V8H18C19.6569 8 21 9.34315 21 11V19C21 20.6569 19.6569 22 18 22H6C4.34315 22 3 20.6569 3 19V11C3 9.34315 4.34315 8 6 8H7ZM9 6.5C9 4.84315 10.3431 3.5 12 3.5C13.6569 3.5 15 4.84315 15 6.5V8H9V6.5ZM13 14C13 13.4477 12.5523 13 12 13C11.4477 13 11 13.4477 11 14V16C11 16.5523 11.4477 17 12 17C12.5523 17 13 16.5523 13 16V14Z"
-        fill={color}
+        d="M19 10C16.7909 10 15 11.7909 15 14V17C13.3431 17 12 18.3431 12 20V26C12 27.6569 13.3431 29 15 29H25C26.6569 29 28 27.6569 28 26V20C28 18.3431 26.6569 17 25 17V14C25 11.7909 23.2091 10 21 10H19ZM23 17V14C23 12.8954 22.1046 12 21 12H19C17.8954 12 17 12.8954 17 14V17H23ZM15 19C14.4477 19 14 19.4477 14 20V26C14 26.5523 14.4477 27 15 27H25C25.5523 27 26 26.5523 26 26V20C26 19.4477 25.5523 19 25 19H23H17H15ZM18 23C18 21.8954 18.8954 21 20 21C21.1046 21 22 21.8954 22 23C22 24.1046 21.1046 25 20 25C18.8954 25 18 24.1046 18 23Z"
+        fill="#1D2329"
       />
     </svg>
   );
 }
 
-/** Tabby HandsetStart24 — filled handset tilted like starting a call. */
-export function HandsetStart24({ size = 24, color = "#1D2329" }: IconProps) {
+/** 40×40 Tabby supercell badge — tilted handset. */
+export function HandsetBadge40({ size = 40 }: IconProps) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width={size} height={size} viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="20" cy="20" r="20" fill="#F2F5F7" />
       <path
-        d="M6.62 10.79C8.06 13.62 10.38 15.94 13.21 17.38L15.41 15.18C15.69 14.9 16.08 14.82 16.43 14.93C17.55 15.29 18.75 15.48 20 15.48C20.55 15.48 21 15.93 21 16.48V19.92C21 20.47 20.55 20.92 20 20.92C10.61 20.92 3 13.31 3 3.92C3 3.37 3.45 2.92 4 2.92H7.5C8.05 2.92 8.5 3.37 8.5 3.92C8.5 5.18 8.7 6.38 9.06 7.5C9.17 7.85 9.08 8.24 8.8 8.52L6.62 10.79Z"
-        fill={color}
+        d="M15.3907 10.2532C15.7102 10.2142 16.0337 10.279 16.3135 10.438C16.5933 10.5971 16.8146 10.8418 16.9446 11.1362L19.0401 15.5373L19.052 15.5638C19.1494 15.7913 19.1891 16.0393 19.1675 16.2857C19.1459 16.5322 19.0636 16.7695 18.928 16.9765L17.3675 19.3603C18.0717 20.7923 19.2331 21.9486 20.6682 22.6464L23.0162 21.0806C23.2239 20.9419 23.4629 20.8573 23.7115 20.8344C23.9602 20.8114 24.2106 20.851 24.4402 20.9493L24.4667 20.9613L28.8664 23.0581C29.0345 23.1311 29.1876 23.2347 29.3179 23.3637C29.4795 23.5247 29.6022 23.7205 29.6768 23.9361C29.7513 24.1517 29.7757 24.3815 29.7481 24.6079C29.4173 27.2231 27.3344 29.0501 24.6834 29.0508C17.2376 29.0521 10.9499 22.7644 10.9492 15.3166C10.9486 12.6669 12.7755 10.584 15.3907 10.2532Z"
+        fill="#1D2329"
       />
     </svg>
   );
 }
 
-/** Tabby CheckCircle24 — outline circle with checkmark inside. */
-export function CheckCircle24({ size = 24, color = "#1D2329" }: IconProps) {
+/** 40×40 Tabby supercell badge — outline circle with checkmark. */
+export function CheckCircleBadge40({ size = 40 }: IconProps) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="12" cy="12" r="9" stroke={color} strokeWidth={1.8} />
+    <svg width={size} height={size} viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="20" cy="20" r="20" fill="#F2F5F7" />
       <path
-        d="M8 12L11 15L16 10"
-        stroke={color}
-        strokeWidth={1.8}
-        strokeLinecap="round"
-        strokeLinejoin="round"
+        d="M20 10C25.5228 10 30 14.4772 30 20C30 25.5228 25.5228 30 20 30C14.4772 30 10 25.5228 10 20C10 14.4772 14.4772 10 20 10ZM20 12C15.5817 12 12 15.5817 12 20C12 24.4183 15.5817 28 20 28C24.4183 28 28 24.4183 28 20C28 15.5817 24.4183 12 20 12ZM25.7695 17.9023L19.0078 24.6641L14.543 20.1992L15.957 18.7852L19.0078 21.8359L24.3555 16.4883L25.7695 17.9023Z"
+        fill="#1D2329"
       />
     </svg>
   );
