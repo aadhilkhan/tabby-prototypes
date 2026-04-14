@@ -1,8 +1,8 @@
-# Station Screen
+# Tabby Prototypes
 
-Interactive prototype of Tabby's in-app checkout "station screen" — the screen shown inside a merchant's app while a user completes their BNPL purchase in the Tabby app.
+Interactive prototypes of Tabby's in-app checkout flows — built to demonstrate exact screen behavior to developers. Two prototypes live in the same bundle: the `/` station screen shown inside a merchant's app while a user completes their BNPL purchase, and the `/ivr` post-downpayment IVR verification flow for KSA BNPL.
 
-**Live demo:** https://skip-otp.vercel.app
+**Live demo:** https://tabby-prototypes.vercel.app
 
 ## Getting Started
 

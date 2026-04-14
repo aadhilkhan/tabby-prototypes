@@ -24,8 +24,8 @@ No test runner or linter is configured.
 
 ## Deployment
 
-- **GitHub**: `aadhilkhan/station-screen` (private)
-- **Vercel**: https://skip-otp.vercel.app — auto-deploys on push to `main`
+- **GitHub**: `aadhilkhan/tabby-prototypes` (private)
+- **Vercel**: https://tabby-prototypes.vercel.app — auto-deploys on push to `main`
 - **SPA rewrites**: `vercel.json` rewrites any non-asset / extensionless path to `/index.html` so client-side pathname routing works (e.g. `/ivr` serves the app shell).
 
 ## Routing
