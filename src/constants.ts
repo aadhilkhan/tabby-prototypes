@@ -1,5 +1,6 @@
 import type { StationState, TrackerStepData, Language } from "./types";
 import { t } from "./translations";
+import { formatPhone } from "./lib/formatPhone";
 
 /** Shared spring transition for slide animations */
 export const SPRING = { type: "spring" as const, damping: 30, stiffness: 300 };
@@ -34,13 +35,6 @@ const s3Base = {
   titleBold: false, showLine: false, lineColor: "gray" as const,
 };
 
-function formatPhoneForStep1(digits: string): string {
-  const d = digits.replace(/\D/g, "");
-  if (d.length <= 2) return `+971 ${d}`;
-  if (d.length <= 5) return `+971 ${d.slice(0, 2)} ${d.slice(2)}`;
-  return `+971 ${d.slice(0, 2)} ${d.slice(2, 5)} ${d.slice(5)}`;
-}
-
 function buildSteps(state: StationState, lang: Language, phoneNumber: string): TrackerStepData[] {
   const step1Sending: TrackerStepData = {
     ...s1Sending, title: t("tracker.step1.sending.title", lang),
@@ -48,7 +42,7 @@ function buildSteps(state: StationState, lang: Language, phoneNumber: string): T
   const step1Sent: TrackerStepData = {
     ...s1Sent,
     title: t("tracker.step1.sent.title", lang),
-    description: `${t("tracker.step1.sent.description", lang)} ${formatPhoneForStep1(phoneNumber)}`,
+    description: `${t("tracker.step1.sent.description", lang)} ${formatPhone(phoneNumber)}`,
     action: t("tracker.step1.sent.action", lang),
   };
   const step2: TrackerStepData = {

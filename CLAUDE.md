@@ -14,13 +14,24 @@ Both prototypes share the same iPhone frame, NavBar, Button component, design to
 ## Commands
 
 ```bash
-npm install      # Install dependencies (first time setup)
-npm run dev      # Start dev server at http://localhost:5173
-npm run build    # TypeScript check + Vite build (tsc -b && vite build)
-npm run preview  # Preview production build
+npm install        # Install dependencies (first time setup)
+npm run dev        # Start dev server at http://localhost:5173
+npm run typecheck  # TypeScript project-reference check (no emit)
+npm run build      # typecheck + Vite build
+npm run preview    # Preview production build
 ```
 
-No test runner or linter is configured.
+`tsconfig.json` runs in strict mode with `noUnusedLocals` / `noUnusedParameters` enabled so dead locals fail the build. No test runner or linter is configured.
+
+## Verifying changes
+
+There's no test runner, but these checks together form a reliable pre-push smoke test:
+
+1. **`npm run typecheck`** — catches type errors and unused locals/params (thanks to the strict tsconfig).
+2. **`npm run build`** — typecheck + Vite production build. Fails on any transform error Vite wouldn't catch in dev.
+3. **`npm run dev`** then `curl -sf http://localhost:5173/` and `/ivr` — confirms both SPA routes serve the shell. Hit individual modules like `curl -sf http://localhost:5173/src/App.tsx` to force Vite to transform them (non-200 = compile error).
+4. **Dead-code / wiring grep** — after `npm run build`, `grep -c <symbol> dist/assets/index-*.js` on deleted symbols (should be 0) and on unique string literals from new components (should be ≥1) confirms DCE and that new code actually ships.
+5. **Manual spot-check** (the part static checks can't cover): open the dev server in a browser, step through each state via the control panel, toggle V1/V2, toggle EN/AR, resize to <960px to verify the mobile toolbar, and hit `?state=...` capture URLs to confirm the control panel hides.
 
 ## Deployment
 
@@ -39,6 +50,30 @@ return <App />;
 ```
 
 Cross-page nav is via `<a href>` (full reload) because there are only two top-level prototypes. `PrototypeTabs` renders at the top of both pages with active-tab highlighting.
+
+## File layout conventions
+
+```
+src/
+├── App.tsx                 # Station prototype entry (state + screen composition only)
+├── pages/IVRVerification.tsx  # IVR prototype entry
+├── main.tsx                # Pathname router
+├── types.ts                # Shared cross-page types (StationState, IVRState, Language, ...)
+├── constants.ts            # SPRING, PHONE, tracker step builders
+├── translations.ts         # EN/AR strings + `t(key, lang)` lookup
+├── sounds.ts               # Shared AudioContext + play* helpers
+├── hooks/                  # Custom React hooks (e.g. useViewportLayout)
+├── lib/                    # Pure utilities (e.g. formatPhone)
+└── components/
+    ├── PrototypeShell.tsx  # Shared outer layout wrapper
+    ├── MobileToolbar.tsx   # MobileToolbar + Button + Divider primitives
+    ├── VersionToggle.tsx
+    ├── ...                 # Shared UI (PhoneFrame, NavBar, Button, ...)
+    ├── station/            # Station-only components
+    └── ivr/                # IVR-only components (incl. icons.tsx for that flow)
+```
+
+When adding a new hook, put it in `src/hooks/`. When adding a pure util, put it in `src/lib/`. Don't inline either into a component file — the duplication surface area is proven to drift.
 
 ## Architecture
 
@@ -89,23 +124,27 @@ Both pages use the same `useViewportLayout(hideControls)` hook with a 40px `tabs
 ### Component Hierarchy
 
 ```
-App.tsx (state + version + lang + viewport scaling via useViewportLayout hook)
-├── PhoneFrame (iPhone bezel + notification overlay, dir="rtl" when AR)
-│   ├── div[dir="ltr"] (locks iOS chrome to LTR)
-│   │   ├── StatusBar
-│   │   └── SafariBar
-│   ├── NavBar (lang toggle button: العربية ↔ English, onToggleLang callback)
-│   ├── StationScreen (main content, accepts version + lang props)
-│   │   ├── SpinnerIcon (spinning prop: rotating arc in V1, static circle in V2)
-│   │   ├── Tracker → TrackerStep[] (timeline, pe-[12px] for RTL mirror)
-│   │   └── Footer (account switcher only, lang-aware, hidden during "sending")
-│   ├── AccountScreen (phone input + validation, lang-aware, input boxes dir="ltr")
-│   ├── SuccessScreen (purchase complete, lang-aware, slides from left in RTL)
-│   ├── TroubleBottomSheet (slides up, lang-aware, backdrop + drag-to-dismiss)
-│   └── NotificationBanner (iOS notification, lang-aware, mirrors in RTL)
-├── ControlPanel (4 buttons, left of phone frame, hidden when ?state param set)
-└── VersionToggle (V1/V2 segmented control, right of phone frame)
+App.tsx (state + version + lang)
+└── PrototypeShell (shared layout - canvas, tabs, scaled phone, slots)
+    ├── PhoneFrame (iPhone bezel + notification overlay, dir="rtl" when AR)
+    │   ├── div[dir="ltr"] (locks iOS chrome to LTR)
+    │   │   ├── StatusBar
+    │   │   └── SafariBar
+    │   ├── NavBar (lang toggle: العربية ↔ English)
+    │   ├── StationScreen (main content, version + lang)
+    │   │   ├── SpinnerIcon (spinning in V1, static in V2)
+    │   │   ├── Tracker → TrackerStep[]
+    │   │   └── Footer (account switcher, hidden during "sending")
+    │   ├── AccountScreen (phone input + validation)
+    │   ├── SuccessScreen (purchase complete)
+    │   ├── TroubleBottomSheet (drag-to-dismiss)
+    │   └── NotificationBanner
+    ├── desktopLeft  → ControlPanel (4 action buttons)
+    ├── desktopRight → VersionToggle (V1/V2)
+    └── mobileToolbar → StationMobileToolbar (all controls in one row)
 ```
+
+`IVRVerification.tsx` plugs `IVRDesktopControls` + `IVRSimulatePanel` + `IVRMobileToolbar` into the same `PrototypeShell` slots.
 
 ### Key Patterns
 
@@ -115,11 +154,13 @@ App.tsx (state + version + lang + viewport scaling via useViewportLayout hook)
 - **Heading font**: `.font-heading` CSS class in `index.css` for Radial Saudi headings — use this instead of inline `fontFamily` style.
 - **Button component**: `<Button variant="primary|secondary">` in `src/components/Button.tsx` for in-app full-width action buttons.
 - **Animations** use Motion library (`motion/react`, NOT `framer-motion`) for notification slide, indicator color transitions, and content expand (AnimatePresence). Spinner rotation uses CSS keyframes. **Important**: Motion `animate` props need concrete hex values for color interpolation — `var()` CSS references won't animate smoothly.
-- **Audio**: All sounds use a shared `AudioContext` singleton in `src/sounds.ts` (`playDing`, `playTapSound`, `playHoverSound`). Never create `new AudioContext()` elsewhere.
+- **Audio**: All sounds use a shared `AudioContext` singleton in `src/sounds.ts` (`playDing`, `playTapSound`). Never create `new AudioContext()` elsewhere.
 - **Screen transitions**: Account and Success screens slide in from right (LTR) or left (RTL) with spring animation; station screen pushes opposite 30% simultaneously. Direction is controlled by `isRtl` flag in App.tsx. Success screen is triggered manually via "Success Screen" control panel button (not auto-shown). Bottom sheets slide up with backdrop.
 - **Notification management**: `hideNotification` prop on PhoneFrame + `notificationDismissed` state in App.tsx. Bottom sheet and account screen dismiss notification on open; "Send notification" button restores it.
 - **Account number change**: When phone number is changed via AccountScreen, state resets to "sending" to re-send notification to the new number. Same number keeps current state.
-- **Viewport scaling**: `useViewportScale` hook in App.tsx scales the phone frame to fit any screen size
+- **Viewport scaling**: `useViewportLayout(hideControls)` in `src/hooks/useViewportLayout.ts` returns `{ scale, isMobile }`. Used by `PrototypeShell`; don't duplicate this logic in new pages.
+- **Phone formatting**: `formatPhone(digits)` in `src/lib/formatPhone.ts` is the one UAE `+971 XX XXX XXXX` formatter. Don't inline a second copy.
+- **Shared layout**: All new prototype pages should render inside `<PrototypeShell activeTab=... hideControls=... desktopLeft/desktopRight/mobileToolbar={...}>` — it handles the canvas, tabs, phone scaling, control-panel positioning, and Analytics mount.
 - **Static assets**: Vite `publicDir` is set to `assets/` — reference files as `/filename.png` (not `/assets/filename.png`)
 
 ## Tech Stack
@@ -147,6 +188,7 @@ Colors and typography tokens are defined in `src/index.css` under `@theme`. Key 
 | `--spinner-bg` | `#f2e8ff` | Spinner background |
 | `--tui-line-accent` | `#ccb1fa` | Spinner arc |
 | `--surface-muted` | `#f2f5f7` | Muted surface backgrounds |
+| `--canvas` | `#f0f0f0` | Page canvas behind the phone frame (used by `PrototypeShell` + active `PrototypeTabs` tab) |
 | `--tabby-green` | `#3EEDB1` | Tabby brand green |
 | `--notification-bg` | `rgba(80,79,79,0.7)` | Notification backdrop |
 | `--browser-header` | `#F9F9F9` | Safari/nav bar background |
@@ -262,6 +304,40 @@ Typography: H1 uses Radial Saudi (35px/500), body uses Inter Variable (16px/500 
   - Attempts counter ("N of 3 attempts remaining") below buttons; tapping Resend SMS decrements counter and restarts 59s timer (no longer auto-closes sheet)
   - Secondary button permanently disabled once `attemptsLeft === 0`
 - Removed footer consent line ("By continuing, you consent to sharing your data with AECB") and its `footer.consent*` translation keys — Footer is now just the phone/Change row
+
+### Session 15 (2026-04-14) - Production-readiness refactor
+Goal: reduce duplication, strengthen types, and clean up dead code so the prototype reads as a maintained codebase rather than a vibe-coded sketch. No behavior changes.
+
+**New shared modules**
+- `src/hooks/useViewportLayout.ts` - single source of truth for the phone-scaling hook. Previously duplicated byte-for-byte in `App.tsx` and `IVRVerification.tsx`. Viewport constants (`MOBILE_BREAKPOINT_PX=960`, `MOBILE_TOOLBAR_HEIGHT_PX=100`, `TABS_HEIGHT_PX=40`, `DESKTOP_LINK_HEIGHT_PX=32`) are now named rather than scattered magic numbers. Exact scaling semantics preserved (desktop adds link height to the denominator; mobile subtracts toolbar from the budget).
+- `src/lib/formatPhone.ts` - UAE phone formatter `"+971 XX XXX XXXX"`. Previously implemented three times (`Footer.tsx`, `TroubleBottomSheet.tsx`, `constants.ts#formatPhoneForStep1`).
+- `src/components/PrototypeShell.tsx` - wraps the scaled-phone outer layout, `PrototypeTabs`, desktop control slots (left/right), mobile toolbar slot, and `<Analytics />`. Both pages now just render state + their control panels into its slots.
+- `src/components/MobileToolbar.tsx` - `MobileToolbar`, `MobileToolbarButton` (tone: positive/primary/accent/neutral), `MobileToolbarDivider` primitives.
+- `src/components/VersionToggle.tsx` - extracted from the inline block in `App.tsx`; `compact` prop drives the mobile variant, `showLabel` toggles the "Spinner icon / Spinner nodes" caption.
+- `src/components/station/StationMobileToolbar.tsx` - mobile toolbar row for `/`.
+- `src/components/ivr/IVRDesktopControls.tsx` + `IVRMobileToolbar.tsx` - extracted from inline JSX in `IVRVerification.tsx`. `IVR_STATE_LABELS` / `IVR_STATE_COLORS` exported as const maps.
+
+**Type cleanup**
+- `IVRState` moved from `pages/IVRVerification.tsx` into `src/types.ts` so components can import it without a page→component cycle.
+- `translations.ts` no longer re-declares `Language`; it imports from `types.ts`.
+- `tsconfig.json`: `noUnusedLocals` / `noUnusedParameters` / `forceConsistentCasingInFileNames` flipped to true.
+- `package.json`: new `typecheck` script (`tsc -b`) for CI / quick checks.
+
+**Dead code removed**
+- Unused components: `src/components/ivr/IVRCallingSpinner.tsx`, `src/components/ivr/IVRAmountDisplay.tsx`.
+- Unused station icon exports: `InfoIcon`, `ArrowUpRightIcon`, `CheckIcon`, `TabbyTBadge`.
+- Unused IVR icons: `ShieldCheckedIcon`, `PhoneCallIcon`.
+- Unused sound: `playHoverSound` in `sounds.ts`.
+- Dead locals in `TrackerStep.tsx`: `lineColor` + `lineColorMap` (line fill is driven by `scaleY` on a fixed-palette `.bg-tui-line-positive` overlay).
+
+**Token hygiene**
+- New `--color-canvas: #f0f0f0` token replaces hardcoded hex in `PrototypeShell` (now `bg-canvas`) and `PrototypeTabs`.
+- `NotificationBanner` now actually uses the pre-existing `--color-notification-bg` var (it was defined but not referenced).
+
+**A11y**
+- `NavBar` close + lang-toggle buttons gain `aria-label` (localised); `type="button"` on all non-submit buttons in new shared components.
+
+**App.tsx**: shrank from ~295 to ~180 lines (state + screen composition only); `IVRVerification.tsx` from ~285 to ~150.
 
 ### Session 14 (2026-04-14)
 - New `src/components/RiyalSymbol.tsx` - reusable SVG component for the new Saudi Riyal glyph (SAMA 2025). Uses `currentColor` and scales via `size` prop. Replaces every currency-display `SAR`/`﷼` across the IVR flow (HoldCreatedState amount card, IVRSuccessState merchant card, IVRFailedState body prose + summary row, IVRAmountDisplay). Keep using this component wherever an amount is shown.

@@ -9,11 +9,6 @@ const indicatorColorMap = {
   tertiary: "#b8c3d1",
 };
 
-const lineColorMap = {
-  gray: "#e9eff5",
-  green: "#31cc7e",
-};
-
 interface TrackerStepProps {
   step: TrackerStepData;
   onActionClick?: () => void;
@@ -21,7 +16,6 @@ interface TrackerStepProps {
 
 export default function TrackerStep({ step, onActionClick }: TrackerStepProps) {
   const bgColor = indicatorColorMap[step.indicatorColor];
-  const lineColor = lineColorMap[step.lineColor];
 
   return (
     <div className="flex items-start w-full">

@@ -1,4 +1,4 @@
-export type Language = "en" | "ar";
+import type { Language } from "./types";
 
 const translations = {
   // NavBar

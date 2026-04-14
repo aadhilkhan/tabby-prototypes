@@ -39,7 +39,7 @@ export default function PrototypeTabs({ active }: PrototypeTabsProps) {
                 borderTopRightRadius: 10,
                 position: "relative",
                 marginBottom: -1,
-                backgroundColor: isActive ? "#f0f0f0" : "#ffffff",
+                backgroundColor: isActive ? "var(--color-canvas)" : "#ffffff",
               }}
             >
               <span

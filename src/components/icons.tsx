@@ -13,16 +13,6 @@ export function UserIcon({ size = 24, className, color = "currentColor" }: IconP
   );
 }
 
-export function InfoIcon({ size = 24, className, color = "#5d21de" }: IconProps) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
-      <circle cx="12" cy="12" r="10" stroke={color} strokeWidth={2} />
-      <line x1="12" y1="11" x2="12" y2="17" stroke={color} strokeWidth={2} strokeLinecap="round" />
-      <circle cx="12" cy="8" r="1.2" fill={color} />
-    </svg>
-  );
-}
-
 export function CloseIcon({ size = 24, className, color = "currentColor" }: IconProps) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
@@ -36,14 +26,6 @@ export function SmartphoneIcon({ size = 24, className, color = "currentColor" }:
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
       <rect x="5" y="2" width="14" height="20" rx="3" stroke={color} strokeWidth={2} />
       <line x1="12" y1="18" x2="12" y2="18.01" stroke={color} strokeWidth={2} strokeLinecap="round" />
-    </svg>
-  );
-}
-
-export function ArrowUpRightIcon({ size = 24, className, color = "currentColor" }: IconProps) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
-      <path d="M7 17L17 7M17 7H7M17 7v10" stroke={color} strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
@@ -103,13 +85,7 @@ export function CheckCircleIcon({ size = 80, className }: IconProps) {
         className="absolute inset-0 rounded-full"
         style={{ background: "radial-gradient(circle, #d4f5e4 0%, #e8faf0 60%, rgba(232,250,240,0) 100%)" }}
       />
-      <svg
-        width={size}
-        height={size}
-        viewBox="0 0 80 80"
-        fill="none"
-        className="relative z-10"
-      >
+      <svg width={size} height={size} viewBox="0 0 80 80" fill="none" className="relative z-10">
         <circle cx="40" cy="40" r="40" fill="#d4f5e4" />
         <path
           d="M26 40L35 49L54 30"
@@ -120,14 +96,6 @@ export function CheckCircleIcon({ size = 80, className }: IconProps) {
         />
       </svg>
     </div>
-  );
-}
-
-export function CheckIcon({ size = 12, className, color = "white" }: IconProps) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 12 12" fill="none" className={className}>
-      <path d="M2.5 6L5 8.5L9.5 3.5" stroke={color} strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
   );
 }
 
@@ -155,15 +123,5 @@ export function LockIcon({ className }: IconProps) {
       <rect x="0.5" y="4.5" width="9" height="7" rx="1.5" stroke="#1d2329" strokeWidth={1} />
       <path d="M2.5 4.5V3a2.5 2.5 0 015 0v1.5" stroke="#1d2329" strokeWidth={1} />
     </svg>
-  );
-}
-
-export function TabbyTBadge({ className }: IconProps) {
-  return (
-    <div className={`w-[38px] h-[38px] rounded-[10px] bg-[#292929] flex items-center justify-center ${className || ""}`}>
-      <svg width="18" height="20" viewBox="0 0 18 20" fill="none">
-        <path d="M2 4h14v2H10v12H8V6H2V4z" fill="#3EEDB1" />
-      </svg>
-    </div>
   );
 }
