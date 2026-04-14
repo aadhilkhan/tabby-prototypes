@@ -158,6 +158,14 @@ export default function App() {
             View designs
           </a>
         )}
+        {!hideControls && !isMobile && (
+          <a
+            href="/ivr"
+            className="flex items-center justify-center gap-[6px] mt-[6px] text-[13px] text-tui-front-accent hover:opacity-80 transition-opacity"
+          >
+            View IVR flow →
+          </a>
+        )}
       </div>
       {!hideControls && !isMobile && (
         <>
@@ -279,6 +287,13 @@ export default function App() {
             >
               Reset
             </button>
+            <a
+              href="/ivr"
+              className="px-[10px] py-[7px] rounded-[8px] text-[11px] font-semibold transition-all shrink-0
+                bg-tui-front-accent text-white cursor-pointer"
+            >
+              IVR →
+            </a>
           </div>
         </div>
       )}
