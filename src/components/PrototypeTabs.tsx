@@ -17,7 +17,7 @@ export default function PrototypeTabs({ active }: PrototypeTabsProps) {
   const activeHref = active === "station" ? "/" : "/ivr";
   return (
     <div
-      className="w-full flex items-end px-[8px] pt-[6px] shrink-0 border-b border-[#e5e5e5]"
+      className="w-full flex items-end px-[8px] pt-[6px] shrink-0"
       style={{ height: 40, background: "#ffffff" }}
     >
       <div className="flex items-end gap-[2px]">
@@ -27,10 +27,10 @@ export default function PrototypeTabs({ active }: PrototypeTabsProps) {
             <a
               key={tab.href}
               href={tab.href}
-              className={`flex items-center gap-[8px] px-[14px] rounded-t-[10px] text-[13px] font-medium transition-all
+              className={`flex items-center gap-[8px] px-[14px] text-[13px] font-medium transition-all
                 ${isActive
-                  ? "bg-white text-tui-front-primary cursor-default"
-                  : "bg-[#f1f3f4] text-tui-front-secondary hover:bg-[#e8eaed] hover:text-tui-front-primary cursor-pointer"}`}
+                  ? "text-tui-front-primary cursor-default"
+                  : "text-tui-front-secondary hover:text-tui-front-primary cursor-pointer"}`}
               style={{
                 height: 32,
                 maxWidth: 200,
@@ -39,7 +39,7 @@ export default function PrototypeTabs({ active }: PrototypeTabsProps) {
                 borderTopRightRadius: 10,
                 position: "relative",
                 marginBottom: -1,
-                borderBottom: isActive ? "1px solid #ffffff" : "1px solid transparent",
+                backgroundColor: isActive ? "#f0f0f0" : "#ffffff",
               }}
             >
               <span
