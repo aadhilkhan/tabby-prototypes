@@ -8,6 +8,7 @@ import AccountScreen from "./components/AccountScreen";
 import SuccessScreen from "./components/SuccessScreen";
 import TroubleBottomSheet from "./components/TroubleBottomSheet";
 import ControlPanel from "./components/ControlPanel";
+import PrototypeTabs from "./components/PrototypeTabs";
 import type { StationState, PrototypeVersion, Language } from "./types";
 import { SPRING, PHONE } from "./constants";
 import { playTapSound } from "./sounds";
@@ -27,13 +28,14 @@ function useViewportLayout(hideControls: boolean) {
       const mobile = window.innerWidth < 960;
       setIsMobile(mobile);
       const pad = 4;
+      const tabsH = !hideControls ? 44 : 0;
       if (mobile) {
         const toolbarH = !hideControls ? 100 : 0;
-        const s = Math.min(1, (window.innerHeight - pad - toolbarH) / PHONE.height, (window.innerWidth - pad) / PHONE.width);
+        const s = Math.min(1, (window.innerHeight - pad - toolbarH - tabsH) / PHONE.height, (window.innerWidth - pad) / PHONE.width);
         setScale(Math.round(s * 100) / 100);
       } else {
         const linkHeight = 32;
-        const s = Math.min(1, (window.innerHeight - pad) / (PHONE.height + linkHeight), (window.innerWidth - pad) / PHONE.width);
+        const s = Math.min(1, (window.innerHeight - pad - tabsH) / (PHONE.height + linkHeight), (window.innerWidth - pad) / PHONE.width);
         setScale(Math.round(s * 100) / 100);
       }
     }
@@ -58,7 +60,9 @@ export default function App() {
   const { scale, isMobile } = useViewportLayout(hideControls);
 
   return (
-    <div className={`h-screen bg-[#f0f0f0] flex items-center justify-center overflow-hidden relative ${isMobile && !hideControls ? "pb-[100px]" : ""}`}>
+    <div className={`h-screen bg-[#f0f0f0] flex flex-col overflow-hidden relative ${isMobile && !hideControls ? "pb-[100px]" : ""}`}>
+      {!hideControls && <PrototypeTabs active="station" />}
+      <div className="flex-1 flex items-center justify-center relative">
       <div style={{ transform: `scale(${scale})`, transformOrigin: "center center" }}>
         <PhoneFrame state={state} lang={lang} hideNotification={showTrouble || showAccount || notificationDismissed}>
           <div className="relative h-full bg-white flex flex-col">
@@ -158,14 +162,6 @@ export default function App() {
             View designs
           </a>
         )}
-        {!hideControls && !isMobile && (
-          <a
-            href="/ivr"
-            className="flex items-center justify-center gap-[6px] mt-[6px] text-[13px] text-tui-front-accent hover:opacity-80 transition-opacity"
-          >
-            View IVR flow →
-          </a>
-        )}
       </div>
       {!hideControls && !isMobile && (
         <>
@@ -223,6 +219,7 @@ export default function App() {
           </div>
         </>
       )}
+      </div>
       {/* Mobile toolbar */}
       {isMobile && !hideControls && (
         <div
@@ -287,13 +284,6 @@ export default function App() {
             >
               Reset
             </button>
-            <a
-              href="/ivr"
-              className="px-[10px] py-[7px] rounded-[8px] text-[11px] font-semibold transition-all shrink-0
-                bg-tui-front-accent text-white cursor-pointer"
-            >
-              IVR →
-            </a>
           </div>
         </div>
       )}

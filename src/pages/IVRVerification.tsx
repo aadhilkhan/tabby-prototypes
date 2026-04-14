@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import PhoneFrame from "../components/PhoneFrame";
 import NavBar from "../components/NavBar";
+import PrototypeTabs from "../components/PrototypeTabs";
 import HoldCreatedState from "../components/ivr/HoldCreatedState";
 import IVRInProgressState from "../components/ivr/IVRInProgressState";
 import IVRFailedState from "../components/ivr/IVRFailedState";
@@ -49,13 +50,14 @@ function useViewportLayout(hideControls: boolean) {
       const mobile = window.innerWidth < 960;
       setIsMobile(mobile);
       const pad = 4;
+      const tabsH = !hideControls ? 44 : 0;
       if (mobile) {
         const toolbarH = !hideControls ? 100 : 0;
-        const s = Math.min(1, (window.innerHeight - pad - toolbarH) / PHONE.height, (window.innerWidth - pad) / PHONE.width);
+        const s = Math.min(1, (window.innerHeight - pad - toolbarH - tabsH) / PHONE.height, (window.innerWidth - pad) / PHONE.width);
         setScale(Math.round(s * 100) / 100);
       } else {
         const linkHeight = 32;
-        const s = Math.min(1, (window.innerHeight - pad) / (PHONE.height + linkHeight), (window.innerWidth - pad) / PHONE.width);
+        const s = Math.min(1, (window.innerHeight - pad - tabsH) / (PHONE.height + linkHeight), (window.innerWidth - pad) / PHONE.width);
         setScale(Math.round(s * 100) / 100);
       }
     }
@@ -86,7 +88,9 @@ export default function IVRVerification() {
   }, []);
 
   return (
-    <div className={`h-screen bg-[#f0f0f0] flex items-center justify-center overflow-hidden relative ${isMobile && !hideControls ? "pb-[100px]" : ""}`}>
+    <div className={`h-screen bg-[#f0f0f0] flex flex-col overflow-hidden relative ${isMobile && !hideControls ? "pb-[100px]" : ""}`}>
+      {!hideControls && <PrototypeTabs active="ivr" />}
+      <div className="flex-1 flex items-center justify-center relative">
       <div style={{ transform: `scale(${scale})`, transformOrigin: "center center" }}>
         <PhoneFrame state={FAKE_STATION_STATE} lang={lang} hideNotification>
           <div className="relative h-full bg-white flex flex-col">
@@ -129,14 +133,6 @@ export default function IVRVerification() {
             </div>
           </div>
         </PhoneFrame>
-        {!hideControls && !isMobile && (
-          <a
-            href="/"
-            className="flex items-center justify-center gap-[6px] mt-[12px] text-[13px] text-tui-front-secondary hover:text-tui-front-primary transition-colors"
-          >
-            ← Back to station screen
-          </a>
-        )}
       </div>
 
       {/* Left control panel — desktop */}
@@ -204,6 +200,7 @@ export default function IVRVerification() {
         </div>
       )}
 
+      </div>
       {/* Mobile toolbar */}
       {isMobile && !hideControls && (
         <div
@@ -230,13 +227,6 @@ export default function IVRVerification() {
             >
               Reset
             </button>
-            <a
-              href="/"
-              className="px-[10px] py-[7px] rounded-[8px] text-[11px] font-semibold transition-all shrink-0
-                bg-tui-front-primary text-white cursor-pointer"
-            >
-              ← Station
-            </a>
           </div>
         </div>
       )}
