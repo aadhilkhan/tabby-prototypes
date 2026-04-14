@@ -1,4 +1,5 @@
 import { PhoneOff, Check } from "lucide-react";
+import Button from "../Button";
 import IVRStatusPill from "./IVRStatusPill";
 import IVRSummaryCard from "./IVRSummaryCard";
 
@@ -10,30 +11,33 @@ interface Props {
 
 export default function IVRFailedState({ amount, onTryAgain, onExit }: Props) {
   return (
-    <div className="ivr-fade-in-up flex flex-col items-center text-center gap-[20px] w-full">
-      {/* Icon */}
-      <div className="ivr-scale-in">
-        <PhoneOff size={48} color="var(--color-ivr-warning)" strokeWidth={1.8} />
+    <div className="flex flex-col gap-[22px] items-start w-full">
+      {/* Large icon */}
+      <div
+        className="w-[88px] h-[88px] rounded-full flex items-center justify-center"
+        style={{ backgroundColor: "var(--color-ivr-warning-light)" }}
+      >
+        <PhoneOff size={44} color="var(--color-ivr-warning)" strokeWidth={1.8} />
       </div>
 
-      {/* Status pill */}
+      {/* Pill */}
       <IVRStatusPill
         label="Hold released"
         color="var(--color-ivr-warning)"
         bg="var(--color-ivr-warning-light)"
       />
 
-      {/* Heading + body */}
-      <div className="flex flex-col gap-[8px] w-full px-[4px]">
-        <h1 className="text-[20px] leading-[26px] tracking-[-0.3px] font-bold text-[color:var(--color-ivr-front-major)]">
-          We couldn't reach you
-        </h1>
-        <p className="text-[15px] leading-[22px] tracking-[-0.15px] font-normal text-[color:var(--color-ivr-front-minor)]">
-          No money was taken. The temporary hold of {amount} SAR has been released back to your account.
-        </p>
-      </div>
+      {/* Heading */}
+      <h1 className="font-heading text-[32px] leading-[34px] tracking-[-0.6px] text-tui-front-primary">
+        We couldn't reach you
+      </h1>
 
-      {/* Summary card */}
+      {/* Body */}
+      <p className="text-[15px] leading-[22px] tracking-[-0.15px] font-medium text-tui-front-secondary">
+        No money was taken. The temporary hold of {amount} SAR has been released back to your account.
+      </p>
+
+      {/* Summary */}
       <IVRSummaryCard
         rows={[
           { label: "Downpayment", value: `${amount} SAR` },
@@ -46,25 +50,16 @@ export default function IVRFailedState({ amount, onTryAgain, onExit }: Props) {
         ]}
       />
 
-      {/* Bank note */}
-      <p className="text-[13px] leading-[18px] font-medium text-[color:var(--color-ivr-front-minor)]">
+      <p className="text-[13px] leading-[18px] font-medium text-tui-front-secondary">
         Your bank may take a moment to reflect this
       </p>
 
-      {/* Footer CTA */}
-      <div className="w-full flex flex-col gap-[12px] pt-[4px]">
-        <button
-          onClick={onTryAgain}
-          className="w-full h-[56px] rounded-[20px] flex items-center justify-center cursor-pointer transition-transform active:scale-[0.98]"
-          style={{ backgroundColor: "var(--color-ivr-front-major)" }}
-        >
-          <span className="text-white text-[16px] font-bold tracking-[-0.1px]">
-            Try again
-          </span>
-        </button>
+      {/* CTA + Exit */}
+      <div className="w-full flex flex-col gap-[12px] items-center pt-[4px]">
+        <Button variant="primary" onClick={onTryAgain}>Try again</Button>
         <button
           onClick={onExit}
-          className="text-[14px] font-semibold text-[color:var(--color-ivr-front-minor)] cursor-pointer hover:text-[color:var(--color-ivr-front-major)] transition-colors"
+          className="text-[14px] font-semibold text-tui-front-secondary cursor-pointer hover:text-tui-front-primary transition-colors h-[32px]"
         >
           Exit checkout
         </button>
