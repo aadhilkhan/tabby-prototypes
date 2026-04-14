@@ -23,6 +23,16 @@ npm run preview    # Preview production build
 
 `tsconfig.json` runs in strict mode with `noUnusedLocals` / `noUnusedParameters` enabled so dead locals fail the build. No test runner or linter is configured.
 
+## Verifying changes
+
+There's no test runner, but these checks together form a reliable pre-push smoke test:
+
+1. **`npm run typecheck`** — catches type errors and unused locals/params (thanks to the strict tsconfig).
+2. **`npm run build`** — typecheck + Vite production build. Fails on any transform error Vite wouldn't catch in dev.
+3. **`npm run dev`** then `curl -sf http://localhost:5173/` and `/ivr` — confirms both SPA routes serve the shell. Hit individual modules like `curl -sf http://localhost:5173/src/App.tsx` to force Vite to transform them (non-200 = compile error).
+4. **Dead-code / wiring grep** — after `npm run build`, `grep -c <symbol> dist/assets/index-*.js` on deleted symbols (should be 0) and on unique string literals from new components (should be ≥1) confirms DCE and that new code actually ships.
+5. **Manual spot-check** (the part static checks can't cover): open the dev server in a browser, step through each state via the control panel, toggle V1/V2, toggle EN/AR, resize to <960px to verify the mobile toolbar, and hit `?state=...` capture URLs to confirm the control panel hides.
+
 ## Deployment
 
 - **GitHub**: `aadhilkhan/tabby-prototypes` (private)
@@ -40,6 +50,30 @@ return <App />;
 ```
 
 Cross-page nav is via `<a href>` (full reload) because there are only two top-level prototypes. `PrototypeTabs` renders at the top of both pages with active-tab highlighting.
+
+## File layout conventions
+
+```
+src/
+├── App.tsx                 # Station prototype entry (state + screen composition only)
+├── pages/IVRVerification.tsx  # IVR prototype entry
+├── main.tsx                # Pathname router
+├── types.ts                # Shared cross-page types (StationState, IVRState, Language, ...)
+├── constants.ts            # SPRING, PHONE, tracker step builders
+├── translations.ts         # EN/AR strings + `t(key, lang)` lookup
+├── sounds.ts               # Shared AudioContext + play* helpers
+├── hooks/                  # Custom React hooks (e.g. useViewportLayout)
+├── lib/                    # Pure utilities (e.g. formatPhone)
+└── components/
+    ├── PrototypeShell.tsx  # Shared outer layout wrapper
+    ├── MobileToolbar.tsx   # MobileToolbar + Button + Divider primitives
+    ├── VersionToggle.tsx
+    ├── ...                 # Shared UI (PhoneFrame, NavBar, Button, ...)
+    ├── station/            # Station-only components
+    └── ivr/                # IVR-only components (incl. icons.tsx for that flow)
+```
+
+When adding a new hook, put it in `src/hooks/`. When adding a pure util, put it in `src/lib/`. Don't inline either into a component file — the duplication surface area is proven to drift.
 
 ## Architecture
 
@@ -124,7 +158,9 @@ App.tsx (state + version + lang)
 - **Screen transitions**: Account and Success screens slide in from right (LTR) or left (RTL) with spring animation; station screen pushes opposite 30% simultaneously. Direction is controlled by `isRtl` flag in App.tsx. Success screen is triggered manually via "Success Screen" control panel button (not auto-shown). Bottom sheets slide up with backdrop.
 - **Notification management**: `hideNotification` prop on PhoneFrame + `notificationDismissed` state in App.tsx. Bottom sheet and account screen dismiss notification on open; "Send notification" button restores it.
 - **Account number change**: When phone number is changed via AccountScreen, state resets to "sending" to re-send notification to the new number. Same number keeps current state.
-- **Viewport scaling**: `useViewportScale` hook in App.tsx scales the phone frame to fit any screen size
+- **Viewport scaling**: `useViewportLayout(hideControls)` in `src/hooks/useViewportLayout.ts` returns `{ scale, isMobile }`. Used by `PrototypeShell`; don't duplicate this logic in new pages.
+- **Phone formatting**: `formatPhone(digits)` in `src/lib/formatPhone.ts` is the one UAE `+971 XX XXX XXXX` formatter. Don't inline a second copy.
+- **Shared layout**: All new prototype pages should render inside `<PrototypeShell activeTab=... hideControls=... desktopLeft/desktopRight/mobileToolbar={...}>` — it handles the canvas, tabs, phone scaling, control-panel positioning, and Analytics mount.
 - **Static assets**: Vite `publicDir` is set to `assets/` — reference files as `/filename.png` (not `/assets/filename.png`)
 
 ## Tech Stack
@@ -152,6 +188,7 @@ Colors and typography tokens are defined in `src/index.css` under `@theme`. Key 
 | `--spinner-bg` | `#f2e8ff` | Spinner background |
 | `--tui-line-accent` | `#ccb1fa` | Spinner arc |
 | `--surface-muted` | `#f2f5f7` | Muted surface backgrounds |
+| `--canvas` | `#f0f0f0` | Page canvas behind the phone frame (used by `PrototypeShell` + active `PrototypeTabs` tab) |
 | `--tabby-green` | `#3EEDB1` | Tabby brand green |
 | `--notification-bg` | `rgba(80,79,79,0.7)` | Notification backdrop |
 | `--browser-header` | `#F9F9F9` | Safari/nav bar background |
