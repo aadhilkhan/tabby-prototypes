@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Lock } from "lucide-react";
 import Button from "../Button";
 import IVRStatusPill from "./IVRStatusPill";
-import IVRCallingSpinner from "./IVRCallingSpinner";
+import IncomingCallBanner from "./IncomingCallBanner";
 
 interface Props {
   onTimeout: () => void;
@@ -39,8 +39,8 @@ export default function IVRInProgressState({ onTimeout, onCancel, onResend, rese
       {/* Scrollable content */}
       <div className="flex-1 overflow-y-auto pt-[16px] px-[16px] pb-[180px]">
         <div className="flex flex-col gap-[22px] items-start w-full">
-          {/* Station-screen style spinner with phone icon */}
-          <IVRCallingSpinner />
+          {/* iOS-style incoming call banner */}
+          <IncomingCallBanner />
 
           {/* Pill */}
           <IVRStatusPill
