@@ -35,7 +35,7 @@ export default function StationScreen({ state, phoneNumber, version = "v1", lang
       {/* Tracker */}
       <Tracker steps={steps} onTroubleClick={onTroubleClick} />
 
-      {/* Footer — only after notification is sent */}
+      {/* Footer - only after notification is sent */}
       {state !== "sending" && (
         <Footer phoneNumber={phoneNumber} lang={lang} onChangeAccount={onChangeAccount} />
       )}

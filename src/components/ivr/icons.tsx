@@ -28,7 +28,7 @@ export function PhoneCallIcon({ size = 48, color = "#1D2329" }: IconProps) {
   );
 }
 
-/** 40×40 Tabby supercell badge — lock with shackle and keyhole slot. */
+/** 40×40 Tabby supercell badge - lock with shackle and keyhole slot. */
 export function LockBadge40({ size = 40 }: IconProps) {
   return (
     <svg width={size} height={size} viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -43,7 +43,7 @@ export function LockBadge40({ size = 40 }: IconProps) {
   );
 }
 
-/** 40×40 Tabby supercell badge — tilted handset. */
+/** 40×40 Tabby supercell badge - tilted handset. */
 export function HandsetBadge40({ size = 40 }: IconProps) {
   return (
     <svg width={size} height={size} viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -56,7 +56,7 @@ export function HandsetBadge40({ size = 40 }: IconProps) {
   );
 }
 
-/** 40×40 Tabby supercell badge — outline circle with checkmark. */
+/** 40×40 Tabby supercell badge - outline circle with checkmark. */
 export function CheckCircleBadge40({ size = 40 }: IconProps) {
   return (
     <svg width={size} height={size} viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">

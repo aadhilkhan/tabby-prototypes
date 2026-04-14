@@ -6,7 +6,7 @@ export default function StatusBar() {
       <span className="text-[17px] font-semibold tracking-[-0.4px] text-black w-[54px]">
         9:41
       </span>
-      {/* Dynamic Island space — the actual notch comes from the frame image */}
+      {/* Dynamic Island space - the actual notch comes from the frame image */}
       <div className="w-[126px] h-[37px]" />
       <div className="flex items-center gap-[6px] w-[78px] justify-end">
         <SignalIcon />

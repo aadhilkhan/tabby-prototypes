@@ -130,7 +130,7 @@ export default function App() {
             <div className="w-full flex justify-center pt-[28px] pb-[8px]">
               <div className="w-[134px] h-[5px] bg-black rounded-[100px]" />
             </div>
-            {/* Trouble bottom sheet — outside overflow-hidden so it covers the full frame */}
+            {/* Trouble bottom sheet - outside overflow-hidden so it covers the full frame */}
             <AnimatePresence>
               {showTrouble && (
                 <TroubleBottomSheet

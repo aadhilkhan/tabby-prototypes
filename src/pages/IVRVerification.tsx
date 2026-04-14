@@ -40,7 +40,7 @@ function getInitialState(): IVRState {
   return "hold_created";
 }
 
-// Required for PhoneFrame — IVR isn't a station state, always "sending" means no notification banner.
+// Required for PhoneFrame - IVR isn't a station state, always "sending" means no notification banner.
 const FAKE_STATION_STATE = "sending" as const;
 
 function useViewportLayout(hideControls: boolean) {
@@ -110,7 +110,7 @@ export default function IVRVerification() {
           <div className="relative h-full bg-white flex flex-col">
             <NavBar lang={lang} onToggleLang={() => setLang(lang === "en" ? "ar" : "en")} />
             <div className="relative flex-1 overflow-hidden">
-              {/* Base states — push left/right when success overlay is open */}
+              {/* Base states - push left/right when success overlay is open */}
               <motion.div
                 className="absolute inset-0"
                 animate={{ x: showSuccess ? (isRtl ? "30%" : "-30%") : "0%" }}
@@ -141,7 +141,7 @@ export default function IVRVerification() {
                 </div>
               </motion.div>
 
-              {/* Success overlay — slides in from right (or left in RTL) */}
+              {/* Success overlay - slides in from right (or left in RTL) */}
               <AnimatePresence>
                 {showSuccess && (
                   <motion.div
@@ -167,7 +167,7 @@ export default function IVRVerification() {
       </div>
       </div>
 
-      {/* Left control panel — desktop */}
+      {/* Left control panel - desktop */}
       {!hideControls && !isMobile && (
         <div
           className="absolute flex flex-col gap-[8px] items-end pt-[42px]"
@@ -201,7 +201,7 @@ export default function IVRVerification() {
         </div>
       )}
 
-      {/* Right panel — simulate buttons during calling */}
+      {/* Right panel - simulate buttons during calling */}
       {!hideControls && !isMobile && state === "ivr_in_progress" && (
         <div
           className="absolute flex flex-col gap-[8px] items-start pt-[42px]"

@@ -263,6 +263,13 @@ Typography: H1 uses Radial Saudi (35px/500), body uses Inter Variable (16px/500 
   - Secondary button permanently disabled once `attemptsLeft === 0`
 - Removed footer consent line ("By continuing, you consent to sharing your data with AECB") and its `footer.consent*` translation keys — Footer is now just the phone/Change row
 
+### Session 14 (2026-04-14)
+- New `src/components/RiyalSymbol.tsx` - reusable SVG component for the new Saudi Riyal glyph (SAMA 2025). Uses `currentColor` and scales via `size` prop. Replaces every currency-display `SAR`/`﷼` across the IVR flow (HoldCreatedState amount card, IVRSuccessState merchant card, IVRFailedState body prose + summary row, IVRAmountDisplay). Keep using this component wherever an amount is shown.
+- `IVRAmountDisplay` had its `currency` prop removed - the riyal glyph is baked in now.
+- HoldCreatedState redesign: removed the 88×88 `ShieldCheckedIcon` from the top of the screen. Amount moved out of the header into a Supercell-style merchant card (Adidas logo + "Adidas" / "Downpayment" + glyph + amount on the right, `bg-surface-muted` rounded-24) placed below the heading/body. Matches the station `SuccessScreen` card pattern.
+- Replaced em dashes (`-`) with hyphens (`-`) across the whole src/ directory - 11 files, 1 user-facing string ("Almost there - one quick step") + 10 code comments.
+- `.claude/launch.json` scaffolded with `tabby-prototypes-dev` → `npm run dev` on port 5173 (gitignored via `.claude` entry in `.gitignore`).
+
 ### Session 13 (2026-04-14)
 - New `/ivr` page — IVR verification flow after downpayment hold (KSA BNPL regulatory requirement). Single page, 4 states: `hold_created` / `ivr_in_progress` / `ivr_failed` / `ivr_success`.
 - Pathname router in `src/main.tsx` (no react-router). `vercel.json` SPA rewrite so `/ivr` serves `index.html`.

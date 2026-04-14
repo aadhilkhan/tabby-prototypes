@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { SmartphoneIcon } from "./icons";
 import type { TrackerStepData } from "../types";
 
-// Motion needs concrete hex values to interpolate — can't animate var() strings
+// Motion needs concrete hex values to interpolate - can't animate var() strings
 const indicatorColorMap = {
   gray: "#e9eff5",
   green: "#31cc7e",
@@ -99,7 +99,7 @@ export default function TrackerStep({ step, onActionClick }: TrackerStepProps) {
           )}
         </div>
 
-        {/* Description — for step 2/3 (always visible) */}
+        {/* Description - for step 2/3 (always visible) */}
         {step.description && step.id !== 1 && (
           <p className="text-[14px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-secondary">
             {step.description}

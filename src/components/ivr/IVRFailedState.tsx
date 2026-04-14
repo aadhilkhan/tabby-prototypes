@@ -2,6 +2,7 @@ import { Check } from "lucide-react";
 import Button from "../Button";
 import IVRStatusPill from "./IVRStatusPill";
 import IVRSummaryCard from "./IVRSummaryCard";
+import RiyalSymbol from "../RiyalSymbol";
 import { PhoneOffIcon } from "./icons";
 
 interface Props {
@@ -37,13 +38,22 @@ export default function IVRFailedState({ amount, onTryAgain }: Props) {
 
           {/* Body */}
           <p className="text-[15px] leading-[22px] tracking-[-0.15px] font-medium text-tui-front-secondary">
-            No money was taken. The temporary hold of {amount} SAR has been released back to your account.
+            No money was taken. The temporary hold of{" "}
+            <span className="inline-flex items-baseline gap-[3px] text-tui-front-primary">
+              <RiyalSymbol size={11} />
+              {amount}
+            </span>{" "}
+            has been released back to your account.
           </p>
 
           {/* Summary */}
           <IVRSummaryCard
             rows={[
-              { label: "Downpayment", value: `${amount} SAR` },
+              {
+                label: "Downpayment",
+                value: amount,
+                valueIcon: <RiyalSymbol size={12} className="text-[color:var(--color-ivr-front-minor)]" />,
+              },
               {
                 label: "Status",
                 value: "Released",

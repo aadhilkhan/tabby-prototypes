@@ -12,7 +12,7 @@ export const PHONE = { width: 497, height: 980, bezel: 42, screenWidth: 413, scr
 
 /* ── Tracker step configs ─────────────────────────────────────────── */
 
-/* Structural bases — text is applied per-language at build time */
+/* Structural bases - text is applied per-language at build time */
 
 const s1Sending = {
   id: 1, indicatorType: "icon" as const, indicatorColor: "tertiary" as const,

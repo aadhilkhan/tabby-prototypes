@@ -1,4 +1,5 @@
 import { CheckCircleIcon } from "../icons";
+import RiyalSymbol from "../RiyalSymbol";
 
 interface Props {
   amount: string;
@@ -45,8 +46,9 @@ export default function IVRSuccessState({ amount }: Props) {
                     Pay in 4
                   </span>
                 </div>
-                <span className="text-[16px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-primary whitespace-nowrap">
-                  SAR {amount}/mo
+                <span className="inline-flex items-center gap-[6px] text-[16px] font-medium leading-[20px] tracking-[-0.16px] text-tui-front-primary whitespace-nowrap">
+                  <RiyalSymbol size={13} />
+                  {amount}/mo
                 </span>
               </div>
             </div>

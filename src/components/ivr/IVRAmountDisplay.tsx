@@ -1,16 +1,15 @@
+import RiyalSymbol from "../RiyalSymbol";
+
 interface IVRAmountDisplayProps {
   amount: string;
-  currency?: string;
 }
 
-export default function IVRAmountDisplay({ amount, currency = "SAR" }: IVRAmountDisplayProps) {
+export default function IVRAmountDisplay({ amount }: IVRAmountDisplayProps) {
   return (
     <div className="flex items-baseline gap-[8px]">
+      <RiyalSymbol size={22} className="text-[color:var(--color-ivr-front-minor)]" />
       <span className="font-heading text-[32px] leading-[36px] tracking-[-0.6px] font-bold text-[color:var(--color-ivr-front-major)]">
         {amount}
-      </span>
-      <span className="text-[15px] font-semibold tracking-[-0.1px] text-[color:var(--color-ivr-front-minor)]">
-        {currency}
       </span>
     </div>
   );
