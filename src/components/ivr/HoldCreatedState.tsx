@@ -49,14 +49,11 @@ export default function HoldCreatedState({ amount, onVerify }: Props) {
             We've set aside this amount while we verify your number. It'll only be confirmed once verification is complete.
           </p>
 
-          {/* Info card */}
-          <div
-            className="w-full rounded-[16px] p-[16px] flex flex-col gap-[14px]"
-            style={{ backgroundColor: "var(--color-surface-muted)" }}
-          >
+          {/* Info rows */}
+          <div className="w-full flex flex-col gap-[16px]">
             <IVRInfoRow icon={Lock} text="This is a temporary hold, not a charge" />
             <IVRInfoRow icon={PhoneCall} text="A short call will confirm your order" />
-            <IVRInfoRow icon={CheckCircle2} text="If verification fails, the hold is released automatically" />
+            <IVRInfoRow icon={CheckCircle2} text="If verification fails, this hold is released automatically" />
           </div>
         </div>
       </div>
