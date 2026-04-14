@@ -1,11 +1,9 @@
-import type { LucideIcon } from "lucide-react";
-
 interface IVRInfoRowProps {
-  icon: LucideIcon;
+  icon: React.ReactNode;
   text: string;
 }
 
-export default function IVRInfoRow({ icon: Icon, text }: IVRInfoRowProps) {
+export default function IVRInfoRow({ icon, text }: IVRInfoRowProps) {
   return (
     <div className="flex items-center gap-[16px] w-full">
       <div
@@ -16,7 +14,7 @@ export default function IVRInfoRow({ icon: Icon, text }: IVRInfoRowProps) {
           backgroundColor: "var(--color-surface-muted)",
         }}
       >
-        <Icon size={20} color="var(--color-tui-front-primary)" strokeWidth={1.8} />
+        {icon}
       </div>
       <span className="text-[15px] leading-[20px] tracking-[-0.1px] text-tui-front-primary font-medium">
         {text}

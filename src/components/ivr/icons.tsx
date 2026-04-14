@@ -28,6 +28,48 @@ export function PhoneCallIcon({ size = 48, color = "#1D2329" }: IconProps) {
   );
 }
 
+/** Tabby LockClosed24 — filled lock with shackle and keyhole slot. */
+export function LockClosed24({ size = 24, color = "#1D2329" }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M7 8V6.5C7 3.73858 9.23858 1.5 12 1.5C14.7614 1.5 17 3.73858 17 6.5V8H18C19.6569 8 21 9.34315 21 11V19C21 20.6569 19.6569 22 18 22H6C4.34315 22 3 20.6569 3 19V11C3 9.34315 4.34315 8 6 8H7ZM9 6.5C9 4.84315 10.3431 3.5 12 3.5C13.6569 3.5 15 4.84315 15 6.5V8H9V6.5ZM13 14C13 13.4477 12.5523 13 12 13C11.4477 13 11 13.4477 11 14V16C11 16.5523 11.4477 17 12 17C12.5523 17 13 16.5523 13 16V14Z"
+        fill={color}
+      />
+    </svg>
+  );
+}
+
+/** Tabby HandsetStart24 — filled handset tilted like starting a call. */
+export function HandsetStart24({ size = 24, color = "#1D2329" }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M6.62 10.79C8.06 13.62 10.38 15.94 13.21 17.38L15.41 15.18C15.69 14.9 16.08 14.82 16.43 14.93C17.55 15.29 18.75 15.48 20 15.48C20.55 15.48 21 15.93 21 16.48V19.92C21 20.47 20.55 20.92 20 20.92C10.61 20.92 3 13.31 3 3.92C3 3.37 3.45 2.92 4 2.92H7.5C8.05 2.92 8.5 3.37 8.5 3.92C8.5 5.18 8.7 6.38 9.06 7.5C9.17 7.85 9.08 8.24 8.8 8.52L6.62 10.79Z"
+        fill={color}
+      />
+    </svg>
+  );
+}
+
+/** Tabby CheckCircle24 — outline circle with checkmark inside. */
+export function CheckCircle24({ size = 24, color = "#1D2329" }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="9" stroke={color} strokeWidth={1.8} />
+      <path
+        d="M8 12L11 15L16 10"
+        stroke={color}
+        strokeWidth={1.8}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export function PhoneOffIcon({ size = 48, color = "#1D2329" }: IconProps) {
   return (
     <svg width={size} height={size} viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">

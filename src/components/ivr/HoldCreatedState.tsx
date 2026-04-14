@@ -1,8 +1,7 @@
-import { Lock, PhoneCall, CheckCircle2 } from "lucide-react";
 import Button from "../Button";
 import IVRStatusPill from "./IVRStatusPill";
 import IVRInfoRow from "./IVRInfoRow";
-import { ShieldCheckedIcon } from "./icons";
+import { ShieldCheckedIcon, LockClosed24, HandsetStart24, CheckCircle24 } from "./icons";
 
 interface Props {
   amount: string;
@@ -49,11 +48,11 @@ export default function HoldCreatedState({ amount, onVerify }: Props) {
             We've set aside this amount while we verify your number. It'll only be confirmed once verification is complete.
           </p>
 
-          {/* Info rows */}
+          {/* Info rows — icons match Figma Tabby core icon set */}
           <div className="w-full flex flex-col gap-[16px]">
-            <IVRInfoRow icon={Lock} text="This is a temporary hold, not a charge" />
-            <IVRInfoRow icon={PhoneCall} text="A short call will confirm your order" />
-            <IVRInfoRow icon={CheckCircle2} text="If verification fails, this hold is released automatically" />
+            <IVRInfoRow icon={<LockClosed24 />} text="This is a temporary hold, not a charge" />
+            <IVRInfoRow icon={<HandsetStart24 />} text="A short call will confirm your order" />
+            <IVRInfoRow icon={<CheckCircle24 />} text="If verification fails, this hold is released automatically" />
           </div>
         </div>
       </div>
