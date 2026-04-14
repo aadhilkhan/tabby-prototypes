@@ -50,7 +50,7 @@ function useViewportLayout(hideControls: boolean) {
       const mobile = window.innerWidth < 960;
       setIsMobile(mobile);
       const pad = 4;
-      const tabsH = !hideControls ? 44 : 0;
+      const tabsH = !hideControls ? 40 : 0;
       if (mobile) {
         const toolbarH = !hideControls ? 100 : 0;
         const s = Math.min(1, (window.innerHeight - pad - toolbarH - tabsH) / PHONE.height, (window.innerWidth - pad) / PHONE.width);
@@ -90,8 +90,9 @@ export default function IVRVerification() {
   return (
     <div className={`h-screen bg-[#f0f0f0] flex flex-col overflow-hidden relative ${isMobile && !hideControls ? "pb-[100px]" : ""}`}>
       {!hideControls && <PrototypeTabs active="ivr" />}
-      <div className="flex-1 flex items-center justify-center relative">
-      <div style={{ transform: `scale(${scale})`, transformOrigin: "center center" }}>
+      <div className={`flex-1 flex justify-center relative ${isMobile ? "items-start" : "items-center"}`}>
+      <div style={{ width: PHONE.width * scale, height: PHONE.height * scale }}>
+      <div style={{ transform: `scale(${scale})`, transformOrigin: "top left", width: PHONE.width, height: PHONE.height }}>
         <PhoneFrame state={FAKE_STATION_STATE} lang={lang} hideNotification>
           <div className="relative h-full bg-white flex flex-col">
             <NavBar lang={lang} onToggleLang={() => setLang(lang === "en" ? "ar" : "en")} />
@@ -99,32 +100,30 @@ export default function IVRVerification() {
               {/* Content area — key triggers fade on state change */}
               <div
                 key={`${state}-${callKey}`}
-                className="absolute inset-0 overflow-y-auto"
+                className="absolute inset-0"
                 style={{ animation: "ivr-fade-in-up 0.35s ease both" }}
               >
-                <div className="flex flex-col gap-[20px] items-start pt-[16px] pb-[24px] px-[16px]">
-                  {state === "hold_created" && (
-                    <HoldCreatedState amount={AMOUNT} onVerify={() => goTo("ivr_in_progress")} />
-                  )}
-                  {state === "ivr_in_progress" && (
-                    <IVRInProgressState
-                      resetKey={callKey}
-                      onTimeout={() => goTo("ivr_failed")}
-                      onCancel={() => goTo("ivr_failed")}
-                      onResend={() => setCallKey((k) => k + 1)}
-                    />
-                  )}
-                  {state === "ivr_failed" && (
-                    <IVRFailedState
-                      amount={AMOUNT}
-                      onTryAgain={() => goTo("hold_created")}
-                      onExit={() => goTo("hold_created")}
-                    />
-                  )}
-                  {state === "ivr_success" && (
-                    <IVRSuccessState amount={AMOUNT} onContinue={() => goTo("hold_created")} />
-                  )}
-                </div>
+                {state === "hold_created" && (
+                  <HoldCreatedState amount={AMOUNT} onVerify={() => goTo("ivr_in_progress")} />
+                )}
+                {state === "ivr_in_progress" && (
+                  <IVRInProgressState
+                    resetKey={callKey}
+                    onTimeout={() => goTo("ivr_failed")}
+                    onCancel={() => goTo("ivr_failed")}
+                    onResend={() => setCallKey((k) => k + 1)}
+                  />
+                )}
+                {state === "ivr_failed" && (
+                  <IVRFailedState
+                    amount={AMOUNT}
+                    onTryAgain={() => goTo("hold_created")}
+                    onExit={() => goTo("hold_created")}
+                  />
+                )}
+                {state === "ivr_success" && (
+                  <IVRSuccessState amount={AMOUNT} onContinue={() => goTo("hold_created")} />
+                )}
               </div>
             </div>
             {/* Home indicator */}
@@ -133,6 +132,7 @@ export default function IVRVerification() {
             </div>
           </div>
         </PhoneFrame>
+      </div>
       </div>
 
       {/* Left control panel — desktop */}

@@ -28,7 +28,7 @@ function useViewportLayout(hideControls: boolean) {
       const mobile = window.innerWidth < 960;
       setIsMobile(mobile);
       const pad = 4;
-      const tabsH = !hideControls ? 44 : 0;
+      const tabsH = !hideControls ? 40 : 0;
       if (mobile) {
         const toolbarH = !hideControls ? 100 : 0;
         const s = Math.min(1, (window.innerHeight - pad - toolbarH - tabsH) / PHONE.height, (window.innerWidth - pad) / PHONE.width);
@@ -62,8 +62,9 @@ export default function App() {
   return (
     <div className={`h-screen bg-[#f0f0f0] flex flex-col overflow-hidden relative ${isMobile && !hideControls ? "pb-[100px]" : ""}`}>
       {!hideControls && <PrototypeTabs active="station" />}
-      <div className="flex-1 flex items-center justify-center relative">
-      <div style={{ transform: `scale(${scale})`, transformOrigin: "center center" }}>
+      <div className={`flex-1 flex justify-center relative ${isMobile ? "items-start" : "items-center"}`}>
+      <div style={{ width: PHONE.width * scale, height: PHONE.height * scale + (isMobile || hideControls ? 0 : 32) }}>
+      <div style={{ transform: `scale(${scale})`, transformOrigin: "top left", width: PHONE.width, height: PHONE.height }}>
         <PhoneFrame state={state} lang={lang} hideNotification={showTrouble || showAccount || notificationDismissed}>
           <div className="relative h-full bg-white flex flex-col">
             <NavBar lang={lang} onToggleLang={() => setLang(lang === "en" ? "ar" : "en")} />
@@ -162,6 +163,7 @@ export default function App() {
             View designs
           </a>
         )}
+      </div>
       </div>
       {!hideControls && !isMobile && (
         <>

@@ -17,8 +17,8 @@ export default function PrototypeTabs({ active }: PrototypeTabsProps) {
   const activeHref = active === "station" ? "/" : "/ivr";
   return (
     <div
-      className="w-full flex items-end justify-center px-[12px] pt-[8px] shrink-0"
-      style={{ height: 44, background: "#f0f0f0" }}
+      className="w-full flex items-end px-[8px] pt-[6px] shrink-0 border-b border-[#e5e5e5]"
+      style={{ height: 40, background: "#ffffff" }}
     >
       <div className="flex items-end gap-[2px]">
         {TABS.map((tab) => {
@@ -27,15 +27,19 @@ export default function PrototypeTabs({ active }: PrototypeTabsProps) {
             <a
               key={tab.href}
               href={tab.href}
-              className={`flex items-center gap-[8px] px-[16px] rounded-t-[10px] text-[13px] font-semibold transition-all
+              className={`flex items-center gap-[8px] px-[14px] rounded-t-[10px] text-[13px] font-medium transition-all
                 ${isActive
                   ? "bg-white text-tui-front-primary cursor-default"
-                  : "bg-[#e0e0e0] text-tui-front-secondary hover:bg-[#e8e8e8] hover:text-tui-front-primary cursor-pointer"}`}
+                  : "bg-[#f1f3f4] text-tui-front-secondary hover:bg-[#e8eaed] hover:text-tui-front-primary cursor-pointer"}`}
               style={{
-                height: 34,
-                minWidth: 140,
-                boxShadow: isActive ? "0 -1px 3px rgba(0,0,0,0.04)" : "none",
+                height: 32,
+                maxWidth: 200,
                 letterSpacing: "-0.1px",
+                borderTopLeftRadius: 10,
+                borderTopRightRadius: 10,
+                position: "relative",
+                marginBottom: -1,
+                borderBottom: isActive ? "1px solid #ffffff" : "1px solid transparent",
               }}
             >
               <span
@@ -46,7 +50,7 @@ export default function PrototypeTabs({ active }: PrototypeTabsProps) {
                   backgroundColor: isActive ? tab.color : "#b8c3d1",
                 }}
               />
-              {tab.label}
+              <span className="truncate">{tab.label}</span>
             </a>
           );
         })}
