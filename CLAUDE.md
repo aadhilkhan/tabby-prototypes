@@ -305,6 +305,28 @@ Typography: H1 uses Radial Saudi (35px/500), body uses Inter Variable (16px/500 
   - Secondary button permanently disabled once `attemptsLeft === 0`
 - Removed footer consent line ("By continuing, you consent to sharing your data with AECB") and its `footer.consent*` translation keys — Footer is now just the phone/Change row
 
+### Session 13 (2026-04-14)
+- New `/ivr` page — IVR verification flow after downpayment hold (KSA BNPL regulatory requirement). Single page, 4 states: `hold_created` / `ivr_in_progress` / `ivr_failed` / `ivr_success`.
+- Pathname router in `src/main.tsx` (no react-router). `vercel.json` SPA rewrite so `/ivr` serves `index.html`.
+- New shared component `PrototypeTabs.tsx` — 40px Chrome-style tab bar at the top of both pages for cross-nav; active tab bg = page canvas `#f0f0f0`, inactive = white, coloured dot (green/purple) indicates page.
+- Viewport layout refactor: scaled phone wrapped in a sized outer box with `transform-origin: top left` so `items-start` on mobile eliminates any gap above the phone. Both `App.tsx` and `IVRVerification.tsx` use the same pattern.
+- IVR states reuse `PhoneFrame`, `NavBar`, and `<Button>`; sticky-bottom CTA pattern matches `AccountScreen`.
+- IVR success = slide-in overlay (not an inline state). `baseStateRef` tracks last non-success state so the underlying view keeps rendering while the success screen slides in from the right (left in RTL) via shared `SPRING`. Visually mirrors the station `SuccessScreen` — 80px `CheckCircleIcon` + "Payment confirmed" + Adidas merchant card + "SAR 49.75/mo".
+- New icons in `src/components/ivr/icons.tsx`:
+  - `ShieldCheckedIcon` (hold), `PhoneCallIcon` (calling), `PhoneOffIcon` (failed) — tinted per state, inside 88×88 surface-muted circles
+  - `LockBadge40`, `HandsetBadge40`, `CheckCircleBadge40` — 40×40 self-contained supercell badges from Tabby's core icon set (Figma node 19575:23789). Circle bg is baked into each SVG.
+- `IncomingCallBanner.tsx` — renders `<img src="/incoming-call.png">` at the top of the calling screen. Drop a PNG into `assets/` with that name to populate it (Vite's `publicDir`).
+- Desktop control panel on IVR page mirrors the station's ControlPanel layout (TBadge + 4 state pills + Restart). During `ivr_in_progress` a second column appears on the right with "▸ Success" / "▸ Failure" simulate buttons. Mobile gets the same bottom-toolbar pattern.
+- Added `lucide-react` dep (v1.8.0, the latest on npm — packages >0.x moved to the 1.x line).
+- Tokens added to `@theme` in `src/index.css` (`--color-ivr-*`) and new animation keyframes (`ivr-fade-in-up`, `ivr-scale-in`, `ivr-pulse-dot`, `ivr-ring-pulse`, `ivr-spin`, `ivr-check-draw`, `ivr-circle-draw`).
+
+### Session 14 (2026-04-14)
+- New `src/components/RiyalSymbol.tsx` - reusable SVG component for the new Saudi Riyal glyph (SAMA 2025). Uses `currentColor` and scales via `size` prop. Replaces every currency-display `SAR`/`﷼` across the IVR flow (HoldCreatedState amount card, IVRSuccessState merchant card, IVRFailedState body prose + summary row, IVRAmountDisplay). Keep using this component wherever an amount is shown.
+- `IVRAmountDisplay` had its `currency` prop removed - the riyal glyph is baked in now.
+- HoldCreatedState redesign: removed the 88×88 `ShieldCheckedIcon` from the top of the screen. Amount moved out of the header into a Supercell-style merchant card (Adidas logo + "Adidas" / "Downpayment" + glyph + amount on the right, `bg-surface-muted` rounded-24) placed below the heading/body. Matches the station `SuccessScreen` card pattern.
+- Replaced em dashes (`-`) with hyphens (`-`) across the whole src/ directory - 11 files, 1 user-facing string ("Almost there - one quick step") + 10 code comments.
+- `.claude/launch.json` scaffolded with `tabby-prototypes-dev` → `npm run dev` on port 5173 (gitignored via `.claude` entry in `.gitignore`).
+
 ### Session 15 (2026-04-14) - Production-readiness refactor
 Goal: reduce duplication, strengthen types, and clean up dead code so the prototype reads as a maintained codebase rather than a vibe-coded sketch. No behavior changes.
 
@@ -338,25 +360,3 @@ Goal: reduce duplication, strengthen types, and clean up dead code so the protot
 - `NavBar` close + lang-toggle buttons gain `aria-label` (localised); `type="button"` on all non-submit buttons in new shared components.
 
 **App.tsx**: shrank from ~295 to ~180 lines (state + screen composition only); `IVRVerification.tsx` from ~285 to ~150.
-
-### Session 14 (2026-04-14)
-- New `src/components/RiyalSymbol.tsx` - reusable SVG component for the new Saudi Riyal glyph (SAMA 2025). Uses `currentColor` and scales via `size` prop. Replaces every currency-display `SAR`/`﷼` across the IVR flow (HoldCreatedState amount card, IVRSuccessState merchant card, IVRFailedState body prose + summary row, IVRAmountDisplay). Keep using this component wherever an amount is shown.
-- `IVRAmountDisplay` had its `currency` prop removed - the riyal glyph is baked in now.
-- HoldCreatedState redesign: removed the 88×88 `ShieldCheckedIcon` from the top of the screen. Amount moved out of the header into a Supercell-style merchant card (Adidas logo + "Adidas" / "Downpayment" + glyph + amount on the right, `bg-surface-muted` rounded-24) placed below the heading/body. Matches the station `SuccessScreen` card pattern.
-- Replaced em dashes (`-`) with hyphens (`-`) across the whole src/ directory - 11 files, 1 user-facing string ("Almost there - one quick step") + 10 code comments.
-- `.claude/launch.json` scaffolded with `tabby-prototypes-dev` → `npm run dev` on port 5173 (gitignored via `.claude` entry in `.gitignore`).
-
-### Session 13 (2026-04-14)
-- New `/ivr` page — IVR verification flow after downpayment hold (KSA BNPL regulatory requirement). Single page, 4 states: `hold_created` / `ivr_in_progress` / `ivr_failed` / `ivr_success`.
-- Pathname router in `src/main.tsx` (no react-router). `vercel.json` SPA rewrite so `/ivr` serves `index.html`.
-- New shared component `PrototypeTabs.tsx` — 40px Chrome-style tab bar at the top of both pages for cross-nav; active tab bg = page canvas `#f0f0f0`, inactive = white, coloured dot (green/purple) indicates page.
-- Viewport layout refactor: scaled phone wrapped in a sized outer box with `transform-origin: top left` so `items-start` on mobile eliminates any gap above the phone. Both `App.tsx` and `IVRVerification.tsx` use the same pattern.
-- IVR states reuse `PhoneFrame`, `NavBar`, and `<Button>`; sticky-bottom CTA pattern matches `AccountScreen`.
-- IVR success = slide-in overlay (not an inline state). `baseStateRef` tracks last non-success state so the underlying view keeps rendering while the success screen slides in from the right (left in RTL) via shared `SPRING`. Visually mirrors the station `SuccessScreen` — 80px `CheckCircleIcon` + "Payment confirmed" + Adidas merchant card + "SAR 49.75/mo".
-- New icons in `src/components/ivr/icons.tsx`:
-  - `ShieldCheckedIcon` (hold), `PhoneCallIcon` (calling), `PhoneOffIcon` (failed) — tinted per state, inside 88×88 surface-muted circles
-  - `LockBadge40`, `HandsetBadge40`, `CheckCircleBadge40` — 40×40 self-contained supercell badges from Tabby's core icon set (Figma node 19575:23789). Circle bg is baked into each SVG.
-- `IncomingCallBanner.tsx` — renders `<img src="/incoming-call.png">` at the top of the calling screen. Drop a PNG into `assets/` with that name to populate it (Vite's `publicDir`).
-- Desktop control panel on IVR page mirrors the station's ControlPanel layout (TBadge + 4 state pills + Restart). During `ivr_in_progress` a second column appears on the right with "▸ Success" / "▸ Failure" simulate buttons. Mobile gets the same bottom-toolbar pattern.
-- Added `lucide-react` dep (v1.8.0, the latest on npm — packages >0.x moved to the 1.x line).
-- Tokens added to `@theme` in `src/index.css` (`--color-ivr-*`) and new animation keyframes (`ivr-fade-in-up`, `ivr-scale-in`, `ivr-pulse-dot`, `ivr-ring-pulse`, `ivr-spin`, `ivr-check-draw`, `ivr-circle-draw`).
