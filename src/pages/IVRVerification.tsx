@@ -77,13 +77,15 @@ export default function IVRVerification() {
   const { scale, isMobile } = useViewportLayout(hideControls);
   const isRtl = lang === "ar";
 
+  const isCalling = state === "ivr_in_progress";
   const showSuccess = state === "ivr_success";
+  const overlayOpen = isCalling || showSuccess;
 
-  // Track the last non-success state so it keeps rendering behind the success overlay.
-  const baseStateRef = useRef<Exclude<IVRState, "ivr_success">>(
-    state === "ivr_success" ? "ivr_in_progress" : state
+  // Track the last base (hold/failed) state so it keeps rendering behind the calling/success overlays.
+  const baseStateRef = useRef<Exclude<IVRState, "ivr_in_progress" | "ivr_success">>(
+    state === "hold_created" || state === "ivr_failed" ? state : "hold_created"
   );
-  if (state !== "ivr_success") {
+  if (state === "hold_created" || state === "ivr_failed") {
     baseStateRef.current = state;
   }
   const baseState = baseStateRef.current;
@@ -110,10 +112,10 @@ export default function IVRVerification() {
           <div className="relative h-full bg-white flex flex-col">
             <NavBar lang={lang} onToggleLang={() => setLang(lang === "en" ? "ar" : "en")} />
             <div className="relative flex-1 overflow-hidden">
-              {/* Base states - push left/right when success overlay is open */}
+              {/* Base states (hold / failed) - push 30% when an overlay is open */}
               <motion.div
                 className="absolute inset-0"
-                animate={{ x: showSuccess ? (isRtl ? "30%" : "-30%") : "0%" }}
+                animate={{ x: overlayOpen ? (isRtl ? "30%" : "-30%") : "0%" }}
                 transition={SPRING}
               >
                 <div
@@ -124,14 +126,6 @@ export default function IVRVerification() {
                   {baseState === "hold_created" && (
                     <HoldCreatedState amount={AMOUNT} onVerify={() => goTo("ivr_in_progress")} />
                   )}
-                  {baseState === "ivr_in_progress" && (
-                    <IVRInProgressState
-                      resetKey={callKey}
-                      onTimeout={() => goTo("ivr_failed")}
-                      onCancel={() => goTo("ivr_failed")}
-                      onResend={() => setCallKey((k) => k + 1)}
-                    />
-                  )}
                   {baseState === "ivr_failed" && (
                     <IVRFailedState
                       amount={AMOUNT}
@@ -141,7 +135,29 @@ export default function IVRVerification() {
                 </div>
               </motion.div>
 
-              {/* Success overlay - slides in from right (or left in RTL) */}
+              {/* Calling overlay - slides in from right (or left in RTL) over the base */}
+              <AnimatePresence>
+                {isCalling && (
+                  <motion.div
+                    key="ivr-calling"
+                    className="absolute inset-0 z-10"
+                    initial={{ x: isRtl ? "-100%" : "100%" }}
+                    animate={{ x: 0 }}
+                    exit={{ x: isRtl ? "-100%" : "100%" }}
+                    transition={SPRING}
+                    style={{ boxShadow: isRtl ? "4px 0 16px rgba(0,0,0,0.1)" : "-4px 0 16px rgba(0,0,0,0.1)" }}
+                  >
+                    <IVRInProgressState
+                      resetKey={callKey}
+                      onTimeout={() => goTo("ivr_failed")}
+                      onCancel={() => goTo("ivr_failed")}
+                      onResend={() => setCallKey((k) => k + 1)}
+                    />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Success overlay - slides in from right (or left in RTL), sits above calling */}
               <AnimatePresence>
                 {showSuccess && (
                   <motion.div
