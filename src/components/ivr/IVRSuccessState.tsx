@@ -2,6 +2,7 @@ import { Check } from "lucide-react";
 import Button from "../Button";
 import IVRStatusPill from "./IVRStatusPill";
 import IVRSummaryCard from "./IVRSummaryCard";
+import { CheckCircleIcon } from "../icons";
 
 interface Props {
   amount: string;
@@ -14,40 +15,8 @@ export default function IVRSuccessState({ amount, onContinue }: Props) {
       {/* Scrollable content */}
       <div className="flex-1 overflow-y-auto pt-[16px] px-[16px] pb-[104px]">
         <div className="flex flex-col gap-[22px] items-start w-full">
-          {/* Animated checkmark */}
-          <div
-            className="w-[88px] h-[88px] rounded-full flex items-center justify-center"
-            style={{ backgroundColor: "var(--color-ivr-success-light)" }}
-          >
-            <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
-              <circle
-                cx="28"
-                cy="28"
-                r="26"
-                fill="none"
-                stroke="var(--color-ivr-success)"
-                strokeWidth="3"
-                strokeDasharray="176"
-                style={{
-                  strokeDashoffset: 176,
-                  animation: "ivr-circle-draw 0.6s ease forwards 0.1s",
-                }}
-              />
-              <path
-                d="M17 29l8 8 14-16"
-                fill="none"
-                stroke="var(--color-ivr-success)"
-                strokeWidth="3.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeDasharray="40"
-                style={{
-                  strokeDashoffset: 40,
-                  animation: "ivr-check-draw 0.4s ease forwards 0.6s",
-                }}
-              />
-            </svg>
-          </div>
+          {/* Success icon (matches station-screen SuccessScreen) */}
+          <CheckCircleIcon size={88} />
 
           {/* Pill + amount */}
           <div className="flex flex-col gap-[12px] items-start w-full">

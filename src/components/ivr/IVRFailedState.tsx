@@ -1,7 +1,8 @@
-import { PhoneOff, Check } from "lucide-react";
+import { Check } from "lucide-react";
 import Button from "../Button";
 import IVRStatusPill from "./IVRStatusPill";
 import IVRSummaryCard from "./IVRSummaryCard";
+import { PhoneOffIcon } from "./icons";
 
 interface Props {
   amount: string;
@@ -19,7 +20,7 @@ export default function IVRFailedState({ amount, onTryAgain }: Props) {
             className="w-[88px] h-[88px] rounded-full flex items-center justify-center"
             style={{ backgroundColor: "var(--color-ivr-warning-light)" }}
           >
-            <PhoneOff size={44} color="var(--color-ivr-warning)" strokeWidth={1.8} />
+            <PhoneOffIcon size={44} color="var(--color-ivr-warning)" />
           </div>
 
           {/* Pill */}

@@ -1,7 +1,8 @@
-import { ShieldCheck, Lock, PhoneCall, CheckCircle2 } from "lucide-react";
+import { Lock, PhoneCall, CheckCircle2 } from "lucide-react";
 import Button from "../Button";
 import IVRStatusPill from "./IVRStatusPill";
 import IVRInfoRow from "./IVRInfoRow";
+import { ShieldCheckedIcon } from "./icons";
 
 interface Props {
   amount: string;
@@ -19,7 +20,7 @@ export default function HoldCreatedState({ amount, onVerify }: Props) {
             className="w-[88px] h-[88px] rounded-full flex items-center justify-center"
             style={{ backgroundColor: "var(--color-ivr-hold-blue-bg)" }}
           >
-            <ShieldCheck size={48} color="var(--color-ivr-hold-blue)" strokeWidth={1.8} />
+            <ShieldCheckedIcon size={48} color="var(--color-ivr-hold-blue)" />
           </div>
 
           {/* Pill + amount */}

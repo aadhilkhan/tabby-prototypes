@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { Phone, Lock } from "lucide-react";
+import { Lock } from "lucide-react";
 import Button from "../Button";
 import IVRStatusPill from "./IVRStatusPill";
+import { PhoneCallIcon } from "./icons";
 
 interface Props {
   onTimeout: () => void;
@@ -43,7 +44,7 @@ export default function IVRInProgressState({ onTimeout, onCancel, onResend, rese
             className="ivr-ring-pulse w-[88px] h-[88px] rounded-full flex items-center justify-center"
             style={{ backgroundColor: "var(--color-spinner-bg)" }}
           >
-            <Phone size={44} color="var(--color-tui-front-accent)" strokeWidth={1.8} />
+            <PhoneCallIcon size={44} color="var(--color-tui-front-accent)" />
           </div>
 
           {/* Pill */}
