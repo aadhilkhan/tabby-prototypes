@@ -5,16 +5,10 @@ import Button from "./Button";
 import { SPRING } from "../constants";
 import type { Language } from "../types";
 import { t } from "../translations";
+import { formatPhone } from "../lib/formatPhone";
 
 const MAX_ATTEMPTS = 3;
 const RESEND_TIMER_SECONDS = 59;
-
-function formatPhone(digits: string): string {
-  const d = digits.replace(/\D/g, "");
-  if (d.length <= 2) return `+971 ${d}`;
-  if (d.length <= 5) return `+971 ${d.slice(0, 2)} ${d.slice(2)}`;
-  return `+971 ${d.slice(0, 2)} ${d.slice(2, 5)} ${d.slice(5)}`;
-}
 
 interface TroubleBottomSheetProps {
   lang?: Language;

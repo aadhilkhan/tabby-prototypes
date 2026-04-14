@@ -21,7 +21,11 @@ export default function NotificationBanner({ lang = "en" }: NotificationBannerPr
       exit={{ y: -120, opacity: 0 }}
       transition={SPRING_SOFT}
       className="absolute left-1/2 -translate-x-1/2 top-[60px] w-[382px] rounded-[23px] px-[14px] py-[14px] pe-[18px] z-50"
-      style={{ backgroundColor: "rgba(80, 79, 79, 0.7)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)" }}
+      style={{
+        backgroundColor: "var(--color-notification-bg)",
+        backdropFilter: "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)",
+      }}
     >
       <div className="flex items-center gap-[10px] w-full">
         <img src="/TBadge.png" alt="Tabby" className="w-[38px] h-[38px] rounded-[10px] shrink-0" />

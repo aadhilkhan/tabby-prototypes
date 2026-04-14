@@ -10,7 +10,11 @@ interface NavBarProps {
 export default function NavBar({ lang = "en", onToggleLang }: NavBarProps) {
   return (
     <div className="flex items-center justify-between px-[16px] py-[10px] w-full">
-      <button className="w-[40px] h-[40px] flex items-center justify-center">
+      <button
+        type="button"
+        aria-label={lang === "ar" ? "إغلاق" : "Close"}
+        className="w-[40px] h-[40px] flex items-center justify-center"
+      >
         <CloseIcon size={24} color="var(--color-tui-front-primary)" />
       </button>
       <div className="flex flex-col items-center gap-[0px]">
@@ -24,7 +28,12 @@ export default function NavBar({ lang = "en", onToggleLang }: NavBarProps) {
           <img src="/wordmark.png" alt="tabby" className="h-[14px] object-contain" />
         </div>
       </div>
-      <button className="h-[40px] flex items-center px-[8px] cursor-pointer" onClick={onToggleLang}>
+      <button
+        type="button"
+        aria-label={lang === "ar" ? "Switch to English" : "التبديل إلى العربية"}
+        className="h-[40px] flex items-center px-[8px] cursor-pointer"
+        onClick={onToggleLang}
+      >
         <span className="text-[14px] font-medium text-tui-front-accent">
           {t("nav.langSwitch", lang)}
         </span>

@@ -2,14 +2,7 @@ import { motion } from "motion/react";
 import { UserIcon, ChevronRightIcon } from "./icons";
 import type { Language } from "../types";
 import { t } from "../translations";
-
-function formatPhone(digits: string): string {
-  // Format as "+971 XX XXX XXXX"
-  const d = digits.replace(/\D/g, "");
-  if (d.length <= 2) return `+971 ${d}`;
-  if (d.length <= 5) return `+971 ${d.slice(0, 2)} ${d.slice(2)}`;
-  return `+971 ${d.slice(0, 2)} ${d.slice(2, 5)} ${d.slice(5)}`;
-}
+import { formatPhone } from "../lib/formatPhone";
 
 interface FooterProps {
   phoneNumber: string;
