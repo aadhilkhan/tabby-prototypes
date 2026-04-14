@@ -118,7 +118,6 @@ export default function IVRVerification() {
                   <IVRFailedState
                     amount={AMOUNT}
                     onTryAgain={() => goTo("hold_created")}
-                    onExit={() => goTo("hold_created")}
                   />
                 )}
                 {state === "ivr_success" && (

@@ -36,7 +36,7 @@ export default function IVRInProgressState({ onTimeout, onCancel, onResend, rese
   return (
     <div className="relative h-full bg-white flex flex-col">
       {/* Scrollable content */}
-      <div className="flex-1 overflow-y-auto pt-[16px] px-[16px] pb-[152px]">
+      <div className="flex-1 overflow-y-auto pt-[16px] px-[16px] pb-[180px]">
         <div className="flex flex-col gap-[22px] items-start w-full">
           {/* Pulsing icon */}
           <div
@@ -89,26 +89,28 @@ export default function IVRInProgressState({ onTimeout, onCancel, onResend, rese
               {timeStr}
             </span>
           </div>
-
-          {/* Reassurance */}
-          <div className="flex items-center gap-[6px]">
-            <Lock size={13} color="var(--color-tui-front-secondary)" strokeWidth={2} />
-            <span className="text-[13px] font-medium text-tui-front-secondary">
-              Nothing is charged while we wait
-            </span>
-          </div>
         </div>
       </div>
 
-      {/* Sticky bottom CTA + cancel */}
-      <div className="absolute bottom-0 left-0 right-0 px-[16px] pt-[16px] pb-[12px] bg-white flex flex-col gap-[8px] items-center">
-        <Button
-          variant={resendActive ? "primary" : "secondary"}
-          disabled={!resendActive}
-          onClick={resendActive ? onResend : undefined}
-        >
-          {resendActive ? "Resend call" : "Didn't get the call?"}
-        </Button>
+      {/* Sticky bottom: reassurance + CTA + cancel */}
+      <div className="absolute bottom-0 left-0 right-0 px-[16px] pt-[8px] pb-[12px] bg-white flex flex-col gap-[10px] items-center">
+        {/* Reassurance */}
+        <div className="flex items-center justify-center gap-[6px] w-full">
+          <Lock size={13} color="var(--color-tui-front-secondary)" strokeWidth={2} />
+          <span className="text-[13px] font-medium text-tui-front-secondary">
+            Nothing is charged while we wait
+          </span>
+        </div>
+
+        <div className="w-full">
+          <Button
+            variant={resendActive ? "primary" : "secondary"}
+            disabled={!resendActive}
+            onClick={resendActive ? onResend : undefined}
+          >
+            {resendActive ? "Resend call" : "Didn't get the call?"}
+          </Button>
+        </div>
         <button
           onClick={onCancel}
           className="text-[14px] font-semibold text-tui-front-secondary cursor-pointer hover:text-tui-front-primary transition-colors h-[28px]"

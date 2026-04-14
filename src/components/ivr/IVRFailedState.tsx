@@ -6,14 +6,13 @@ import IVRSummaryCard from "./IVRSummaryCard";
 interface Props {
   amount: string;
   onTryAgain: () => void;
-  onExit: () => void;
 }
 
-export default function IVRFailedState({ amount, onTryAgain, onExit }: Props) {
+export default function IVRFailedState({ amount, onTryAgain }: Props) {
   return (
     <div className="relative h-full bg-white flex flex-col">
       {/* Scrollable content */}
-      <div className="flex-1 overflow-y-auto pt-[16px] px-[16px] pb-[152px]">
+      <div className="flex-1 overflow-y-auto pt-[16px] px-[16px] pb-[104px]">
         <div className="flex flex-col gap-[22px] items-start w-full">
           {/* Icon */}
           <div
@@ -59,15 +58,9 @@ export default function IVRFailedState({ amount, onTryAgain, onExit }: Props) {
         </div>
       </div>
 
-      {/* Sticky bottom CTA + exit */}
-      <div className="absolute bottom-0 left-0 right-0 px-[16px] pt-[16px] pb-[12px] bg-white flex flex-col gap-[8px] items-center">
+      {/* Sticky bottom CTA */}
+      <div className="absolute bottom-0 left-0 right-0 px-[16px] pt-[16px] pb-[16px] bg-white">
         <Button variant="primary" onClick={onTryAgain}>Try again</Button>
-        <button
-          onClick={onExit}
-          className="text-[14px] font-semibold text-tui-front-secondary cursor-pointer hover:text-tui-front-primary transition-colors h-[28px]"
-        >
-          Exit checkout
-        </button>
       </div>
     </div>
   );

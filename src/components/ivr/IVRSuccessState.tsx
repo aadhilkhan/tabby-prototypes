@@ -1,4 +1,5 @@
 import { Check } from "lucide-react";
+import Button from "../Button";
 import IVRStatusPill from "./IVRStatusPill";
 import IVRSummaryCard from "./IVRSummaryCard";
 
@@ -90,17 +91,9 @@ export default function IVRSuccessState({ amount, onContinue }: Props) {
         </div>
       </div>
 
-      {/* Sticky bottom CTA (green) */}
+      {/* Sticky bottom CTA */}
       <div className="absolute bottom-0 left-0 right-0 px-[16px] pt-[16px] pb-[16px] bg-white">
-        <button
-          onClick={onContinue}
-          className="w-full h-[64px] rounded-[20px] flex items-center justify-center cursor-pointer active:scale-[0.99] transition-transform"
-          style={{ backgroundColor: "var(--color-ivr-success)" }}
-        >
-          <span className="text-white text-[16px] font-bold leading-[20px] tracking-[-0.16px]">
-            Continue to order
-          </span>
-        </button>
+        <Button variant="primary" onClick={onContinue}>Continue to order</Button>
       </div>
     </div>
   );
