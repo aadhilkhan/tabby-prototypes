@@ -1,4 +1,5 @@
 import type { IVRState } from "../../types";
+import TabbyAppIcon from "../TabbyAppIcon";
 
 interface Props {
   state: IVRState;
@@ -25,7 +26,7 @@ export { STATE_LABELS as IVR_STATE_LABELS, STATE_COLORS as IVR_STATE_COLORS };
 export default function IVRDesktopControls({ state, onGoTo, onRestart }: Props) {
   return (
     <div className="flex flex-col gap-[8px] items-end">
-      <img src="/TBadge.png" alt="" className="h-[48px] object-contain mb-[24px]" />
+      <TabbyAppIcon size={48} className="rounded-[10px] mb-[24px]" />
       {(Object.keys(STATE_LABELS) as IVRState[]).map((s) => (
         <button
           key={s}

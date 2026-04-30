@@ -1,5 +1,6 @@
 import type { StationState } from "../types";
 import { playTapSound } from "../sounds";
+import TabbyAppIcon from "./TabbyAppIcon";
 
 interface ControlPanelProps {
   state: StationState;
@@ -20,7 +21,7 @@ export default function ControlPanel({
 }: ControlPanelProps) {
   return (
     <div className="flex flex-col gap-[8px] items-end">
-      <img src="/TBadge.png" alt="" className="h-[48px] object-contain mb-[24px]" />
+      <TabbyAppIcon size={48} className="rounded-[10px] mb-[24px]" />
       <button
         onClick={onSendNotification}
                 disabled={state !== "sending"}

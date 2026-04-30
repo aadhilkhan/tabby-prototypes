@@ -1,4 +1,5 @@
 import { playTapSound } from "../../sounds";
+import TabbyAppIcon from "../TabbyAppIcon";
 
 interface HomeScreenProps {
   onTabbyTap?: () => void;
@@ -42,11 +43,7 @@ export default function HomeScreen({ onTabbyTap }: HomeScreenProps) {
             }}
             className="relative size-[60px] cursor-pointer transition-transform active:scale-95 shadow-md rounded-[14px] overflow-hidden"
           >
-            <img
-              src="/TBadge.png"
-              alt="Tabby"
-              className="absolute inset-0 w-full h-full object-cover"
-            />
+            <TabbyAppIcon size={60} className="absolute inset-0 w-full h-full" />
           </button>
         </div>
       </div>
