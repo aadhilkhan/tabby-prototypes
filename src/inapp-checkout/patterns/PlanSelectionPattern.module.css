@@ -1,0 +1,245 @@
+/*
+ * Pattern: PlanSelectionPattern
+ * Centered amount header above one or two plan cards. Each card uses a
+ * horizontal Chip row for the split count, then a divider, then a drill-in
+ * row showing the monthly figure and a chevron.
+ */
+
+.screen {
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--tui-background-general-level-2);
+}
+
+.amountBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 40px 16px;
+  text-align: center;
+}
+
+.amountLabel {
+  color: var(--tui-front-secondary);
+}
+
+.amountValue {
+  color: var(--tui-front-primary);
+}
+
+.card {
+  margin: 0 16px 12px;
+  padding: 16px;
+  background: var(--tui-background-general-level-1);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/*
+ * Supercell chevron controls inside cards render at the secondary text
+ * color — the chevron is an affordance, not a primary focal element. Scoped
+ * to `.card` so standalone Supercells elsewhere keep the component default.
+ */
+.card :global(.tui-supercell__control_chevron) {
+  color: var(--tui-front-secondary);
+}
+
+/*
+ * Mute the shipped Supercell click/hover affordances inside cards —
+ * prototype screens read as static previews, and the background fill-on-
+ * hover + scale-down-on-active look like unintended state changes. We keep
+ * the focus-visible outline intact for keyboard accessibility.
+ */
+.card :global(.tui-supercell_clickable)::before,
+.card :global(.tui-supercell_clickable)::after {
+  display: none;
+}
+.card :global(.tui-supercell_clickable),
+.card :global(.tui-supercell_clickable):active {
+  transform: none;
+  transition: none;
+}
+
+/*
+ * Use on a card whose last child is a Supercell — tightens the card's
+ * bottom padding from 16 → 8 so the row's built-in base padding (12px)
+ * isn't stacked with the full card padding, which reads as excess air.
+ */
+.cardTightBottom {
+  padding-bottom: 8px;
+}
+
+.cardLabel {
+  color: var(--tui-front-secondary);
+}
+
+.chipRow {
+  display: flex;
+  gap: 8px;
+}
+
+/*
+ * Split-count chip row layout variants.
+ * - Hug (1–3 plans): chips hug their label, min 72px.
+ * - Stretch (4–5 plans): chips divide the row equally, edge-to-edge.
+ * - Grid (6+ plans): 4-column grid; wraps to a second row at 5+.
+ */
+.chipRowHug > :global(.tui-chip) {
+  min-width: 72px;
+  flex-shrink: 0;
+}
+
+.chipRowStretch > :global(.tui-chip) {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.chipRowGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+.chipRowGrid > :global(.tui-chip) {
+  width: 100%;
+  min-width: 0;
+}
+
+/*
+ * Chip quirk: when stretched externally, the internal .tui-chip__container
+ * (width: 100%, display: flex) grows with the button but defaults to
+ * justify-content: flex-start — so the label clings to the left edge. Override
+ * to center only inside the stretched/grid rows; the hug variant doesn't need
+ * this because the container hugs its content naturally.
+ */
+.chipRowStretch > :global(.tui-chip) > :global(.tui-chip__container),
+.chipRowGrid > :global(.tui-chip) > :global(.tui-chip__container) {
+  justify-content: center;
+}
+
+/*
+ * "Other options" row always hugs contents — labels are short and fixed
+ * ("Pay Next Month", "Pay in full"), and stretching them looks uncanny.
+ */
+.chipRowOther > :global(.tui-chip) {
+  flex-shrink: 0;
+}
+
+/*
+ * Very light divider inside the plan card. The card is a level-1 surface;
+ * line-disabled-level-2 is the lightest line token that still reads —
+ * effectively a hairline rather than a full separator. Works in both O25
+ * (chrome-50) and O26 (neutral-100) so the divider scales with the theme.
+ */
+.cardDivider {
+  height: 1px;
+  background: var(--tui-line-disabled-level-2, var(--tui-line-primary));
+  opacity: 0.6;
+  margin: 4px 0;
+}
+
+/*
+ * Drill-in group: wraps the divider + Supercell row so the card's outer
+ * 12px gap doesn't stack with the Supercell's own 12px top base padding
+ * and the divider's 4px margin, which together read as excess air. The
+ * card gap still applies between the chip row and this group.
+ */
+.drillInGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.detailRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: none;
+  border: 0;
+  padding: 4px 0;
+  text-align: start;
+  cursor: pointer;
+  color: inherit;
+}
+
+.detailIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--tui-background-accent-muted-level-1);
+  color: var(--tui-front-accent);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.detailText {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/*
+ * Inline bold emphasis inside a regular-weight Text — e.g. "One bill due 3 October"
+ * where only "due 3 October" is bold. Uses the body1-tight-bold weight token so
+ * the glyph weight matches nested Text body1TightBold exactly.
+ */
+.detailEmphasis {
+  font-weight: var(--tui-body1-tight-bold-weight);
+}
+
+.detailSubline {
+  color: var(--tui-front-secondary);
+}
+
+.detailSublinePositive {
+  color: var(--tui-front-positive, #1a8a5a);
+}
+
+.detailChevron {
+  color: var(--tui-front-tertiary, var(--tui-front-secondary));
+  display: inline-flex;
+  flex: 0 0 auto;
+}
+
+.footer {
+  margin-top: auto;
+  position: sticky;
+  bottom: 0;
+  padding: 16px;
+  background: var(--tui-background-general-level-1);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/*
+ * Soft fade band above the sticky footer: page-bg → footer-bg.
+ * Prevents a hard edge when content scrolls under the CTA. Keep this in
+ * every sticky-footer screen; the skill's convention is page-bg = level 0
+ * and footer = level 1, so the gradient hides the surface change.
+ */
+.footer::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100%;
+  height: 24px;
+  background: linear-gradient(
+    to top,
+    var(--tui-background-general-level-1),
+    transparent
+  );
+  pointer-events: none;
+}
+
+.footerButton {
+  width: 100%;
+}

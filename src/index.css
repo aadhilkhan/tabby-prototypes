@@ -107,6 +107,10 @@ body {
   font-weight: 500;
 }
 
+/* Hide scrollbars on horizontal carousels (categories, deals, merchant rails). */
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
 .lang-ar {
   font-family: "SF Pro Arabic", "Geeza Pro", -apple-system, sans-serif;
 }

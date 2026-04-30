@@ -1,0 +1,50 @@
+/*
+ * Mount the PlanSelectionPattern inside the iPhone-frame phone screen.
+ *
+ * Backgrounds per Figma node 2158:34947:
+ *   - Status bar area + NavBar  → white
+ *   - Body (amount block, cards) → level-2 grey (#f2f5f7), the screen default
+ *   - Footer/toolbar             → white tile + soft white-to-transparent
+ *                                  fade above (kept from the pattern's CSS)
+ *
+ * tabby-ui's BaseThemeProvider injects a `<style>` tag as a sibling and four
+ * nested wrapper divs between this host and `.screen`. We force those
+ * wrapper divs to be 100%-tall blocks so percentage min-heights resolve.
+ */
+.host {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  /*
+   * White tile under the floating iOS status bar — the host's bg shows
+   * through the 61 px top padding where the status bar floats. The pattern's
+   * `.screen` keeps its own level-2 grey for the body below the NavBar.
+   */
+  background: #ffffff;
+  /*
+   * Reserve space for the floating iOS status bar (≈ 61 px: 14 pt + 37 dyn
+   * island + 10 pb) and the iOS home indicator strip (17 px buffer above
+   * the 5 px pill).
+   */
+  padding-top: 61px;
+  padding-bottom: 17px;
+}
+
+.host > div,
+.host > div > div,
+.host > div > div > div,
+.host > div > div > div > div,
+.host > div > div > div > div > div {
+  display: block !important;
+  height: 100% !important;
+  width: 100% !important;
+}
+
+/*
+ * Make the NavBar (first direct child of .screen — flex row with px-16 py-10)
+ * explicitly white so the white status-bar tile flows continuously through
+ * the header. Below the NavBar the .screen's own level-2 grey takes over.
+ */
+.host :global([class*='_screen_']) > div:first-child {
+  background: #ffffff;
+}

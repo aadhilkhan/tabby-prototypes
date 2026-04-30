@@ -1,0 +1,13 @@
+/*
+ * Prototype-only CSS variables.
+ *
+ * The Checkout Master Figma tokens (--tui-front-accent: #3a7dcf,
+ * --tui-background-accent-muted: #ebf5ff, --tui-front-positive: #419454) match
+ * the shipped tabby-ui O26 light palette out of the box — the default theme
+ * this prototype loads with. Flipping to O25 swaps the accent to iris purple;
+ * that's expected tabby-ui behavior, not a prototype bug.
+ */
+
+:root {
+  /* intentionally empty — add prototype-only vars below as you need them */
+}

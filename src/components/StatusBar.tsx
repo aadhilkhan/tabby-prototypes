@@ -1,9 +1,22 @@
 import { SignalIcon, WifiIcon, BatteryIcon } from "./icons";
 
-export default function StatusBar() {
+export type StatusBarTheme = "browser" | "light" | "dark";
+
+interface StatusBarProps {
+  /**
+   * "browser" - opaque grey bg + black text (default, used inside Safari webview).
+   * "light"   - transparent bg + white text (over dark wallpapers/photos).
+   * "dark"    - transparent bg + black text (over light backgrounds).
+   */
+  theme?: StatusBarTheme;
+}
+
+export default function StatusBar({ theme = "browser" }: StatusBarProps = {}) {
+  const bg = theme === "browser" ? "bg-browser-header" : "bg-transparent";
+  const textColor = theme === "light" ? "text-white" : "text-black";
   return (
-    <div className="flex items-center justify-between px-[32px] pt-[14px] pb-[10px] w-full bg-browser-header relative">
-      <span className="text-[17px] font-semibold tracking-[-0.4px] text-black w-[54px]">
+    <div className={`flex items-center justify-between px-[32px] pt-[14px] pb-[10px] w-full ${bg} ${textColor} relative`}>
+      <span className="text-[17px] font-semibold tracking-[-0.4px] w-[54px]">
         9:41
       </span>
       {/* Dynamic Island space - the actual notch comes from the frame image */}

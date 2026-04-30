@@ -1,0 +1,96 @@
+/*
+ * Three-column grid: [ close | center | lang ].
+ * Matches Figma node 2158:34947 — left/right side cells have a wider lead
+ * column so the X tap target is comfortable, while the right "العربية" text
+ * link stays compact. Height is 56 px — matches production.
+ *
+ * Merchant name + "Pay with tabby" badge stack vertically in the center.
+ * Name is body1TightBold; the "Pay with" caption is secondary text next to
+ * the inline tabby wordmark SVG.
+ */
+
+.header {
+  display: grid;
+  grid-template-columns: 56px 1fr auto;
+  align-items: center;
+  padding: 8px 8px 8px 4px;
+  min-height: 56px;
+  background: var(--tui-background-general-level-1);
+  /*
+   * Sticks to the top of the scroll container (PhoneFrame's content area or a
+   * ScreenStack screen layer when one is in play). z-index keeps it above
+   * content that scrolls under it. Background must be opaque — without it
+   * scrolled text would show through the sticky header.
+   */
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.side {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.sideEnd {
+  justify-content: flex-end;
+  padding: 0 8px;
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 2px;
+  min-width: 0;
+}
+
+.merchantName {
+  color: var(--tui-front-primary);
+}
+
+.payWithRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.payWithCaption {
+  color: var(--tui-front-secondary);
+}
+
+.tabbyBadge {
+  color: var(--tui-front-secondary);
+  display: block;
+}
+
+/*
+ * Language switcher — rendered as a TextLink ("العربية") instead of a globe
+ * icon button. Purple matches Figma's --tui-front-link / O25 link colour.
+ * IBM Plex Sans Arabic Bold per the Figma typography token, with a fallback
+ * font stack so the link still renders on systems without that face.
+ */
+.langLink {
+  background: none;
+  border: 0;
+  padding: 8px 16px;
+  height: 56px;
+  display: inline-flex;
+  align-items: center;
+  font-family: 'IBM Plex Sans Arabic', 'Geeza Pro', 'SF Pro Arabic', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 24px;
+  letter-spacing: -0.14px;
+  color: var(--tui-front-link, #5d21de);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.langLink:hover {
+  opacity: 0.8;
+}
+.langLink:active {
+  opacity: 0.6;
+}

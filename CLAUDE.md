@@ -360,3 +360,39 @@ Goal: reduce duplication, strengthen types, and clean up dead code so the protot
 - `NavBar` close + lang-toggle buttons gain `aria-label` (localised); `type="button"` on all non-submit buttons in new shared components.
 
 **App.tsx**: shrank from ~295 to ~180 lines (state + screen composition only); `IVRVerification.tsx` from ~285 to ~150.
+
+### Session 16 (2026-04-30) - In-app Checkout prototype
+
+Third prototype tab `/in-app-checkout` showing two iPhones side by side: the existing station/merchant view on the left, and the new in-app (Tabby) view on the right. Right-phone state machine: `home → tap Tabby → splash → PIN entry → app_home → confirm sheet → select_plan`.
+
+**New screens (right phone)**
+- `src/components/inapp/HomeScreen.tsx` — iOS home screen with Tabby brand wallpaper (`assets/tabby-wallpaper.png`), 3 dimmed apps + Tabby app icon in dock. Tap Tabby → splash.
+- `src/components/inapp/SplashScreen.tsx` — uses `assets/tabby-splash.png` (cropped Figma export of node 2152:22704). Solid `#00ff95` Tabby green, centered tabby wordmark. Auto-advances to PIN after ~1.1 s.
+- `src/components/inapp/PinEntryScreen.tsx` — pixel-matches Figma node 2152:22597. Welcome heading, 4 PIN dots, 88 px circular keypad keys (Forgot? / 0 / FaceID), 137 px gap between dots and keypad per Figma. Accepts any 4-digit PIN.
+- `src/components/inapp/AppHomeScreen.tsx` — Tabby Discover home (Figma node 2153:22738). Top notif (Adidas + AED 400 + live countdown timer), search bar, entry points, WOMEN/MEN/KIDS tabs, categories rail with photo assets, Tabby+ smart banner with branded orb, product grids with heart fav button + struck-through old prices, deals carousel with IKEA-style cards + perforated coupon stroke, promo banner (LC Waikiki), sticky bottom TabBar with 4 tabs.
+- `src/components/inapp/ConfirmPurchaseSheet.tsx` — slides up over AppHome ~700 ms after the discover page loads (Figma 2155:23750). Shopping bag icon in 80 px purple circle, "Confirm your purchase" h1, Adidas Supercell card, legals checkbox, ticking timer, Reject/Continue toolbar. Top notif on AppHome reopens the sheet after dismissal; both timers stay in lockstep via shared `timerSeconds` state in `InAppCheckout.tsx`.
+
+**Plan selection screen (Continue → Select Plan)**
+- Vendored `@tabby.ai/tabby-ui` from `aadhilkhan/checkout-tabbyui` (`vendor/tabby-ui.tgz`). Source files copied to `src/inapp-checkout/`:
+  - `patterns/PlanSelectionPattern.tsx` + `.module.css` — exact copy from the source repo, with the only swap being `CheckoutHeader` → the project's existing `NavBar` so the right-phone header matches the station-screen header on the left.
+  - `components/CheckoutHeader/*` — kept around but no longer referenced from the pattern.
+  - `tokens.css` — placeholder file copied for parity.
+  - `SelectPlanScreen.tsx` — bridge that wraps the pattern in a scoped `<BaseThemeProvider>` so tabby-ui styling only applies to this screen, not the rest of the prototypes.
+  - `SelectPlanScreen.module.css` — height-chain shim that propagates `min-height: 100%` through tabby-ui's `display: contents` wrappers (force `display: block; height: 100%` on five levels of `> div`, skipping the `<style>` sibling that BaseThemeProvider injects). Reserves 61 px top for the iOS status bar and 17 px bottom for the home indicator. Backgrounds per Figma 2158:34947: white status-bar tile + white NavBar, level-2 grey body, white footer with the pattern's gradient fade restored.
+
+**Icons sourced from Figma (no hand-rolling)**
+`src/components/inapp/InAppFigmaIcons.tsx` exposes inline React SVGs with exact Figma path data for: tab bar (Sparks24, Catalogue24, Wallet24, UserFill24 — nodes 2155:32761/32773/32782/32797), top-notif chevron, smart-banner close X, deals coupon icon + perforated stroke, product strikethrough, BagStroke48 (the confirm sheet icon — fetched via `disableCodeConnect: true` to bypass the Code Connect snippet wrapper), plus Clock/Search/HeartStroke/LoaderCircular helpers.
+
+**Image assets** (all Figma exports, downloaded to `assets/inapp/`)
+- `chevron-right.png`, `close-x.png`, `tabby-plus-orb-b.png`, `deal-icon.png`, `deal-coupon-icon.png`, `deal-coupon-stroke.png`, `strikethrough.png` — utility SVGs.
+- `cat-clothing.png`, `cat-shoes.png`, `cat-bags.png`, `cat-accessories.png` — categories rail product photos.
+- `product-image-1.png` through `product-image-3.png` — discover product grid.
+- `banner-bg-1.png`, `banner-bg-2.png`, `banner-bg-3.png`, `merchant-lcwaikiki.png` — promo banner.
+- `tabby-wallpaper.png`, `tabby-splash.png` — iOS home + splash backgrounds.
+- `deal-ikea.png`, `adidas-logo.png` — merchant logos.
+
+**InAppCheckout layout**
+- `src/pages/InAppCheckout.tsx` is the new third prototype. Two phones with `useDualPhoneLayout` hook (~1100 px breakpoint stacks them vertically). Left ControlPanel handles station state; right "IN-APP / Restart" panel resets the right-phone flow (`inAppScreen` + `showConfirmSheet` + `timerSeconds`).
+- `PrototypeTabs.tsx` gains a third tab `In-app Checkout` (purple).
+- `PhoneFrame.tsx` gets new props: `hideSafariBar` (iOS native-app mode), `transparentBg`, `statusBarTheme: "browser" | "light" | "dark"`, and a tone-aware home indicator pill.
+- `StatusBar.tsx` reworked to use `currentColor` so SignalIcon/WifiIcon/BatteryIcon inherit text colour; theme prop replaces the old `transparent` boolean.

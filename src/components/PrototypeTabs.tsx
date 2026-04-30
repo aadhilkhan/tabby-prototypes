@@ -7,14 +7,23 @@ interface Tab {
 const TABS: Tab[] = [
   { href: "/", label: "Station screen", color: "var(--color-tui-line-positive)" },
   { href: "/ivr", label: "IVR flow", color: "var(--color-tui-front-accent)" },
+  { href: "/in-app-checkout", label: "In-app Checkout", color: "var(--color-tui-front-accent-bright)" },
 ];
 
+export type PrototypeTab = "station" | "ivr" | "in-app";
+
 interface PrototypeTabsProps {
-  active: "station" | "ivr";
+  active: PrototypeTab;
 }
 
+const ACTIVE_HREF: Record<PrototypeTab, string> = {
+  station: "/",
+  ivr: "/ivr",
+  "in-app": "/in-app-checkout",
+};
+
 export default function PrototypeTabs({ active }: PrototypeTabsProps) {
-  const activeHref = active === "station" ? "/" : "/ivr";
+  const activeHref = ACTIVE_HREF[active];
   return (
     <div
       className="w-full flex items-end px-[8px] pt-[6px] shrink-0"
