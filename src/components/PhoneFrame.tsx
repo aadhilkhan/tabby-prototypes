@@ -41,7 +41,10 @@ export default function PhoneFrame({
 }: PhoneFrameProps) {
   const isRtl = lang === "ar";
   const resolvedTheme: StatusBarTheme = statusBarTheme ?? (hideSafariBar ? "light" : "browser");
-  const indicatorColor = resolvedTheme === "light" ? "#ffffff" : "#000000";
+  // Home indicator is always dark — the iPhone bezel image we overlay on top
+  // already has a black bottom edge in dark mode, so a dark pill reads
+  // consistently across all screens (wallpaper, splash, PIN, Discover, etc.).
+  const indicatorColor = "#000000";
 
   return (
     <div className="relative" style={{ width: PHONE.width, height: PHONE.height, filter: "drop-shadow(0 8px 32px rgba(0,0,0,0.12))" }}>

@@ -588,10 +588,8 @@ function TabBar() {
         <TabBarItem icon={<Wallet24 size={24} />} label="Money" />
         <TabBarItem icon={<UserFill24 size={24} />} label="Profile" />
       </div>
-      {/* Home indicator */}
-      <div className="absolute bottom-[8px] left-0 right-0 flex justify-center">
-        <div className="w-[134px] h-[5px] rounded-full bg-black" />
-      </div>
+      {/* Home indicator is drawn by PhoneFrame in hideSafariBar mode - the
+          TabBar just reserves its visual height (86 px). */}
     </div>
   );
 }

@@ -149,10 +149,10 @@ export default function ConfirmPurchaseSheet({ onClose, onContinue, onReject, ti
         </div>
       </div>
 
-      {/* Home indicator */}
-      <div className="h-[34px] flex items-center justify-center shrink-0">
-        <div className="w-[134px] h-[5px] rounded-full bg-black" />
-      </div>
+      {/* PhoneFrame draws the iOS home indicator on top in hideSafariBar mode -
+          we just reserve the 34 px slot so the sticky toolbar buttons don't
+          collide with it. */}
+      <div className="h-[34px] shrink-0" />
     </motion.div>
   );
 }
